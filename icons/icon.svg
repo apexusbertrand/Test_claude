@@ -1,0 +1,22 @@
+<svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#7c8cff"/>
+      <stop offset="1" stop-color="#56e1c4"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="url(#bg)"/>
+  <g transform="translate(96 96)">
+    <rect x="0" y="0" width="320" height="320" rx="36" fill="#141830" opacity="0.9"/>
+    <!-- pièce ronde pleine claire -->
+    <circle cx="88" cy="88" r="46" fill="#e9d8b4" stroke="#c9b489" stroke-width="6"/>
+    <!-- pièce carrée creuse foncée -->
+    <rect x="184" y="42" width="92" height="92" rx="14" fill="#4a3b6b" stroke="#2c2350" stroke-width="6"/>
+    <rect x="214" y="72" width="32" height="32" rx="6" fill="#1c1730"/>
+    <!-- pièce ronde creuse foncée -->
+    <circle cx="88" cy="232" r="46" fill="#4a3b6b" stroke="#2c2350" stroke-width="6"/>
+    <circle cx="88" cy="232" r="16" fill="#1c1730"/>
+    <!-- pièce carrée pleine claire -->
+    <rect x="184" y="186" width="92" height="92" rx="14" fill="#e9d8b4" stroke="#c9b489" stroke-width="6"/>
+  </g>
+</svg>

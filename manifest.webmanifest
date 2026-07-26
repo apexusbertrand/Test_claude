@@ -1,0 +1,25 @@
+{
+  "name": "Quarto",
+  "short_name": "Quarto",
+  "description": "Le jeu de stratégie Quarto — à deux ou contre l'IA.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0f1220",
+  "theme_color": "#0f1220",
+  "icons": [
+    {
+      "src": "icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-maskable.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ]
+}
