@@ -37,8 +37,9 @@
     // seule la hauteur du corps distingue grande / petite.
     const cx = 50;
     const rx = 27;             // demi-largeur (identique grande/petite)
-    const capRy = 11;          // demi-épaisseur du dessus (perspective)
-    const bodyH = tall ? 32 : 14;
+    const capRy = 10;          // demi-épaisseur du dessus (perspective)
+    // Fort contraste de hauteur : petites très plates, grandes bien hautes.
+    const bodyH = tall ? 42 : 7;
     const total = 2 * capRy + bodyH;
     const figTop = (100 - total) / 2;
     const topY = figTop + capRy;   // centre du dessus

@@ -1,5 +1,5 @@
 /* Quarto — service worker : cache applicatif pour un usage hors-ligne. */
-const CACHE = 'quarto-v2';
+const CACHE = 'quarto-v3';
 const ASSETS = [
   './',
   './index.html',
