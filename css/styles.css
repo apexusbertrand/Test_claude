@@ -17,10 +17,10 @@
   --danger: #ff6b8a;
 
   /* Couleurs des pièces */
-  --piece-light: #e9d8b4;
-  --piece-light-edge: #c9b489;
-  --piece-dark: #4a3b6b;
-  --piece-dark-edge: #33285099;
+  --piece-light: #e4c88c;
+  --piece-light-edge: #9c7f4c;
+  --piece-dark: #7d4d25;
+  --piece-dark-edge: #301c0b;
 
   --radius: 18px;
   --shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
