@@ -57,11 +57,27 @@ export async function ensureReady() {
   }
 }
 
-/** Detect faces in an image/canvas and return their 128-d descriptors + bounding boxes. Never throws, never hangs. */
+/**
+ * Detect faces in an image/canvas and return their 128-d descriptors + bounding boxes.
+ * Never throws, never hangs.
+ *
+ * As in detect.js: a failure to *load* the models disables the feature for
+ * the rest of the session (it's genuinely unusable), but a failure on a
+ * single detectAllFaces() call — a one-off timeout on an unusually large or
+ * slow-to-process photo, say — only skips that photo. Disabling the whole
+ * session on one slow photo meant every other photo silently lost face
+ * tagging too, even though the model itself was fine.
+ */
 export async function detectFaces(imageSource) {
   if (disabled) return [];
   try {
     await loadModels();
+  } catch (err) {
+    console.warn('Détection de visages indisponible:', err);
+    disable(err.message || String(err));
+    return [];
+  }
+  try {
     const results = await withTimeout(
       faceapi
         .detectAllFaces(imageSource, new faceapi.TinyFaceDetectorOptions({ inputSize: 416, scoreThreshold: 0.5 }))
@@ -75,8 +91,7 @@ export async function detectFaces(imageSource) {
       box: { x: r.detection.box.x, y: r.detection.box.y, width: r.detection.box.width, height: r.detection.box.height },
     }));
   } catch (err) {
-    console.warn('Détection de visages indisponible:', err);
-    disable(err.message || String(err));
+    console.warn('Détection de visages ignorée pour cette photo:', err);
     return [];
   }
 }
