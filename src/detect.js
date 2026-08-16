@@ -50,11 +50,32 @@ const FR_LABELS = {
   giraffe: 'Girafe',
 };
 
-/** Run object detection on an already-decoded image element/canvas. Never throws, never hangs. */
+/**
+ * Run object detection on an already-decoded image element/canvas. Never throws, never hangs.
+ *
+ * Loading vs. running the model fail very differently and are handled
+ * differently: a load failure means the feature is genuinely unusable, so it
+ * disables itself for the rest of the session. A single detect() call can
+ * fail on an otherwise-healthy model too — coco-ssd 2.2.3 (the last release;
+ * the package is unmaintained) has a known bug where its 90-slot COCO class
+ * table has 10 unused/reserved gaps (ids 12, 26, 29, 30, 45, 66, 68, 69, 71,
+ * 83); a low-confidence prediction landing on one of those gaps throws
+ * "Cannot read properties of undefined (reading 'displayName')" from inside
+ * the library, on otherwise-normal photos. That, and a one-off per-photo
+ * timeout, must not take the whole rest of the batch down with them — only a
+ * failure to load the model in the first place does that.
+ */
 export async function detectTags(imageSource, { minScore = 0.55 } = {}) {
   if (disabled) return [];
+  let model;
   try {
-    const model = await loadModel();
+    model = await loadModel();
+  } catch (err) {
+    console.warn('Détection IA indisponible:', err);
+    disable(err.message || String(err));
+    return [];
+  }
+  try {
     const predictions = await withTimeout(model.detect(imageSource, 20, minScore), DETECT_TIMEOUT_MS, 'détection d\'objets');
     const tags = new Map();
     let personCount = 0;
@@ -73,8 +94,7 @@ export async function detectTags(imageSource, { minScore = 0.55 } = {}) {
     else if (personCount > 1) tags.set('personne:n', { category: 'personne', value: `${personCount} personnes` });
     return Array.from(tags.values());
   } catch (err) {
-    console.warn('Détection IA indisponible:', err);
-    disable(err.message || String(err));
+    console.warn('Détection d\'objets/animaux ignorée pour cette photo:', err);
     return [];
   }
 }
