@@ -15,6 +15,8 @@ let miniaturesIsCustom = false; // false = default photos/miniatures inside the 
 let sourceFolderName = '';
 let storageMode = null; // 'fsa' | 'opfs'
 
+const FS_TIMEOUT_MS = 20000;
+
 function extOf(name) {
   const i = name.lastIndexOf('.');
   return i === -1 ? '' : name.slice(i + 1).toLowerCase();
@@ -24,17 +26,42 @@ export function isImageFile(name) {
   return IMAGE_EXTENSIONS.has(extOf(name));
 }
 
+/**
+ * On some Android browsers, File System Access operations against certain
+ * system-protected folders (e.g. the camera roll) can hang forever instead of
+ * throwing — no error, no permission prompt, nothing. Racing every disk
+ * operation against a timeout turns that silent hang into an actual error the
+ * user can see and act on (e.g. by switching to the optional custom
+ * miniatures location).
+ */
+function withTimeout(promise, label) {
+  return Promise.race([
+    promise,
+    new Promise((_, reject) =>
+      setTimeout(
+        () =>
+          reject(
+            new Error(
+              `Le stockage ne répond pas (${label}). Sur Android, certains dossiers protégés refusent l'accès en écriture sans le signaler : essayez le bouton "Utiliser un autre emplacement pour les miniatures".`
+            )
+          ),
+        FS_TIMEOUT_MS
+      )
+    ),
+  ]);
+}
+
 async function getOrCreateDir(dirHandle, ...parts) {
   let cur = dirHandle;
   for (const part of parts) {
-    cur = await cur.getDirectoryHandle(part, { create: true });
+    cur = await withTimeout(cur.getDirectoryHandle(part, { create: true }), `dossier "${part}"`);
   }
   return cur;
 }
 
 /** Safe to call on page load, with no user gesture: only ever *queries* the current permission state. */
 async function hasPermission(handle, mode) {
-  return (await handle.queryPermission({ mode })) === 'granted';
+  return (await withTimeout(handle.queryPermission({ mode }), 'vérification de permission')) === 'granted';
 }
 
 /**
@@ -43,7 +70,7 @@ async function hasPermission(handle, mode) {
  * code that runs automatically on page load; only from a click handler.
  */
 async function requestPermission(handle, mode) {
-  return (await handle.requestPermission({ mode })) === 'granted';
+  return (await withTimeout(handle.requestPermission({ mode }), 'demande de permission')) === 'granted';
 }
 
 /**
@@ -303,10 +330,10 @@ export async function getEventDir(eventFolderName) {
 }
 
 export async function writeFileInDir(dirHandle, fileName, blob) {
-  const fh = await dirHandle.getFileHandle(fileName, { create: true });
-  const writable = await fh.createWritable();
-  await writable.write(blob);
-  await writable.close();
+  const fh = await withTimeout(dirHandle.getFileHandle(fileName, { create: true }), `fichier "${fileName}"`);
+  const writable = await withTimeout(fh.createWritable(), `ouverture en écriture de "${fileName}"`);
+  await withTimeout(writable.write(blob), `écriture de "${fileName}"`);
+  await withTimeout(writable.close(), `finalisation de "${fileName}"`);
   return fh;
 }
 
