@@ -1,40 +1,67 @@
 import * as faceapi from '@vladmandic/face-api';
+import { withTimeout, reportAiStatus } from './ai-status.js';
 
 const MODELS_URL = './models/faceapi';
 const MATCH_THRESHOLD = 0.5; // lower = stricter match (euclidean distance on 128-d descriptor)
 const COUNT_TAG_RE = /^\d+\s*personnes?$/i;
+// Weights are bundled locally, but loading/running them still goes through
+// WebGL, which can stall on some mobile GPUs — so bound both, and switch the
+// feature off entirely rather than stalling once per photo.
+const MODEL_LOAD_TIMEOUT_MS = 25000;
+const DETECT_TIMEOUT_MS = 15000;
 
 let modelsPromise = null;
+let disabled = false;
 
 function loadModels() {
   if (!modelsPromise) {
-    modelsPromise = Promise.all([
-      faceapi.nets.tinyFaceDetector.loadFromUri(MODELS_URL),
-      faceapi.nets.faceLandmark68TinyNet.loadFromUri(MODELS_URL),
-      faceapi.nets.faceRecognitionNet.loadFromUri(MODELS_URL),
-    ]);
+    modelsPromise = withTimeout(
+      Promise.all([
+        faceapi.nets.tinyFaceDetector.loadFromUri(MODELS_URL),
+        faceapi.nets.faceLandmark68TinyNet.loadFromUri(MODELS_URL),
+        faceapi.nets.faceRecognitionNet.loadFromUri(MODELS_URL),
+      ]),
+      MODEL_LOAD_TIMEOUT_MS,
+      'chargement des modèles de reconnaissance de visages'
+    );
   }
   return modelsPromise;
 }
 
-export function preloadFaceModels() {
-  loadModels().catch(() => {});
+export function isFaceDetectionDisabled() {
+  return disabled;
 }
 
-/** Detect faces in an image/canvas and return their 128-d descriptors + bounding boxes. Never throws. */
+function disable(reason) {
+  if (disabled) return;
+  disabled = true;
+  reportAiStatus(`Reconnaissance de visages désactivée : ${reason}. Les miniatures et les autres tags continuent normalement.`);
+}
+
+export function preloadFaceModels() {
+  loadModels().catch((err) => disable(err.message || String(err)));
+}
+
+/** Detect faces in an image/canvas and return their 128-d descriptors + bounding boxes. Never throws, never hangs. */
 export async function detectFaces(imageSource) {
+  if (disabled) return [];
   try {
     await loadModels();
-    const results = await faceapi
-      .detectAllFaces(imageSource, new faceapi.TinyFaceDetectorOptions({ inputSize: 416, scoreThreshold: 0.5 }))
-      .withFaceLandmarks(true)
-      .withFaceDescriptors();
+    const results = await withTimeout(
+      faceapi
+        .detectAllFaces(imageSource, new faceapi.TinyFaceDetectorOptions({ inputSize: 416, scoreThreshold: 0.5 }))
+        .withFaceLandmarks(true)
+        .withFaceDescriptors(),
+      DETECT_TIMEOUT_MS,
+      'détection de visages'
+    );
     return results.map((r) => ({
       descriptor: Array.from(r.descriptor),
       box: { x: r.detection.box.x, y: r.detection.box.y, width: r.detection.box.width, height: r.detection.box.height },
     }));
   } catch (err) {
     console.warn('Détection de visages indisponible:', err);
+    disable(err.message || String(err));
     return [];
   }
 }

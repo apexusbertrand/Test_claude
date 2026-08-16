@@ -1,11 +1,37 @@
 import '@tensorflow/tfjs';
 import * as cocoSsd from '@tensorflow-models/coco-ssd';
+import { withTimeout, reportAiStatus } from './ai-status.js';
+
+// The COCO-SSD weights are fetched from an external CDN
+// (storage.googleapis.com/tfjs-models/…). On mobile that download can stall
+// indefinitely without ever failing, so it is bounded here; if it doesn't
+// arrive in time the whole object-detection feature is switched off for the
+// session rather than re-stalling on every single photo.
+const MODEL_LOAD_TIMEOUT_MS = 25000;
+const DETECT_TIMEOUT_MS = 15000;
 
 let modelPromise = null;
+let disabled = false;
 
 function loadModel() {
-  if (!modelPromise) modelPromise = cocoSsd.load({ base: 'lite_mobilenet_v2' });
+  if (!modelPromise) {
+    modelPromise = withTimeout(
+      cocoSsd.load({ base: 'lite_mobilenet_v2' }),
+      MODEL_LOAD_TIMEOUT_MS,
+      'téléchargement du modèle de détection d\'objets'
+    );
+  }
   return modelPromise;
+}
+
+export function isObjectDetectionDisabled() {
+  return disabled;
+}
+
+function disable(reason) {
+  if (disabled) return;
+  disabled = true;
+  reportAiStatus(`Détection d'objets/animaux désactivée : ${reason}. Les miniatures et les autres tags continuent normalement.`);
 }
 
 // Map COCO-SSD class names to French tag {category, value} entries.
@@ -24,11 +50,12 @@ const FR_LABELS = {
   giraffe: 'Girafe',
 };
 
-/** Run object detection on an already-decoded image element/canvas. Never throws. */
+/** Run object detection on an already-decoded image element/canvas. Never throws, never hangs. */
 export async function detectTags(imageSource, { minScore = 0.55 } = {}) {
+  if (disabled) return [];
   try {
     const model = await loadModel();
-    const predictions = await model.detect(imageSource, 20, minScore);
+    const predictions = await withTimeout(model.detect(imageSource, 20, minScore), DETECT_TIMEOUT_MS, 'détection d\'objets');
     const tags = new Map();
     let personCount = 0;
     for (const p of predictions) {
@@ -47,10 +74,11 @@ export async function detectTags(imageSource, { minScore = 0.55 } = {}) {
     return Array.from(tags.values());
   } catch (err) {
     console.warn('Détection IA indisponible:', err);
+    disable(err.message || String(err));
     return [];
   }
 }
 
 export function preloadModel() {
-  loadModel().catch(() => {});
+  loadModel().catch((err) => disable(err.message || String(err)));
 }

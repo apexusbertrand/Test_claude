@@ -25,6 +25,7 @@ import {
   loadBrowseOnlyPhotos,
 } from './tagging.js';
 import { sharePhoto } from './share.js';
+import { onAiStatus, getAiStatusMessages, reportAiStatus } from './ai-status.js';
 
 const els = {
   reconnectBtn: document.getElementById('btn-reconnect'),
@@ -36,6 +37,9 @@ const els = {
   progress: document.getElementById('progress'),
   progressFill: document.getElementById('progress-fill'),
   progressLabel: document.getElementById('progress-label'),
+  statusLog: document.getElementById('status-log'),
+  statusLogItems: document.getElementById('status-log-items'),
+  statusLogClose: document.getElementById('status-log-close'),
   searchInput: document.getElementById('search-input'),
   categoryFilters: document.getElementById('category-filters'),
   gallery: document.getElementById('gallery'),
@@ -74,6 +78,19 @@ function setProgress(visible, fraction = 0, label = '') {
   els.progress.hidden = !visible;
   els.progressFill.style.width = `${Math.round(fraction * 100)}%`;
   els.progressLabel.textContent = label;
+}
+
+/**
+ * On-screen diagnostics. A phone user has no devtools console, so anything
+ * that would otherwise only be a console.warn — an AI model that failed to
+ * load, a photo that couldn't be decoded — has to be visible here instead.
+ */
+function appendStatusMessage({ message, at }) {
+  const item = document.createElement('div');
+  item.className = 'status-log-item';
+  item.textContent = `${at.toLocaleTimeString('fr-FR')} — ${message}`;
+  els.statusLogItems.appendChild(item);
+  els.statusLog.hidden = false;
 }
 
 async function loadPhotosFromDb() {
@@ -258,6 +275,7 @@ async function scanLibrary() {
   } catch (err) {
     console.error('Échec du scan', err);
     setProgress(false);
+    reportAiStatus(`L'analyse a été interrompue : ${err.message || err}`);
     alert(
       `L'analyse a été interrompue : ${err.message || err}\n\n` +
         "Si l'erreur mentionne une permission, essayez le bouton \"Utiliser un autre emplacement pour les miniatures\" — certains dossiers photo protégés par le système (ex. l'appareil photo sur Android) refusent la création de sous-dossiers."
@@ -396,6 +414,10 @@ function wireEvents() {
 
   els.scanBtn.addEventListener('click', scanLibrary);
 
+  els.statusLogClose.addEventListener('click', () => {
+    els.statusLog.hidden = true;
+  });
+
   els.searchInput.addEventListener('input', (e) => {
     state.searchText = e.target.value;
     render();
@@ -432,6 +454,9 @@ function wireEvents() {
 
 async function init() {
   wireEvents();
+
+  getAiStatusMessages().forEach(appendStatusMessage);
+  onAiStatus(appendStatusMessage);
 
   if (!capabilities.fsAccess) {
     els.pickFolderBtn.hidden = true;

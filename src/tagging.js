@@ -13,25 +13,16 @@ import { detectTags, preloadModel } from './detect.js';
 import { detectFaces, preloadFaceModels, propagateNames } from './faces.js';
 import { clusterEvents } from './events.js';
 import { decodeImage, drawResizedCanvas, canvasToBlob } from './thumbnail.js';
+import { reportAiStatus, withTimeout } from './ai-status.js';
 
 const THUMB_SIZE = 400;
 const FACE_DETECT_SIZE = 768; // faces are often small in the frame; detect at a higher resolution than the thumbnail
-const GENERATE_TIMEOUT_MS = 45000; // decode + AI can legitimately take a while on a phone, but must never hang forever
-
-/**
- * Some images make decodeImage() (createImageBitmap / <img> fallback) or the
- * TensorFlow.js models just hang — neither resolving nor rejecting — instead
- * of failing cleanly. That leaves an ordinary try/catch powerless (nothing is
- * ever thrown), which is exactly what made the scan stop dead after the very
- * first thumbnail and never move on to the next photo. Racing against a
- * timeout forces it to give up and move on.
- */
-function withTimeout(promise, ms, label) {
-  return Promise.race([
-    promise,
-    new Promise((_, reject) => setTimeout(() => reject(new Error(`Délai dépassé en traitant "${label}"`)), ms)),
-  ]);
-}
+// Outer safety net around one photo's whole decode+write+AI step. The AI
+// stages have their own, shorter budgets (see detect.js / faces.js); this one
+// only has to catch a decode that hangs — createImageBitmap and the <img>
+// fallback can both stall forever on certain files, neither resolving nor
+// rejecting, which no try/catch can catch.
+const GENERATE_TIMEOUT_MS = 45000;
 
 function uuid() {
   return crypto.randomUUID();
@@ -63,9 +54,14 @@ export async function persistPhoto(photo) {
 
 /**
  * Decode a photo file and produce its thumbnail (written to disk) + local AI
- * tags + face descriptors. Can fail (corrupt/unsupported file, decode running
- * out of memory on a phone, …) — callers decide how to handle that; nothing
- * here is written to disk on failure.
+ * tags + face descriptors.
+ *
+ * Ordering matters: the thumbnail is decoded, written and *committed* before
+ * any AI runs, and the AI stage is wrapped so it can never take the thumbnail
+ * down with it. The AI models (object detection weights come from an external
+ * CDN; face models go through WebGL) are the part most likely to stall or die
+ * on a phone — when that happens the photo still gets its thumbnail and its
+ * date/place tags, just without the AI-derived ones.
  */
 async function generateThumbnailAndTags(file, eventDirHandle, thumbFileName) {
   const source = await decodeImage(file);
@@ -73,9 +69,17 @@ async function generateThumbnailAndTags(file, eventDirHandle, thumbFileName) {
     const { canvas: thumbCanvas, width, height } = drawResizedCanvas(source, THUMB_SIZE);
     const blob = await canvasToBlob(thumbCanvas);
     const thumbHandle = await writeFileInDir(eventDirHandle, thumbFileName, blob);
-    const aiTags = await detectTags(thumbCanvas);
-    const { canvas: faceCanvas } = drawResizedCanvas(source, FACE_DETECT_SIZE);
-    const faces = await detectFaces(faceCanvas);
+
+    let aiTags = [];
+    let faces = [];
+    try {
+      aiTags = await detectTags(thumbCanvas);
+      const { canvas: faceCanvas } = drawResizedCanvas(source, FACE_DETECT_SIZE);
+      faces = await detectFaces(faceCanvas);
+    } catch (err) {
+      console.warn('Tags IA indisponibles pour', thumbFileName, err);
+    }
+
     return { thumbHandle, width, height, aiTags, faces };
   } finally {
     if (source.close) source.close();
@@ -155,6 +159,7 @@ export async function processBatch(entries, { onProgress } = {}) {
         tags.push(...result.aiTags);
       } catch (err) {
         console.warn('Échec miniature/IA pour', d.name, '— sera retenté au prochain scan.', err);
+        reportAiStatus(`Miniature impossible pour "${d.name}" (${err.message || err}) — sera retentée au prochain scan.`);
       }
 
       if (d.lat != null && d.lon != null) {
@@ -195,6 +200,7 @@ export async function processBatch(entries, { onProgress } = {}) {
       saved.push(photo);
     } catch (err) {
       console.error('Échec du traitement pour', d.name, err);
+      reportAiStatus(`Échec du traitement de "${d.name}" : ${err.message || err}`);
     }
 
     if (onProgress) onProgress({ phase: 'tagging', current: i + 1, total });
