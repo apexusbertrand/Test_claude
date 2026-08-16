@@ -111,6 +111,12 @@ body {
   flex-direction: column;
 }
 .card img { width: 100%; aspect-ratio: 1 / 1; object-fit: cover; display: block; background: #0c0d10; }
+.card-placeholder {
+  width: 100%; aspect-ratio: 1 / 1; background: #0c0d10;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px;
+  color: var(--text-dim); text-align: center; padding: 8px; font-size: 0.78rem;
+}
+.card-placeholder-name { font-size: 0.68rem; word-break: break-all; opacity: 0.7; }
 .card .card-tags { padding: 6px 8px 8px; display: flex; flex-wrap: wrap; gap: 4px; }
 .card .tag-chip { font-size: 0.68rem; background: var(--bg); border: 1px solid var(--border); border-radius: 999px; padding: 2px 7px; color: var(--text-dim); }
 

@@ -46,6 +46,27 @@ export async function persistPhoto(photo) {
 }
 
 /**
+ * Decode a photo file and produce its thumbnail (written to disk) + local AI
+ * tags + face descriptors. Can fail (corrupt/unsupported file, decode running
+ * out of memory on a phone, …) — callers decide how to handle that; nothing
+ * here is written to disk on failure.
+ */
+async function generateThumbnailAndTags(file, eventDirHandle, thumbFileName) {
+  const source = await decodeImage(file);
+  try {
+    const { canvas: thumbCanvas, width, height } = drawResizedCanvas(source, THUMB_SIZE);
+    const blob = await canvasToBlob(thumbCanvas);
+    const thumbHandle = await writeFileInDir(eventDirHandle, thumbFileName, blob);
+    const aiTags = await detectTags(thumbCanvas);
+    const { canvas: faceCanvas } = drawResizedCanvas(source, FACE_DETECT_SIZE);
+    const faces = await detectFaces(faceCanvas);
+    return { thumbHandle, width, height, aiTags, faces };
+  } finally {
+    if (source.close) source.close();
+  }
+}
+
+/**
  * Full pipeline for a batch of newly found image entries: read EXIF, cluster
  * into events, generate + store a thumbnail, run local AI tagging (objects/
  * animals + face descriptors), and reverse-geocode GPS into a place tag.
@@ -95,28 +116,19 @@ export async function processBatch(entries, { onProgress } = {}) {
 
     let width = null;
     let height = null;
-    let eventDirHandle = null;
-    let thumbHandle = null;
-    let thumbFileName = null;
     let faces = [];
+    const eventDirHandle = await getEventDir(eventFolder);
+    const thumbFileName = `${baseName(d.name)}-${d.id.slice(0, 8)}.jpg`;
+    let thumbHandle = null;
     try {
-      eventDirHandle = await getEventDir(eventFolder);
-      const source = await decodeImage(d.file);
-      const { canvas: thumbCanvas, width: w, height: h } = drawResizedCanvas(source, THUMB_SIZE);
-      width = w;
-      height = h;
-      const blob = await canvasToBlob(thumbCanvas);
-      thumbFileName = `${baseName(d.name)}-${d.id.slice(0, 8)}.jpg`;
-      thumbHandle = await writeFileInDir(eventDirHandle, thumbFileName, blob);
-
-      const aiTags = await detectTags(thumbCanvas);
-      tags.push(...aiTags);
-
-      const { canvas: faceCanvas } = drawResizedCanvas(source, FACE_DETECT_SIZE);
-      faces = await detectFaces(faceCanvas);
-      if (source.close) source.close();
+      const result = await generateThumbnailAndTags(d.file, eventDirHandle, thumbFileName);
+      thumbHandle = result.thumbHandle;
+      width = result.width;
+      height = result.height;
+      faces = result.faces;
+      tags.push(...result.aiTags);
     } catch (err) {
-      console.warn('Échec miniature/IA pour', d.name, err);
+      console.warn('Échec miniature/IA pour', d.name, '— sera retenté au prochain scan.', err);
     }
 
     if (d.lat != null && d.lon != null) {
@@ -171,6 +183,34 @@ export async function rehydrateFromSidecar(entry, sidecar) {
   }
   const photo = { ...sidecar, fileHandle: entry.handle, thumbHandle, eventDirHandle: eventDir };
   await putPhoto(photo);
+  return photo;
+}
+
+/**
+ * Retry thumbnail + AI tag generation for a photo whose miniature failed last
+ * time (missing on disk) — without touching its existing tags (manual ones
+ * are kept as-is; new AI tags are merged in, never duplicated). This is what
+ * turns a permanently-broken thumbnail into something the next "Analyser"
+ * click actually fixes, instead of it staying broken forever.
+ */
+export async function repairThumbnail(entry, sidecar) {
+  const eventDirHandle = await getEventDir(sidecar.eventFolder);
+  const thumbFileName = sidecar.thumbFileName || `${baseName(sidecar.name)}-${sidecar.id.slice(0, 8)}.jpg`;
+  const file = await entry.handle.getFile();
+  const { thumbHandle, width, height, aiTags, faces } = await generateThumbnailAndTags(file, eventDirHandle, thumbFileName);
+
+  const existingKeys = new Set((sidecar.tags || []).map((t) => `${t.category}:${t.value}`));
+  const tags = [...(sidecar.tags || [])];
+  for (const t of aiTags) {
+    const key = `${t.category}:${t.value}`;
+    if (!existingKeys.has(key)) {
+      tags.push(t);
+      existingKeys.add(key);
+    }
+  }
+
+  const photo = { ...sidecar, fileHandle: entry.handle, eventDirHandle, thumbHandle, thumbFileName, width, height, faces, tags };
+  await persistPhoto(photo);
   return photo;
 }
 
