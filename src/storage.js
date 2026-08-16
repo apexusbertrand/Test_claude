@@ -31,58 +31,97 @@ async function getOrCreateDir(dirHandle, ...parts) {
   return cur;
 }
 
-async function verifyPermission(handle, mode = 'readwrite') {
-  const opts = { mode };
-  if ((await handle.queryPermission(opts)) === 'granted') return true;
-  if ((await handle.requestPermission(opts)) === 'granted') return true;
-  return false;
+/** Safe to call on page load, with no user gesture: only ever *queries* the current permission state. */
+async function hasPermission(handle, mode) {
+  return (await handle.queryPermission({ mode })) === 'granted';
+}
+
+/**
+ * Requests permission — the browser requires this to run inside a user gesture
+ * (a click), otherwise it throws instead of prompting. Never call this from
+ * code that runs automatically on page load; only from a click handler.
+ */
+async function requestPermission(handle, mode) {
+  return (await handle.requestPermission({ mode })) === 'granted';
 }
 
 async function computeMiniaturesBase() {
   miniaturesBaseHandle = await getOrCreateDir(miniaturesRootHandle, 'photos', 'miniature', sanitizeFolderName(sourceFolderName));
 }
 
-/** Try to restore a previously granted library (source + miniatures) from IndexedDB. Returns true if usable. */
-export async function restoreLibrary() {
+async function loadSavedHandles() {
+  return {
+    source: await loadHandle('sourceRoot'),
+    miniaturesRoot: await loadHandle('miniaturesRoot'),
+  };
+}
+
+/**
+ * Silent restore attempt, safe to run on every page load with no user gesture:
+ * only succeeds for whatever the browser already durably granted permission
+ * for (queryPermission only — never prompts). Source and miniatures root are
+ * restored independently of one another, since the browser may have kept the
+ * permission for one but not the other.
+ */
+export async function restoreLibrarySilently() {
   storageMode = await getSetting('storageMode', null);
-  if (storageMode === 'fsa') {
-    const source = await loadHandle('sourceRoot');
-    const miniaturesRoot = await loadHandle('miniaturesRoot');
-    if (!source || !miniaturesRoot) return false;
-    if (!(await verifyPermission(source, 'read'))) return false;
-    if (!(await verifyPermission(miniaturesRoot, 'readwrite'))) return false;
-    sourceRootHandle = source;
-    miniaturesRootHandle = miniaturesRoot;
-    sourceFolderName = source.name;
-    await computeMiniaturesBase();
-    return true;
-  }
   if (storageMode === 'opfs') {
     const opfsRoot = await navigator.storage.getDirectory();
     sourceRootHandle = opfsRoot;
     miniaturesRootHandle = opfsRoot;
     sourceFolderName = 'import';
     await computeMiniaturesBase();
-    return true;
+    return { ready: true, hasSavedHandles: true };
   }
-  return false;
+  if (storageMode !== 'fsa') return { ready: false, hasSavedHandles: false };
+
+  const { source, miniaturesRoot } = await loadSavedHandles();
+  if (!source && !miniaturesRoot) return { ready: false, hasSavedHandles: false };
+
+  if (miniaturesRoot && (await hasPermission(miniaturesRoot, 'readwrite'))) {
+    miniaturesRootHandle = miniaturesRoot;
+  }
+  if (source && (await hasPermission(source, 'read'))) {
+    sourceRootHandle = source;
+    sourceFolderName = source.name;
+  }
+  if (sourceRootHandle && miniaturesRootHandle) {
+    await computeMiniaturesBase();
+    return { ready: true, hasSavedHandles: true };
+  }
+  return { ready: false, hasSavedHandles: true, miniaturesOnly: !!miniaturesRootHandle };
+}
+
+/** Whether a previous session saved folder handles we could try to reconnect to. */
+export async function hasSavedFsaHandles() {
+  if ((await getSetting('storageMode', null)) !== 'fsa') return false;
+  const { source, miniaturesRoot } = await loadSavedHandles();
+  return !!source && !!miniaturesRoot;
 }
 
 /**
- * Try to restore just the miniatures root, independent of the source folder —
- * enough to browse every miniature/tag already on disk (across every source
- * folder ever scanned into it) even if the source folder isn't reachable this
- * session (permission not re-granted yet, drive unplugged, etc.).
+ * Re-request permission on the already-saved handles — no folder picker dialog,
+ * just the browser's native "allow access again?" prompt. Must be called from a
+ * click handler (user gesture) or the browser rejects it outright. On success,
+ * this reconnects to the *same* folders as before, so tags/thumbnails already
+ * on disk are recognized (rehydrated) instead of being re-analyzed from scratch.
  */
-export async function restoreMiniaturesRootOnly() {
-  if (miniaturesRootHandle) return miniaturesRootHandle; // already restored via restoreLibrary()
-  const mode = await getSetting('storageMode', null);
-  if (mode !== 'fsa') return null;
-  const miniaturesRoot = await loadHandle('miniaturesRoot');
-  if (!miniaturesRoot) return null;
-  if (!(await verifyPermission(miniaturesRoot, 'readwrite'))) return null;
-  miniaturesRootHandle = miniaturesRoot;
-  return miniaturesRootHandle;
+export async function reconnectSavedHandles() {
+  const { source, miniaturesRoot } = await loadSavedHandles();
+  if (!source || !miniaturesRoot) return false;
+  const sourceGranted = await requestPermission(source, 'read');
+  const miniGranted = await requestPermission(miniaturesRoot, 'readwrite');
+  if (sourceGranted) {
+    sourceRootHandle = source;
+    sourceFolderName = source.name;
+  }
+  if (miniGranted) {
+    miniaturesRootHandle = miniaturesRoot;
+  }
+  if (!sourceGranted || !miniGranted) return false;
+  storageMode = 'fsa';
+  await computeMiniaturesBase();
+  return true;
 }
 
 /** The photos/miniature directory at the root of the miniatures location — one subfolder per source folder ever scanned. */
@@ -98,7 +137,7 @@ export async function getMiniatureTreeDir() {
 export async function pickSourceFolder() {
   if (!capabilities.fsAccess) throw new Error('File System Access API non disponible sur ce navigateur.');
   const handle = await window.showDirectoryPicker({ id: 'photo-source', mode: 'read' });
-  if (!(await verifyPermission(handle, 'read'))) throw new Error('Permission refusée pour ce dossier.');
+  if (!(await requestPermission(handle, 'read'))) throw new Error('Permission refusée pour ce dossier.');
   sourceRootHandle = handle;
   sourceFolderName = handle.name;
   storageMode = 'fsa';
@@ -116,7 +155,7 @@ export async function pickSourceFolder() {
 export async function pickMiniaturesRoot() {
   if (!capabilities.fsAccess) throw new Error('File System Access API non disponible sur ce navigateur.');
   const handle = await window.showDirectoryPicker({ id: 'photo-miniatures-root', mode: 'readwrite' });
-  if (!(await verifyPermission(handle, 'readwrite'))) throw new Error('Permission refusée pour ce dossier.');
+  if (!(await requestPermission(handle, 'readwrite'))) throw new Error('Permission refusée pour ce dossier.');
   miniaturesRootHandle = handle;
   await saveHandle('miniaturesRoot', handle);
   await computeMiniaturesBase();
