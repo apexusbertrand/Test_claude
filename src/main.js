@@ -10,6 +10,7 @@ import {
   isLibraryReady,
   hasSource,
   hasMiniaturesRoot,
+  isUsingCustomMiniaturesLocation,
   importFilesFallback,
   getRootHandle,
   walkImages,
@@ -314,8 +315,13 @@ async function scanLibrary() {
 function refreshPickerButtons() {
   if (!capabilities.fsAccess) return;
   if (hasSource() && hasMiniaturesRoot()) els.reconnectBtn.hidden = true;
-  els.pickFolderBtn.textContent = hasSource() ? '1. ✓ Dossier de photos choisi' : '1. Choisir le dossier de photos';
-  els.pickMiniaturesRootBtn.hidden = !hasSource() || hasMiniaturesRoot();
+  els.pickFolderBtn.textContent = hasSource() ? '✓ Dossier de photos choisi' : 'Choisir le dossier de photos';
+  // Optional, always available once a source is picked: switch away from the
+  // default photos/miniatures (inside the source folder) to an independent location.
+  els.pickMiniaturesRootBtn.hidden = !hasSource();
+  els.pickMiniaturesRootBtn.textContent = isUsingCustomMiniaturesLocation()
+    ? "✓ Emplacement des miniatures personnalisé (optionnel)"
+    : 'Utiliser un autre emplacement pour les miniatures (optionnel)';
 }
 
 async function completePickerStep() {
