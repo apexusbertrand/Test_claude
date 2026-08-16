@@ -230,9 +230,10 @@ export async function rehydrateFromSidecar(entry, sidecar) {
   const eventDir = await getEventDir(sidecar.eventFolder);
   let thumbHandle = null;
   try {
-    thumbHandle = await eventDir.getFileHandle(sidecar.thumbFileName);
-  } catch {
-    thumbHandle = null; // thumbnail file was moved/deleted; tags are still recovered
+    thumbHandle = await withTimeout(eventDir.getFileHandle(sidecar.thumbFileName), 8000, sidecar.thumbFileName);
+  } catch (err) {
+    thumbHandle = null; // thumbnail file was moved/deleted, or unreadable — a repair is retried below
+    reportAiStatus(`Miniature introuvable pour "${sidecar.name}" (${err.message || err}) — nouvelle tentative au prochain scan.`);
   }
   const photo = { ...sidecar, fileHandle: entry.handle, thumbHandle, eventDirHandle: eventDir };
   await putPhoto(photo);
@@ -287,9 +288,10 @@ export async function loadBrowseOnlyPhotos() {
       const sidecar = JSON.parse(await file.text());
       let thumbHandle = null;
       try {
-        thumbHandle = await dirHandle.getFileHandle(sidecar.thumbFileName);
-      } catch {
+        thumbHandle = await withTimeout(dirHandle.getFileHandle(sidecar.thumbFileName), 8000, sidecar.thumbFileName);
+      } catch (err) {
         thumbHandle = null;
+        reportAiStatus(`Miniature introuvable pour "${sidecar.name}" (${err.message || err}).`);
       }
       const photo = { ...sidecar, fileHandle: null, thumbHandle, eventDirHandle: dirHandle };
       await putPhoto(photo);
