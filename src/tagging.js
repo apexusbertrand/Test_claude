@@ -105,61 +105,77 @@ export async function processBatch(entries, { onProgress } = {}) {
   }
 
   // Pass 2: thumbnail + AI tagging + face descriptors + geocoding (slower, per photo).
+  // Each photo is fully isolated in its own try/catch: one photo's failure
+  // (a folder the browser refuses to create, a corrupt file, …) must never
+  // abort the rest of the batch — it shows up as a repairable placeholder
+  // instead of silently stopping the whole scan partway through.
   const saved = [];
   for (let i = 0; i < drafts.length; i += 1) {
     const d = drafts[i];
-    const eventId = assignments.get(d.id);
-    const event = events.find((e) => e.id === eventId);
-    const eventFolder = sanitizeFolderName(event ? event.label : 'Sans date');
-
-    const tags = [{ category: 'evenement', value: event ? event.label : 'Sans date' }];
-
-    let width = null;
-    let height = null;
-    let faces = [];
-    const eventDirHandle = await getEventDir(eventFolder);
-    const thumbFileName = `${baseName(d.name)}-${d.id.slice(0, 8)}.jpg`;
-    let thumbHandle = null;
     try {
-      const result = await generateThumbnailAndTags(d.file, eventDirHandle, thumbFileName);
-      thumbHandle = result.thumbHandle;
-      width = result.width;
-      height = result.height;
-      faces = result.faces;
-      tags.push(...result.aiTags);
+      const eventId = assignments.get(d.id);
+      const event = events.find((e) => e.id === eventId);
+      const eventFolder = sanitizeFolderName(event ? event.label : 'Sans date');
+
+      const tags = [{ category: 'evenement', value: event ? event.label : 'Sans date' }];
+
+      let width = null;
+      let height = null;
+      let faces = [];
+      let eventDirHandle = null;
+      let thumbHandle = null;
+      const thumbFileName = `${baseName(d.name)}-${d.id.slice(0, 8)}.jpg`;
+      try {
+        eventDirHandle = await getEventDir(eventFolder);
+        const result = await generateThumbnailAndTags(d.file, eventDirHandle, thumbFileName);
+        thumbHandle = result.thumbHandle;
+        width = result.width;
+        height = result.height;
+        faces = result.faces;
+        tags.push(...result.aiTags);
+      } catch (err) {
+        console.warn('Échec miniature/IA pour', d.name, '— sera retenté au prochain scan.', err);
+      }
+
+      if (d.lat != null && d.lon != null) {
+        const geo = await reverseGeocode(d.lat, d.lon);
+        if (geo?.city) tags.push({ category: 'lieu', value: geo.city });
+        if (geo?.country) tags.push({ category: 'lieu', value: geo.country });
+      }
+
+      const photo = {
+        id: d.id,
+        name: d.name,
+        relativePath: d.relativePath,
+        fileHandle: d.fileHandle,
+        takenAt: d.takenAt,
+        lat: d.lat,
+        lon: d.lon,
+        camera: d.camera,
+        eventId,
+        eventLabel: event ? event.label : 'Sans date',
+        eventFolder,
+        eventDirHandle,
+        thumbFileName,
+        thumbHandle,
+        width,
+        height,
+        tags,
+        faces,
+        importedAt: new Date().toISOString(),
+      };
+      if (eventDirHandle) {
+        await persistPhoto(photo);
+      } else {
+        // Couldn't even create/open the event folder for this photo — cache it
+        // in the DB anyway (shows up as a repairable placeholder) but skip the
+        // sidecar write, since that would fail identically.
+        await putPhoto(photo);
+      }
+      saved.push(photo);
     } catch (err) {
-      console.warn('Échec miniature/IA pour', d.name, '— sera retenté au prochain scan.', err);
+      console.error('Échec du traitement pour', d.name, err);
     }
-
-    if (d.lat != null && d.lon != null) {
-      const geo = await reverseGeocode(d.lat, d.lon);
-      if (geo?.city) tags.push({ category: 'lieu', value: geo.city });
-      if (geo?.country) tags.push({ category: 'lieu', value: geo.country });
-    }
-
-    const photo = {
-      id: d.id,
-      name: d.name,
-      relativePath: d.relativePath,
-      fileHandle: d.fileHandle,
-      takenAt: d.takenAt,
-      lat: d.lat,
-      lon: d.lon,
-      camera: d.camera,
-      eventId,
-      eventLabel: event ? event.label : 'Sans date',
-      eventFolder,
-      eventDirHandle,
-      thumbFileName,
-      thumbHandle,
-      width,
-      height,
-      tags,
-      faces,
-      importedAt: new Date().toISOString(),
-    };
-    await persistPhoto(photo);
-    saved.push(photo);
 
     if (onProgress) onProgress({ phase: 'tagging', current: i + 1, total });
   }

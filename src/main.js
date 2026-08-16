@@ -251,6 +251,24 @@ async function scanLibrary() {
   els.scanBtn.disabled = true;
   setProgress(true, 0, 'Recherche des photos…');
 
+  try {
+    await runScan(root);
+    setProgress(true, 1, 'Terminé.');
+    setTimeout(() => setProgress(false), 1200);
+  } catch (err) {
+    console.error('Échec du scan', err);
+    setProgress(false);
+    alert(
+      `L'analyse a été interrompue : ${err.message || err}\n\n` +
+        "Si l'erreur mentionne une permission, essayez le bouton \"Utiliser un autre emplacement pour les miniatures\" — certains dossiers photo protégés par le système (ex. l'appareil photo sur Android) refusent la création de sous-dossiers."
+    );
+  } finally {
+    els.scanBtn.disabled = false;
+    await loadPhotosFromDb();
+  }
+}
+
+async function runScan(root) {
   // The DB is just a fast cache; sidecar JSON files next to the thumbnails are
   // the durable record, so a photo already tagged before gets its tags (and a
   // fresh file handle) restored instead of being re-analyzed from scratch —
@@ -305,11 +323,6 @@ async function scanLibrary() {
   setProgress(true, 0.95, 'Reconnaissance des personnes nommées…');
   const allPhotos = await getAllPhotos();
   await propagateAndPersist(allPhotos);
-
-  setProgress(true, 1, 'Terminé.');
-  setTimeout(() => setProgress(false), 1200);
-  els.scanBtn.disabled = false;
-  await loadPhotosFromDb();
 }
 
 function refreshPickerButtons() {
