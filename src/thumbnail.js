@@ -32,10 +32,10 @@ function sourceDimensions(source) {
   };
 }
 
-/** Draw a decoded image onto a canvas sized to fit MAX_SIZE, keeping aspect ratio. */
-export function drawThumbnailCanvas(source) {
+/** Draw a decoded image onto a canvas sized to fit maxSize, keeping aspect ratio. */
+export function drawResizedCanvas(source, maxSize = MAX_SIZE) {
   const { width, height } = sourceDimensions(source);
-  const scale = Math.min(1, MAX_SIZE / Math.max(width, height));
+  const scale = Math.min(1, maxSize / Math.max(width, height));
   const w = Math.max(1, Math.round(width * scale));
   const h = Math.max(1, Math.round(height * scale));
   const canvas = document.createElement('canvas');
@@ -44,6 +44,11 @@ export function drawThumbnailCanvas(source) {
   const ctx = canvas.getContext('2d');
   ctx.drawImage(source, 0, 0, w, h);
   return { canvas, width, height };
+}
+
+/** Draw a decoded image onto a canvas sized to fit MAX_SIZE, keeping aspect ratio. */
+export function drawThumbnailCanvas(source) {
+  return drawResizedCanvas(source, MAX_SIZE);
 }
 
 export function canvasToBlob(canvas) {
