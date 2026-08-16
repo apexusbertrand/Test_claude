@@ -327,8 +327,12 @@ async function runScan(root) {
   if (newEntries.length > 0) {
     await processBatch(newEntries, {
       onProgress: ({ phase, current, total }) => {
-        const phaseShare = phase === 'exif' ? 0.3 : 0.7;
-        const phaseStart = phase === 'exif' ? 0 : 0.3;
+        if (phase === 'ai-check') {
+          setProgress(true, 0.3, 'Vérification des modules IA…');
+          return;
+        }
+        const phaseShare = phase === 'exif' ? 0.3 : 0.65;
+        const phaseStart = phase === 'exif' ? 0 : 0.35;
         const frac = phaseStart + phaseShare * (current / total);
         const label = phase === 'exif' ? `Lecture des métadonnées ${current}/${total}` : `Analyse et tags ${current}/${total}`;
         setProgress(true, frac, label);
@@ -455,8 +459,14 @@ function wireEvents() {
 async function init() {
   wireEvents();
 
+  // Replay past diagnostics into the panel silently on load; alert only for
+  // ones that happen live during this session, so a returning user isn't
+  // greeted with a popup for something already known and logged.
   getAiStatusMessages().forEach(appendStatusMessage);
-  onAiStatus(appendStatusMessage);
+  onAiStatus((entry) => {
+    appendStatusMessage(entry);
+    alert(entry.message);
+  });
 
   if (!capabilities.fsAccess) {
     els.pickFolderBtn.hidden = true;

@@ -9,8 +9,8 @@ import {
 } from './storage.js';
 import { extractExif } from './exif.js';
 import { reverseGeocode } from './geocode.js';
-import { detectTags, preloadModel } from './detect.js';
-import { detectFaces, preloadFaceModels, propagateNames } from './faces.js';
+import { detectTags, ensureReady as ensureObjectDetectionReady } from './detect.js';
+import { detectFaces, ensureReady as ensureFaceDetectionReady, propagateNames } from './faces.js';
 import { clusterEvents } from './events.js';
 import { decodeImage, drawResizedCanvas, canvasToBlob } from './thumbnail.js';
 import { reportAiStatus, withTimeout } from './ai-status.js';
@@ -95,8 +95,11 @@ async function generateThumbnailAndTags(file, eventDirHandle, thumbFileName) {
  * for every photo. `entries` items: { handle: FileSystemFileHandle, name, relativePath }.
  */
 export async function processBatch(entries, { onProgress } = {}) {
-  preloadModel();
-  preloadFaceModels();
+  // Kick both AI model loads off now, in parallel, and let them run behind the
+  // EXIF pass below — but the photo loop must not start until we know for
+  // sure whether each is usable, otherwise every single photo would pay its
+  // own model-load timeout (up to 25s × 2) instead of paying it once, here.
+  const aiReadyPromise = Promise.all([ensureObjectDetectionReady(), ensureFaceDetectionReady()]);
   const total = entries.length;
   const drafts = [];
 
@@ -123,6 +126,14 @@ export async function processBatch(entries, { onProgress } = {}) {
   for (const e of events) {
     await putEvent({ id: e.id, label: e.label, start: e.start, end: e.lastTime, photoCount: e.photoIds.length });
   }
+
+  // Resolved by now in the common case (it's been running since the top of
+  // this function, in parallel with the EXIF pass above); each photo below
+  // will see isObjectDetectionDisabled()/isFaceDetectionDisabled() already
+  // settled, so a model that failed to load costs nothing per photo. Any
+  // failure here already reported its own clear message via disable().
+  if (onProgress) onProgress({ phase: 'ai-check', current: 0, total: 1 });
+  await aiReadyPromise;
 
   // Pass 2: thumbnail + AI tagging + face descriptors + geocoding (slower, per photo).
   // Each photo is fully isolated in its own try/catch: one photo's failure
