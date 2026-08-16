@@ -42,7 +42,7 @@ async function computeMiniaturesBase() {
   miniaturesBaseHandle = await getOrCreateDir(miniaturesRootHandle, 'photos', 'miniature', sanitizeFolderName(sourceFolderName));
 }
 
-/** Try to restore a previously granted library from IndexedDB. Returns true if usable. */
+/** Try to restore a previously granted library (source + miniatures) from IndexedDB. Returns true if usable. */
 export async function restoreLibrary() {
   storageMode = await getSetting('storageMode', null);
   if (storageMode === 'fsa') {
@@ -66,6 +66,29 @@ export async function restoreLibrary() {
     return true;
   }
   return false;
+}
+
+/**
+ * Try to restore just the miniatures root, independent of the source folder —
+ * enough to browse every miniature/tag already on disk (across every source
+ * folder ever scanned into it) even if the source folder isn't reachable this
+ * session (permission not re-granted yet, drive unplugged, etc.).
+ */
+export async function restoreMiniaturesRootOnly() {
+  if (miniaturesRootHandle) return miniaturesRootHandle; // already restored via restoreLibrary()
+  const mode = await getSetting('storageMode', null);
+  if (mode !== 'fsa') return null;
+  const miniaturesRoot = await loadHandle('miniaturesRoot');
+  if (!miniaturesRoot) return null;
+  if (!(await verifyPermission(miniaturesRoot, 'readwrite'))) return null;
+  miniaturesRootHandle = miniaturesRoot;
+  return miniaturesRootHandle;
+}
+
+/** The photos/miniature directory at the root of the miniatures location — one subfolder per source folder ever scanned. */
+export async function getMiniatureTreeDir() {
+  if (!miniaturesRootHandle) throw new Error('Emplacement des miniatures non défini.');
+  return getOrCreateDir(miniaturesRootHandle, 'photos', 'miniature');
 }
 
 /**
@@ -153,6 +176,10 @@ export function getRootHandle() {
   return sourceRootHandle;
 }
 
+export function getMiniaturesRootHandle() {
+  return miniaturesRootHandle;
+}
+
 export function getSourceFolderName() {
   return sourceFolderName;
 }
@@ -180,13 +207,21 @@ export async function getEventDir(eventFolderName) {
   return getOrCreateDir(miniaturesBaseHandle, sanitizeFolderName(eventFolderName));
 }
 
-export async function writeThumbnail(eventFolderName, fileName, blob) {
-  const eventDir = await getEventDir(eventFolderName);
-  const fh = await eventDir.getFileHandle(fileName, { create: true });
+export async function writeFileInDir(dirHandle, fileName, blob) {
+  const fh = await dirHandle.getFileHandle(fileName, { create: true });
   const writable = await fh.createWritable();
   await writable.write(blob);
   await writable.close();
   return fh;
+}
+
+export async function writeJsonInDir(dirHandle, fileName, data) {
+  return writeFileInDir(dirHandle, fileName, JSON.stringify(data));
+}
+
+export async function writeThumbnail(eventFolderName, fileName, blob) {
+  const eventDir = await getEventDir(eventFolderName);
+  return writeFileInDir(eventDir, fileName, blob);
 }
 
 /**
@@ -197,11 +232,7 @@ export async function writeThumbnail(eventFolderName, fileName, blob) {
  */
 export async function writeSidecar(eventFolderName, fileName, data) {
   const eventDir = await getEventDir(eventFolderName);
-  const fh = await eventDir.getFileHandle(fileName, { create: true });
-  const writable = await fh.createWritable();
-  await writable.write(JSON.stringify(data));
-  await writable.close();
-  return fh;
+  return writeJsonInDir(eventDir, fileName, data);
 }
 
 /** Recursively walk this library's miniature tree, yielding {handle, name} for every sidecar .json file. */

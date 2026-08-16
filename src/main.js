@@ -3,15 +3,18 @@ import { getAllPhotos, clearAll } from './db.js';
 import {
   capabilities,
   restoreLibrary,
+  restoreMiniaturesRootOnly,
   pickSourceFolder,
   pickMiniaturesRoot,
   isLibraryReady,
+  hasSource,
+  hasMiniaturesRoot,
   importFilesFallback,
   getRootHandle,
   walkImages,
   loadAllSidecars,
 } from './storage.js';
-import { processBatch, rehydrateFromSidecar, propagateAndPersist, persistPhoto } from './tagging.js';
+import { processBatch, rehydrateFromSidecar, propagateAndPersist, persistPhoto, loadBrowseOnlyPhotos } from './tagging.js';
 import { sharePhoto } from './share.js';
 
 const els = {
@@ -222,13 +225,16 @@ async function scanLibrary() {
   // The DB is just a fast cache; sidecar JSON files next to the thumbnails are
   // the durable record, so a photo already tagged before gets its tags (and a
   // fresh file handle) restored instead of being re-analyzed from scratch —
-  // this also means tags survive a cleared browser profile.
-  const known = new Set(state.photos.map((p) => p.relativePath));
+  // this also means tags survive a cleared browser profile. Photos already
+  // showing in the gallery with a *live* file handle are skipped outright;
+  // photos loaded read-only (browsed from the miniatures location before the
+  // source folder was reachable) still get their handle re-attached.
+  const knownWithHandle = new Set(state.photos.filter((p) => p.fileHandle).map((p) => p.relativePath));
   const sidecars = await loadAllSidecars();
   const newEntries = [];
   const toRehydrate = [];
   for await (const entry of walkImages(root)) {
-    if (known.has(entry.relativePath)) continue;
+    if (knownWithHandle.has(entry.relativePath)) continue;
     const sidecar = sidecars.get(entry.relativePath);
     if (sidecar) toRehydrate.push({ entry, sidecar });
     else newEntries.push(entry);
@@ -264,12 +270,25 @@ async function scanLibrary() {
   await loadPhotosFromDb();
 }
 
+function refreshPickerButtons() {
+  if (!capabilities.fsAccess) return;
+  els.pickFolderBtn.textContent = hasSource() ? '1. ✓ Dossier de photos choisi' : '1. Choisir le dossier de photos';
+  els.pickMiniaturesRootBtn.hidden = !hasSource() || hasMiniaturesRoot();
+}
+
+async function completePickerStep() {
+  refreshPickerButtons();
+  if (isLibraryReady()) {
+    els.scanBtn.disabled = false;
+    await scanLibrary();
+  }
+}
+
 function wireEvents() {
   els.pickFolderBtn.addEventListener('click', async () => {
     try {
       await pickSourceFolder();
-      els.pickFolderBtn.textContent = '1. ✓ Dossier de photos choisi';
-      els.pickMiniaturesRootBtn.hidden = false;
+      await completePickerStep();
     } catch (err) {
       if (err?.name !== 'AbortError') alert(err.message || String(err));
     }
@@ -278,11 +297,7 @@ function wireEvents() {
   els.pickMiniaturesRootBtn.addEventListener('click', async () => {
     try {
       await pickMiniaturesRoot();
-      els.pickMiniaturesRootBtn.textContent = "2. ✓ Emplacement des miniatures choisi";
-      if (isLibraryReady()) {
-        els.scanBtn.disabled = false;
-        await scanLibrary();
-      }
+      await completePickerStep();
     } catch (err) {
       if (err?.name !== 'AbortError') alert(err.message || String(err));
     }
@@ -342,10 +357,19 @@ async function init() {
     els.importLabel.hidden = false;
   }
 
+  // Show every miniature/tag already on disk immediately, even before the
+  // source folder is (re-)granted this session — browsing, tag edits and
+  // sharing the miniature all work from this alone.
+  const miniaturesReady = await restoreMiniaturesRootOnly();
+  if (miniaturesReady) {
+    await loadBrowseOnlyPhotos();
+    await loadPhotosFromDb();
+  }
+
   const restored = await restoreLibrary();
+  refreshPickerButtons();
   if (restored) {
     els.scanBtn.disabled = false;
-    await loadPhotosFromDb();
     scanLibrary();
   }
 }
