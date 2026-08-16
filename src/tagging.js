@@ -16,6 +16,22 @@ import { decodeImage, drawResizedCanvas, canvasToBlob } from './thumbnail.js';
 
 const THUMB_SIZE = 400;
 const FACE_DETECT_SIZE = 768; // faces are often small in the frame; detect at a higher resolution than the thumbnail
+const GENERATE_TIMEOUT_MS = 45000; // decode + AI can legitimately take a while on a phone, but must never hang forever
+
+/**
+ * Some images make decodeImage() (createImageBitmap / <img> fallback) or the
+ * TensorFlow.js models just hang — neither resolving nor rejecting — instead
+ * of failing cleanly. That leaves an ordinary try/catch powerless (nothing is
+ * ever thrown), which is exactly what made the scan stop dead after the very
+ * first thumbnail and never move on to the next photo. Racing against a
+ * timeout forces it to give up and move on.
+ */
+function withTimeout(promise, ms, label) {
+  return Promise.race([
+    promise,
+    new Promise((_, reject) => setTimeout(() => reject(new Error(`Délai dépassé en traitant "${label}"`)), ms)),
+  ]);
+}
 
 function uuid() {
   return crypto.randomUUID();
@@ -127,7 +143,11 @@ export async function processBatch(entries, { onProgress } = {}) {
       const thumbFileName = `${baseName(d.name)}-${d.id.slice(0, 8)}.jpg`;
       try {
         eventDirHandle = await getEventDir(eventFolder);
-        const result = await generateThumbnailAndTags(d.file, eventDirHandle, thumbFileName);
+        const result = await withTimeout(
+          generateThumbnailAndTags(d.file, eventDirHandle, thumbFileName),
+          GENERATE_TIMEOUT_MS,
+          d.name
+        );
         thumbHandle = result.thumbHandle;
         width = result.width;
         height = result.height;
@@ -213,7 +233,11 @@ export async function repairThumbnail(entry, sidecar) {
   const eventDirHandle = await getEventDir(sidecar.eventFolder);
   const thumbFileName = sidecar.thumbFileName || `${baseName(sidecar.name)}-${sidecar.id.slice(0, 8)}.jpg`;
   const file = await entry.handle.getFile();
-  const { thumbHandle, width, height, aiTags, faces } = await generateThumbnailAndTags(file, eventDirHandle, thumbFileName);
+  const { thumbHandle, width, height, aiTags, faces } = await withTimeout(
+    generateThumbnailAndTags(file, eventDirHandle, thumbFileName),
+    GENERATE_TIMEOUT_MS,
+    sidecar.name
+  );
 
   const existingKeys = new Set((sidecar.tags || []).map((t) => `${t.category}:${t.value}`));
   const tags = [...(sidecar.tags || [])];
