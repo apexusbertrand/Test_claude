@@ -17,8 +17,8 @@
       <h1>📷 PhotoTag</h1>
       <div class="actions">
         <button id="btn-reconnect" class="btn primary" hidden>🔄 Reconnecter mes dossiers</button>
-        <button id="btn-pick-folder" class="btn primary">1. Choisir le dossier de photos</button>
-        <button id="btn-pick-miniatures-root" class="btn primary" hidden>2. Choisir l'emplacement des miniatures</button>
+        <button id="btn-pick-folder" class="btn primary">Choisir le dossier de photos</button>
+        <button id="btn-pick-miniatures-root" class="btn" hidden>Utiliser un autre emplacement pour les miniatures (optionnel)</button>
         <label id="btn-import-fallback-label" class="btn" hidden>
           Importer des photos
           <input type="file" id="input-import-fallback" webkitdirectory multiple hidden />
@@ -40,8 +40,8 @@
     <main id="gallery" class="gallery" hidden></main>
 
     <div id="empty-state" class="empty-state">
-      <p>Bienvenue 👋 Choisissez d'abord le dossier contenant vos photos (lecture seule, jamais modifié).</p>
-      <p class="hint">Ensuite, choisissez un emplacement <strong>indépendant</strong> pour les miniatures — idéalement la racine du téléphone/stockage. Elles seront rangées dans <code>photos/miniature/&lt;nom du dossier source&gt;/&lt;événement&gt;</code>.</p>
+      <p>Bienvenue 👋 Choisissez le dossier contenant vos photos (jamais modifié — seul un sous-dossier y est ajouté pour les miniatures).</p>
+      <p class="hint">Les miniatures sont rangées par défaut dans <code>photos/miniatures/&lt;événement&gt;</code>, à l'intérieur de ce dossier. Pour les stocker ailleurs (ex. la racine du téléphone), utilisez le bouton optionnel une fois le dossier choisi.</p>
     </div>
   </div>
 
