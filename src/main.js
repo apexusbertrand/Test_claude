@@ -3,7 +3,9 @@ import { getAllPhotos, clearAll } from './db.js';
 import {
   capabilities,
   restoreLibrary,
-  pickLibraryFolder,
+  pickSourceFolder,
+  pickMiniaturesRoot,
+  isLibraryReady,
   importFilesFallback,
   getRootHandle,
   walkImages,
@@ -14,6 +16,7 @@ import { sharePhoto } from './share.js';
 
 const els = {
   pickFolderBtn: document.getElementById('btn-pick-folder'),
+  pickMiniaturesRootBtn: document.getElementById('btn-pick-miniatures-root'),
   importLabel: document.getElementById('btn-import-fallback-label'),
   importInput: document.getElementById('input-import-fallback'),
   scanBtn: document.getElementById('btn-scan'),
@@ -264,9 +267,22 @@ async function scanLibrary() {
 function wireEvents() {
   els.pickFolderBtn.addEventListener('click', async () => {
     try {
-      await pickLibraryFolder();
-      els.scanBtn.disabled = false;
-      await scanLibrary();
+      await pickSourceFolder();
+      els.pickFolderBtn.textContent = '1. ✓ Dossier de photos choisi';
+      els.pickMiniaturesRootBtn.hidden = false;
+    } catch (err) {
+      if (err?.name !== 'AbortError') alert(err.message || String(err));
+    }
+  });
+
+  els.pickMiniaturesRootBtn.addEventListener('click', async () => {
+    try {
+      await pickMiniaturesRoot();
+      els.pickMiniaturesRootBtn.textContent = "2. ✓ Emplacement des miniatures choisi";
+      if (isLibraryReady()) {
+        els.scanBtn.disabled = false;
+        await scanLibrary();
+      }
     } catch (err) {
       if (err?.name !== 'AbortError') alert(err.message || String(err));
     }
