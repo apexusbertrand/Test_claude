@@ -82,3 +82,20 @@ export async function detectTags(imageSource, { minScore = 0.55 } = {}) {
 export function preloadModel() {
   loadModel().catch((err) => disable(err.message || String(err)));
 }
+
+/**
+ * Await model readiness once, up front, instead of finding out lazily on the
+ * first photo. Resolves to true/false — never throws — so callers can run
+ * this for every AI feature in parallel and report one clear outcome before
+ * touching a single photo.
+ */
+export async function ensureReady() {
+  if (disabled) return false;
+  try {
+    await loadModel();
+    return true;
+  } catch (err) {
+    disable(err.message || String(err));
+    return false;
+  }
+}

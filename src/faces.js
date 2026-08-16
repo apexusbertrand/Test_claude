@@ -42,6 +42,21 @@ export function preloadFaceModels() {
   loadModels().catch((err) => disable(err.message || String(err)));
 }
 
+/**
+ * Await model readiness once, up front, instead of finding out lazily on the
+ * first photo. Resolves to true/false — never throws.
+ */
+export async function ensureReady() {
+  if (disabled) return false;
+  try {
+    await loadModels();
+    return true;
+  } catch (err) {
+    disable(err.message || String(err));
+    return false;
+  }
+}
+
 /** Detect faces in an image/canvas and return their 128-d descriptors + bounding boxes. Never throws, never hangs. */
 export async function detectFaces(imageSource) {
   if (disabled) return [];
