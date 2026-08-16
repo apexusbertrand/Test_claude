@@ -25,7 +25,7 @@ import {
   loadBrowseOnlyPhotos,
 } from './tagging.js';
 import { sharePhoto } from './share.js';
-import { onAiStatus, getAiStatusMessages, reportAiStatus } from './ai-status.js';
+import { onAiStatus, getAiStatusMessages, reportAiStatus, withTimeout } from './ai-status.js';
 
 const els = {
   reconnectBtn: document.getElementById('btn-reconnect'),
@@ -111,15 +111,44 @@ async function showExistingMiniatures() {
   await loadPhotosFromDb();
 }
 
+/**
+ * Read each photo's thumbnail into an object URL for display. The handle on
+ * `photo.thumbHandle` may have come straight from disk (this session) or been
+ * round-tripped through IndexedDB (restored from a previous session/reload) —
+ * on some Android builds a handle that survived that round trip can throw or
+ * hang on read even though the file is genuinely still there, so a failure
+ * here doesn't give up on a handle we just wrote: it re-resolves a *fresh*
+ * handle from the (also-cached) event folder handle before treating the
+ * thumbnail as actually unavailable, and reports whatever finally failed so
+ * it's diagnosable from the phone itself instead of silently showing a
+ * placeholder for a file that's actually fine.
+ */
 async function hydrateThumbUrls(photos) {
   for (const p of photos) {
     if (state.thumbUrls.has(p.id) || !p.thumbHandle) continue;
+    let lastErr = null;
     try {
-      const file = await p.thumbHandle.getFile();
+      const file = await withTimeout(p.thumbHandle.getFile(), 8000, `lecture de la miniature "${p.name}"`);
       state.thumbUrls.set(p.id, URL.createObjectURL(file));
-    } catch {
-      // thumbnail missing/unreadable; card will show a placeholder
+      continue;
+    } catch (err) {
+      lastErr = err;
     }
+    if (p.eventDirHandle && p.thumbFileName) {
+      try {
+        const freshHandle = await withTimeout(
+          p.eventDirHandle.getFileHandle(p.thumbFileName),
+          8000,
+          `réouverture de la miniature "${p.name}"`
+        );
+        const file = await withTimeout(freshHandle.getFile(), 8000, `lecture de la miniature "${p.name}"`);
+        state.thumbUrls.set(p.id, URL.createObjectURL(file));
+        continue;
+      } catch (err) {
+        lastErr = err;
+      }
+    }
+    reportAiStatus(`Miniature indisponible pour "${p.name}" : ${lastErr?.message || lastErr}`);
   }
 }
 
