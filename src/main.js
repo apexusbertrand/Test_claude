@@ -82,6 +82,17 @@ async function loadPhotosFromDb() {
   render();
 }
 
+/**
+ * Show whatever is already tagged in the miniatures location — fast, read-only,
+ * no folder walk, no AI. Picking/reconnecting a folder must never itself kick
+ * off an analysis; only the explicit "Analyser le dossier" button does that.
+ */
+async function showExistingMiniatures() {
+  if (!hasMiniaturesRoot()) return;
+  await loadBrowseOnlyPhotos();
+  await loadPhotosFromDb();
+}
+
 async function hydrateThumbUrls(photos) {
   for (const p of photos) {
     if (state.thumbUrls.has(p.id) || !p.thumbHandle) continue;
@@ -311,7 +322,7 @@ async function completePickerStep() {
   refreshPickerButtons();
   if (isLibraryReady()) {
     els.scanBtn.disabled = false;
-    await scanLibrary();
+    await showExistingMiniatures();
   }
 }
 
@@ -324,7 +335,7 @@ function wireEvents() {
         els.reconnectBtn.hidden = true;
         refreshPickerButtons();
         els.scanBtn.disabled = false;
-        await scanLibrary();
+        await showExistingMiniatures();
       } else {
         alert("Permission refusée, ou l'un des dossiers est introuvable. Utilisez les boutons ci-dessous pour re-choisir manuellement.");
       }
@@ -358,8 +369,9 @@ function wireEvents() {
     if (!files || files.length === 0) return;
     setProgress(true, 0, 'Import des photos…');
     await importFilesFallback(files, (i, total) => setProgress(true, i / total, `Import ${i}/${total}`));
+    setProgress(false);
     els.scanBtn.disabled = false;
-    await scanLibrary();
+    await showExistingMiniatures();
     e.target.value = '';
   });
 
@@ -418,7 +430,7 @@ async function init() {
   if (result.ready) {
     els.scanBtn.disabled = false;
     refreshPickerButtons();
-    scanLibrary();
+    await showExistingMiniatures();
     return;
   }
 
