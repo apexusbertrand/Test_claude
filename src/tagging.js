@@ -1,5 +1,12 @@
 import { putPhoto, putEvent } from './db.js';
-import { writeThumbnail, writeSidecar, getEventDir, sanitizeFolderName } from './storage.js';
+import {
+  getEventDir,
+  writeFileInDir,
+  writeJsonInDir,
+  sanitizeFolderName,
+  getMiniatureTreeDir,
+  walkSidecars,
+} from './storage.js';
 import { extractExif } from './exif.js';
 import { reverseGeocode } from './geocode.js';
 import { detectTags, preloadModel } from './detect.js';
@@ -21,13 +28,21 @@ function baseName(name) {
 
 /** Strip browser-only handles/File objects before writing to a portable JSON sidecar. */
 function toSidecarData(photo) {
-  const { fileHandle, thumbHandle, ...rest } = photo;
+  const { fileHandle, thumbHandle, eventDirHandle, ...rest } = photo;
   return rest;
 }
 
+/**
+ * Save a photo's DB row and its JSON sidecar. Writes the sidecar into the
+ * photo's own event folder (photo.eventDirHandle) when we have it cached —
+ * this matters once photos from several different source folders can be
+ * loaded into the gallery at once (see loadBrowseOnlyPhotos), since the
+ * globally "current" source folder is no longer necessarily the right one.
+ */
 export async function persistPhoto(photo) {
   await putPhoto(photo);
-  await writeSidecar(photo.eventFolder, photo.thumbFileName.replace(/\.jpg$/i, '.json'), toSidecarData(photo));
+  const dirHandle = photo.eventDirHandle || (await getEventDir(photo.eventFolder));
+  await writeJsonInDir(dirHandle, photo.thumbFileName.replace(/\.jpg$/i, '.json'), toSidecarData(photo));
 }
 
 /**
@@ -80,17 +95,19 @@ export async function processBatch(entries, { onProgress } = {}) {
 
     let width = null;
     let height = null;
+    let eventDirHandle = null;
     let thumbHandle = null;
     let thumbFileName = null;
     let faces = [];
     try {
+      eventDirHandle = await getEventDir(eventFolder);
       const source = await decodeImage(d.file);
       const { canvas: thumbCanvas, width: w, height: h } = drawResizedCanvas(source, THUMB_SIZE);
       width = w;
       height = h;
       const blob = await canvasToBlob(thumbCanvas);
       thumbFileName = `${baseName(d.name)}-${d.id.slice(0, 8)}.jpg`;
-      thumbHandle = await writeThumbnail(eventFolder, thumbFileName, blob);
+      thumbHandle = await writeFileInDir(eventDirHandle, thumbFileName, blob);
 
       const aiTags = await detectTags(thumbCanvas);
       tags.push(...aiTags);
@@ -120,6 +137,7 @@ export async function processBatch(entries, { onProgress } = {}) {
       eventId,
       eventLabel: event ? event.label : 'Sans date',
       eventFolder,
+      eventDirHandle,
       thumbFileName,
       thumbHandle,
       width,
@@ -151,9 +169,39 @@ export async function rehydrateFromSidecar(entry, sidecar) {
   } catch {
     thumbHandle = null; // thumbnail file was moved/deleted; tags are still recovered
   }
-  const photo = { ...sidecar, fileHandle: entry.handle, thumbHandle };
+  const photo = { ...sidecar, fileHandle: entry.handle, thumbHandle, eventDirHandle: eventDir };
   await putPhoto(photo);
   return photo;
+}
+
+/**
+ * Browse every photo already tagged in the miniatures location, across every
+ * source folder ever scanned into it — no source folder access required.
+ * Lets the gallery show all existing miniatures/tags on page load and support
+ * tag editing + sharing the miniature immediately; opening/sharing the
+ * original still needs the matching source folder to be (re-)granted.
+ */
+export async function loadBrowseOnlyPhotos() {
+  const miniatureTreeDir = await getMiniatureTreeDir();
+  const photos = [];
+  for await (const { handle, dirHandle } of walkSidecars(miniatureTreeDir)) {
+    try {
+      const file = await handle.getFile();
+      const sidecar = JSON.parse(await file.text());
+      let thumbHandle = null;
+      try {
+        thumbHandle = await dirHandle.getFileHandle(sidecar.thumbFileName);
+      } catch {
+        thumbHandle = null;
+      }
+      const photo = { ...sidecar, fileHandle: null, thumbHandle, eventDirHandle: dirHandle };
+      await putPhoto(photo);
+      photos.push(photo);
+    } catch {
+      // skip unreadable/corrupt sidecar
+    }
+  }
+  return photos;
 }
 
 /**
