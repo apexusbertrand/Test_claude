@@ -2,8 +2,9 @@ import './sw-register.js';
 import { getAllPhotos, clearAll } from './db.js';
 import {
   capabilities,
-  restoreLibrary,
-  restoreMiniaturesRootOnly,
+  restoreLibrarySilently,
+  reconnectSavedHandles,
+  hasSavedFsaHandles,
   pickSourceFolder,
   pickMiniaturesRoot,
   isLibraryReady,
@@ -18,6 +19,7 @@ import { processBatch, rehydrateFromSidecar, propagateAndPersist, persistPhoto, 
 import { sharePhoto } from './share.js';
 
 const els = {
+  reconnectBtn: document.getElementById('btn-reconnect'),
   pickFolderBtn: document.getElementById('btn-pick-folder'),
   pickMiniaturesRootBtn: document.getElementById('btn-pick-miniatures-root'),
   importLabel: document.getElementById('btn-import-fallback-label'),
@@ -272,6 +274,7 @@ async function scanLibrary() {
 
 function refreshPickerButtons() {
   if (!capabilities.fsAccess) return;
+  if (hasSource() && hasMiniaturesRoot()) els.reconnectBtn.hidden = true;
   els.pickFolderBtn.textContent = hasSource() ? '1. ✓ Dossier de photos choisi' : '1. Choisir le dossier de photos';
   els.pickMiniaturesRootBtn.hidden = !hasSource() || hasMiniaturesRoot();
 }
@@ -285,6 +288,25 @@ async function completePickerStep() {
 }
 
 function wireEvents() {
+  els.reconnectBtn.addEventListener('click', async () => {
+    els.reconnectBtn.disabled = true;
+    try {
+      const ok = await reconnectSavedHandles();
+      if (ok) {
+        els.reconnectBtn.hidden = true;
+        refreshPickerButtons();
+        els.scanBtn.disabled = false;
+        await scanLibrary();
+      } else {
+        alert("Permission refusée, ou l'un des dossiers est introuvable. Utilisez les boutons ci-dessous pour re-choisir manuellement.");
+      }
+    } catch (err) {
+      alert(err.message || String(err));
+    } finally {
+      els.reconnectBtn.disabled = false;
+    }
+  });
+
   els.pickFolderBtn.addEventListener('click', async () => {
     try {
       await pickSourceFolder();
@@ -357,21 +379,30 @@ async function init() {
     els.importLabel.hidden = false;
   }
 
-  // Show every miniature/tag already on disk immediately, even before the
-  // source folder is (re-)granted this session — browsing, tag edits and
-  // sharing the miniature all work from this alone.
-  const miniaturesReady = await restoreMiniaturesRootOnly();
-  if (miniaturesReady) {
+  // Show whatever is already cached instantly — no permission needed for this.
+  await loadPhotosFromDb();
+
+  // Only ever *queries* permission state (never prompts) — safe with no user
+  // gesture. Succeeds automatically when the browser kept the grant; otherwise
+  // reconnecting requires an explicit click (see the "Reconnecter" button).
+  const result = await restoreLibrarySilently();
+
+  if (result.ready) {
+    els.scanBtn.disabled = false;
+    refreshPickerButtons();
+    scanLibrary();
+    return;
+  }
+
+  if (result.miniaturesOnly) {
     await loadBrowseOnlyPhotos();
     await loadPhotosFromDb();
   }
 
-  const restored = await restoreLibrary();
-  refreshPickerButtons();
-  if (restored) {
-    els.scanBtn.disabled = false;
-    scanLibrary();
+  if (capabilities.fsAccess && (await hasSavedFsaHandles())) {
+    els.reconnectBtn.hidden = false;
   }
+  refreshPickerButtons();
 }
 
 init();
