@@ -129,14 +129,60 @@ export async function readFile(fileHandle) {
   return fileHandle.getFile();
 }
 
-export async function writeThumbnail(eventFolderName, fileName, blob) {
+export async function getEventDir(eventFolderName) {
   if (!miniaturesHandle) throw new Error('Bibliothèque non initialisée.');
-  const eventDir = await getOrCreateDir(miniaturesHandle, sanitizeFolderName(eventFolderName));
+  return getOrCreateDir(miniaturesHandle, sanitizeFolderName(eventFolderName));
+}
+
+export async function writeThumbnail(eventFolderName, fileName, blob) {
+  const eventDir = await getEventDir(eventFolderName);
   const fh = await eventDir.getFileHandle(fileName, { create: true });
   const writable = await fh.createWritable();
   await writable.write(blob);
   await writable.close();
   return fh;
+}
+
+/**
+ * Sidecar JSON written next to each thumbnail: tags, the path to the original,
+ * and every other piece of metadata — never the original photo itself, which
+ * is only ever read, never written. This is the durable, portable record of
+ * a photo's tags: it survives a cleared browser profile, unlike IndexedDB.
+ */
+export async function writeSidecar(eventFolderName, fileName, data) {
+  const eventDir = await getEventDir(eventFolderName);
+  const fh = await eventDir.getFileHandle(fileName, { create: true });
+  const writable = await fh.createWritable();
+  await writable.write(JSON.stringify(data));
+  await writable.close();
+  return fh;
+}
+
+/** Recursively walk the miniatures tree, yielding {handle, name, dirHandle} for every sidecar .json file. */
+export async function* walkSidecars(dirHandle = miniaturesHandle, depth = 0) {
+  if (!dirHandle || depth > 8) return;
+  for await (const [name, handle] of dirHandle.entries()) {
+    if (handle.kind === 'directory') {
+      yield* walkSidecars(handle, depth + 1);
+    } else if (handle.kind === 'file' && name.endsWith('.json')) {
+      yield { handle, name, dirHandle };
+    }
+  }
+}
+
+/** Load every sidecar under photos/miniatures, keyed by the original photo's relativePath. */
+export async function loadAllSidecars() {
+  const byPath = new Map();
+  for await (const { handle } of walkSidecars()) {
+    try {
+      const file = await handle.getFile();
+      const data = JSON.parse(await file.text());
+      if (data.relativePath) byPath.set(data.relativePath, data);
+    } catch {
+      // skip unreadable/corrupt sidecar
+    }
+  }
+  return byPath;
 }
 
 export function sanitizeFolderName(name) {

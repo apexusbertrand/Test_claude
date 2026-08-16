@@ -1,10 +1,14 @@
 import { putPhoto, putEvent } from './db.js';
-import { writeThumbnail, sanitizeFolderName } from './storage.js';
+import { writeThumbnail, writeSidecar, getEventDir, sanitizeFolderName } from './storage.js';
 import { extractExif } from './exif.js';
 import { reverseGeocode } from './geocode.js';
 import { detectTags, preloadModel } from './detect.js';
+import { detectFaces, preloadFaceModels, propagateNames } from './faces.js';
 import { clusterEvents } from './events.js';
-import { decodeImage, drawThumbnailCanvas, canvasToBlob } from './thumbnail.js';
+import { decodeImage, drawResizedCanvas, canvasToBlob } from './thumbnail.js';
+
+const THUMB_SIZE = 400;
+const FACE_DETECT_SIZE = 768; // faces are often small in the frame; detect at a higher resolution than the thumbnail
 
 function uuid() {
   return crypto.randomUUID();
@@ -15,14 +19,28 @@ function baseName(name) {
   return i === -1 ? name : name.slice(0, i);
 }
 
+/** Strip browser-only handles/File objects before writing to a portable JSON sidecar. */
+function toSidecarData(photo) {
+  const { fileHandle, thumbHandle, ...rest } = photo;
+  return rest;
+}
+
+export async function persistPhoto(photo) {
+  await putPhoto(photo);
+  await writeSidecar(photo.eventFolder, photo.thumbFileName.replace(/\.jpg$/i, '.json'), toSidecarData(photo));
+}
+
 /**
  * Full pipeline for a batch of newly found image entries: read EXIF, cluster
- * into events, generate + store a thumbnail, run local AI tagging, and
- * reverse-geocode GPS into a place tag. Persists everything to IndexedDB.
- * `entries` items: { handle: FileSystemFileHandle, name, relativePath }.
+ * into events, generate + store a thumbnail, run local AI tagging (objects/
+ * animals + face descriptors), and reverse-geocode GPS into a place tag.
+ * The original file is only ever read via entry.handle.getFile() — never
+ * written to. Persists a DB row *and* a JSON sidecar next to the thumbnail
+ * for every photo. `entries` items: { handle: FileSystemFileHandle, name, relativePath }.
  */
 export async function processBatch(entries, { onProgress } = {}) {
   preloadModel();
+  preloadFaceModels();
   const total = entries.length;
   const drafts = [];
 
@@ -50,7 +68,8 @@ export async function processBatch(entries, { onProgress } = {}) {
     await putEvent({ id: e.id, label: e.label, start: e.start, end: e.lastTime, photoCount: e.photoIds.length });
   }
 
-  // Pass 2: thumbnail + AI tagging + geocoding (slower, per photo).
+  // Pass 2: thumbnail + AI tagging + face descriptors + geocoding (slower, per photo).
+  const saved = [];
   for (let i = 0; i < drafts.length; i += 1) {
     const d = drafts[i];
     const eventId = assignments.get(d.id);
@@ -63,17 +82,21 @@ export async function processBatch(entries, { onProgress } = {}) {
     let height = null;
     let thumbHandle = null;
     let thumbFileName = null;
+    let faces = [];
     try {
       const source = await decodeImage(d.file);
-      const { canvas, width: w, height: h } = drawThumbnailCanvas(source);
+      const { canvas: thumbCanvas, width: w, height: h } = drawResizedCanvas(source, THUMB_SIZE);
       width = w;
       height = h;
-      const blob = await canvasToBlob(canvas);
+      const blob = await canvasToBlob(thumbCanvas);
       thumbFileName = `${baseName(d.name)}-${d.id.slice(0, 8)}.jpg`;
       thumbHandle = await writeThumbnail(eventFolder, thumbFileName, blob);
 
-      const aiTags = await detectTags(canvas);
+      const aiTags = await detectTags(thumbCanvas);
       tags.push(...aiTags);
+
+      const { canvas: faceCanvas } = drawResizedCanvas(source, FACE_DETECT_SIZE);
+      faces = await detectFaces(faceCanvas);
       if (source.close) source.close();
     } catch (err) {
       console.warn('Échec miniature/IA pour', d.name, err);
@@ -85,7 +108,7 @@ export async function processBatch(entries, { onProgress } = {}) {
       if (geo?.country) tags.push({ category: 'lieu', value: geo.country });
     }
 
-    await putPhoto({
+    const photo = {
       id: d.id,
       name: d.name,
       relativePath: d.relativePath,
@@ -102,11 +125,45 @@ export async function processBatch(entries, { onProgress } = {}) {
       width,
       height,
       tags,
+      faces,
       importedAt: new Date().toISOString(),
-    });
+    };
+    await persistPhoto(photo);
+    saved.push(photo);
 
     if (onProgress) onProgress({ phase: 'tagging', current: i + 1, total });
   }
 
-  return drafts.length;
+  return saved;
+}
+
+/**
+ * Re-attach a live file handle to a photo we've already tagged before (matched by
+ * relativePath against a sidecar found on disk), without re-running EXIF/AI/geocoding.
+ * This is what makes tags survive a cleared IndexedDB: the sidecar is the source of
+ * truth, the DB is just a fast cache rebuilt from it.
+ */
+export async function rehydrateFromSidecar(entry, sidecar) {
+  const eventDir = await getEventDir(sidecar.eventFolder);
+  let thumbHandle = null;
+  try {
+    thumbHandle = await eventDir.getFileHandle(sidecar.thumbFileName);
+  } catch {
+    thumbHandle = null; // thumbnail file was moved/deleted; tags are still recovered
+  }
+  const photo = { ...sidecar, fileHandle: entry.handle, thumbHandle };
+  await putPhoto(photo);
+  return photo;
+}
+
+/**
+ * Propagate manually-entered names to every other photo whose detected face
+ * matches closely enough. Persists (DB + sidecar) any photo that gained a tag.
+ */
+export async function propagateAndPersist(allPhotos) {
+  const changed = propagateNames(allPhotos);
+  for (const photo of changed) {
+    await persistPhoto(photo);
+  }
+  return changed;
 }

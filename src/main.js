@@ -1,5 +1,5 @@
 import './sw-register.js';
-import { getAllPhotos, putPhoto, clearAll } from './db.js';
+import { getAllPhotos, clearAll } from './db.js';
 import {
   capabilities,
   restoreLibrary,
@@ -7,8 +7,9 @@ import {
   importFilesFallback,
   getRootHandle,
   walkImages,
+  loadAllSidecars,
 } from './storage.js';
-import { processBatch } from './tagging.js';
+import { processBatch, rehydrateFromSidecar, propagateAndPersist, persistPhoto } from './tagging.js';
 import { sharePhoto } from './share.js';
 
 const els = {
@@ -173,7 +174,7 @@ function escapeHtml(s) {
 async function removeTag(photoId, idx) {
   const photo = state.photos.find((p) => p.id === photoId);
   photo.tags.splice(idx, 1);
-  await putPhoto(photo);
+  await persistPhoto(photo);
   renderTagList(photo);
   render();
 }
@@ -184,7 +185,7 @@ async function addTag(photoId, category, value) {
   const photo = state.photos.find((p) => p.id === photoId);
   const exists = photo.tags.some((t) => t.category === category && t.value.toLowerCase() === trimmed.toLowerCase());
   if (!exists) photo.tags.push({ category, value: trimmed });
-  await putPhoto(photo);
+  await persistPhoto(photo);
   renderTagList(photo);
   render();
 }
@@ -215,28 +216,44 @@ async function scanLibrary() {
   els.scanBtn.disabled = true;
   setProgress(true, 0, 'Recherche des photos…');
 
+  // The DB is just a fast cache; sidecar JSON files next to the thumbnails are
+  // the durable record, so a photo already tagged before gets its tags (and a
+  // fresh file handle) restored instead of being re-analyzed from scratch —
+  // this also means tags survive a cleared browser profile.
   const known = new Set(state.photos.map((p) => p.relativePath));
-  const entries = [];
+  const sidecars = await loadAllSidecars();
+  const newEntries = [];
+  const toRehydrate = [];
   for await (const entry of walkImages(root)) {
-    if (!known.has(entry.relativePath)) entries.push(entry);
+    if (known.has(entry.relativePath)) continue;
+    const sidecar = sidecars.get(entry.relativePath);
+    if (sidecar) toRehydrate.push({ entry, sidecar });
+    else newEntries.push(entry);
   }
 
-  if (entries.length === 0) {
-    setProgress(true, 1, 'Aucune nouvelle photo trouvée.');
-    setTimeout(() => setProgress(false), 1500);
-    els.scanBtn.disabled = false;
-    return;
+  for (let i = 0; i < toRehydrate.length; i += 1) {
+    const { entry, sidecar } = toRehydrate[i];
+    await rehydrateFromSidecar(entry, sidecar);
+    setProgress(true, (i + 1) / toRehydrate.length, `Restauration des tags ${i + 1}/${toRehydrate.length}`);
   }
 
-  await processBatch(entries, {
-    onProgress: ({ phase, current, total }) => {
-      const phaseShare = phase === 'exif' ? 0.3 : 0.7;
-      const phaseStart = phase === 'exif' ? 0 : 0.3;
-      const frac = phaseStart + phaseShare * (current / total);
-      const label = phase === 'exif' ? `Lecture des métadonnées ${current}/${total}` : `Analyse et tags ${current}/${total}`;
-      setProgress(true, frac, label);
-    },
-  });
+  if (newEntries.length > 0) {
+    await processBatch(newEntries, {
+      onProgress: ({ phase, current, total }) => {
+        const phaseShare = phase === 'exif' ? 0.3 : 0.7;
+        const phaseStart = phase === 'exif' ? 0 : 0.3;
+        const frac = phaseStart + phaseShare * (current / total);
+        const label = phase === 'exif' ? `Lecture des métadonnées ${current}/${total}` : `Analyse et tags ${current}/${total}`;
+        setProgress(true, frac, label);
+      },
+    });
+  }
+
+  // Propagate every manually-named "personne" tag to matching faces across the
+  // whole library — this is what makes naming someone once tag them everywhere.
+  setProgress(true, 0.95, 'Reconnaissance des personnes nommées…');
+  const allPhotos = await getAllPhotos();
+  await propagateAndPersist(allPhotos);
 
   setProgress(true, 1, 'Terminé.');
   setTimeout(() => setProgress(false), 1200);
