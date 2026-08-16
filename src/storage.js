@@ -188,10 +188,14 @@ export async function pickSourceFolder() {
   storageMode = 'fsa';
   await saveHandle('sourceRoot', handle);
   await setSetting('storageMode', 'fsa');
-  if (!miniaturesIsCustom) {
-    miniaturesRootHandle = handle;
-    await computeMiniaturesBase();
-  }
+  // A fresh, explicit pick always starts from the default location — this is
+  // what makes the custom-location button genuinely optional every time,
+  // rather than staying stuck on a custom choice from an earlier session
+  // whose folder isn't even reachable this time.
+  miniaturesIsCustom = false;
+  await setSetting('miniaturesIsCustom', false);
+  miniaturesRootHandle = handle;
+  await computeMiniaturesBase();
   return handle;
 }
 
