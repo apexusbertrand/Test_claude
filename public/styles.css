@@ -61,6 +61,27 @@ body {
 .progress-fill { height: 100%; width: 0%; background: var(--accent); transition: width 0.2s ease; }
 .progress-label { font-size: 0.8rem; color: var(--text-dim); white-space: nowrap; }
 
+.status-log {
+  position: relative;
+  margin: 0 18px 10px;
+  padding: 10px 34px 10px 12px;
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
+  border-radius: var(--radius);
+  background: var(--bg-elevated);
+  font-size: 0.82rem;
+  color: var(--text-dim);
+  max-height: 30vh;
+  overflow-y: auto;
+}
+.status-log-item { padding: 3px 0; word-break: break-word; }
+.status-log-item + .status-log-item { border-top: 1px solid var(--border); }
+.status-log-close {
+  position: absolute; top: 6px; right: 6px;
+  background: none; border: none; color: var(--text-dim);
+  font-size: 0.9rem; cursor: pointer; padding: 4px;
+}
+
 .toolbar {
   display: flex;
   flex-wrap: wrap;
