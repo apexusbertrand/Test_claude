@@ -70,4 +70,5 @@ src/
 - Le géocodage inverse utilise l'API publique Nominatim (usage raisonnable, ~1 requête/s) ; pour un volume important, prévoir une clé d'un service de géocodage dédié.
 - HEIC/HEIF peut ne pas se décoder dans tous les navigateurs (dépend du support natif de `createImageBitmap`/`<img>`).
 - La détection IA (objets + visages) tourne sur l'appareil : le premier scan est plus lent le temps que les modèles se téléchargent (~12 Mo au total, mis en cache ensuite par le service worker).
+- Si la génération d'une miniature échoue (mémoire insuffisante sur mobile pour une photo très lourde, format non décodable, etc.), la carte affiche "⚠ Miniature indisponible" et la régénération est automatiquement retentée au scan suivant ("Analyser le dossier") — les tags déjà saisis manuellement ne sont jamais perdus dans l'intervalle.
 - La reconnaissance faciale reste probabiliste : vérifiez et corrigez les prénoms proposés automatiquement au besoin (les tags restent modifiables manuellement à tout moment).

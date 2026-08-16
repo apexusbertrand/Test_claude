@@ -15,7 +15,14 @@ import {
   walkImages,
   loadAllSidecars,
 } from './storage.js';
-import { processBatch, rehydrateFromSidecar, propagateAndPersist, persistPhoto, loadBrowseOnlyPhotos } from './tagging.js';
+import {
+  processBatch,
+  rehydrateFromSidecar,
+  repairThumbnail,
+  propagateAndPersist,
+  persistPhoto,
+  loadBrowseOnlyPhotos,
+} from './tagging.js';
 import { sharePhoto } from './share.js';
 
 const els = {
@@ -128,11 +135,19 @@ function render() {
 function renderCard(photo) {
   const card = document.createElement('div');
   card.className = 'card';
-  const img = document.createElement('img');
-  img.src = state.thumbUrls.get(photo.id) || '';
-  img.alt = photo.name;
-  img.loading = 'lazy';
-  card.appendChild(img);
+  const thumbUrl = state.thumbUrls.get(photo.id);
+  if (thumbUrl) {
+    const img = document.createElement('img');
+    img.src = thumbUrl;
+    img.alt = photo.name;
+    img.loading = 'lazy';
+    card.appendChild(img);
+  } else {
+    const placeholder = document.createElement('div');
+    placeholder.className = 'card-placeholder';
+    placeholder.innerHTML = `<span>⚠ Miniature indisponible</span><span class="card-placeholder-name">${escapeHtml(photo.name)}</span>`;
+    card.appendChild(placeholder);
+  }
 
   const tagsWrap = document.createElement('div');
   tagsWrap.className = 'card-tags';
@@ -242,10 +257,23 @@ async function scanLibrary() {
     else newEntries.push(entry);
   }
 
+  // A sidecar whose thumbnail never made it to disk (decode/write failure on a
+  // previous scan) is retried here instead of staying broken forever.
+  const toRepair = [];
   for (let i = 0; i < toRehydrate.length; i += 1) {
     const { entry, sidecar } = toRehydrate[i];
-    await rehydrateFromSidecar(entry, sidecar);
+    const photo = await rehydrateFromSidecar(entry, sidecar);
+    if (!photo.thumbHandle) toRepair.push({ entry, sidecar });
     setProgress(true, (i + 1) / toRehydrate.length, `Restauration des tags ${i + 1}/${toRehydrate.length}`);
+  }
+
+  for (let i = 0; i < toRepair.length; i += 1) {
+    try {
+      await repairThumbnail(toRepair[i].entry, toRepair[i].sidecar);
+    } catch (err) {
+      console.warn('Échec de la régénération de miniature pour', toRepair[i].entry.name, err);
+    }
+    setProgress(true, (i + 1) / toRepair.length, `Régénération de miniature ${i + 1}/${toRepair.length}`);
   }
 
   if (newEntries.length > 0) {
