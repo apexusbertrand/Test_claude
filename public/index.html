@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>PhotoTag — tri et tags automatiques de photos</title>
+  <meta name="description" content="Analyse et tague automatiquement vos photos par lieu, personne, animal et événement." />
+  <meta name="theme-color" content="#1b1f27" />
+  <link rel="manifest" href="./manifest.webmanifest" />
+  <link rel="icon" href="./icons/icon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="./icons/icon.svg" />
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <div id="app">
+    <header class="topbar">
+      <h1>📷 PhotoTag</h1>
+      <div class="actions">
+        <button id="btn-pick-folder" class="btn primary">Choisir un dossier</button>
+        <label id="btn-import-fallback-label" class="btn" hidden>
+          Importer des photos
+          <input type="file" id="input-import-fallback" webkitdirectory multiple hidden />
+        </label>
+        <button id="btn-scan" class="btn" disabled>Analyser le dossier</button>
+      </div>
+    </header>
+
+    <div id="progress" class="progress" hidden>
+      <div class="progress-bar"><div id="progress-fill" class="progress-fill"></div></div>
+      <span id="progress-label" class="progress-label"></span>
+    </div>
+
+    <div class="toolbar">
+      <input id="search-input" type="search" placeholder="Rechercher par tag : lieu, personne, animal, événement…" />
+      <div id="category-filters" class="chips"></div>
+    </div>
+
+    <main id="gallery" class="gallery" hidden></main>
+
+    <div id="empty-state" class="empty-state">
+      <p>Bienvenue 👋 Choisissez un dossier de photos sur votre appareil pour commencer.</p>
+      <p class="hint">Les miniatures seront générées et rangées dans <code>photos/miniatures</code>, classées par événement.</p>
+    </div>
+  </div>
+
+  <div id="modal" class="modal" hidden>
+    <div class="modal-backdrop" id="modal-backdrop"></div>
+    <div class="modal-content">
+      <button id="modal-close" class="modal-close" aria-label="Fermer">✕</button>
+      <img id="modal-img" alt="" />
+      <div class="modal-info">
+        <h2 id="modal-name"></h2>
+        <p id="modal-meta" class="modal-meta"></p>
+        <div id="modal-tags" class="tag-list"></div>
+        <form id="tag-add-form" class="tag-add">
+          <select id="tag-category">
+            <option value="lieu">Lieu</option>
+            <option value="personne">Personne</option>
+            <option value="animal">Animal</option>
+            <option value="evenement">Événement</option>
+            <option value="autre">Autre</option>
+          </select>
+          <input id="tag-value" placeholder="Nouveau tag…" autocomplete="off" />
+          <button type="submit" class="btn small">Ajouter</button>
+        </form>
+        <div class="modal-actions">
+          <button id="btn-open-original" class="btn">Ouvrir l'original</button>
+          <button id="btn-share" class="btn primary">Partager</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="./bundle.js"></script>
+</body>
+</html>

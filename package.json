@@ -1,0 +1,27 @@
+{
+  "name": "photo-tag-app",
+  "version": "1.0.0",
+  "description": "Application locale (PWA) de tri et tag automatique de photos, pour PC et smartphone.",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node build.mjs",
+    "watch": "node build.mjs --watch",
+    "serve": "serve public -l 5173",
+    "dev": "npm run build && npm run serve"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/apexusbertrand/Test_claude.git"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "@tensorflow-models/coco-ssd": "^2.2.3",
+    "@tensorflow/tfjs": "^4.22.0",
+    "exifr": "^7.1.3"
+  },
+  "devDependencies": {
+    "esbuild": "^0.24.0",
+    "serve": "^14.2.3"
+  }
+}
