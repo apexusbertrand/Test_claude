@@ -657,24 +657,58 @@ footer{background:var(--white);border-top:1px solid var(--line);padding:26px 0;}
 
 <script type="module">
   import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat@latest/dist/chat.bundle.es.js';
-  createChat({
-    webhookUrl: 'https://apexus.app.n8n.cloud/webhook/ca05b5f1-0f1b-4a0c-b0ba-78f290899684/chat',
-    mode: 'window',
-    showWelcomeScreen: false,
-    defaultLanguage: 'en',
-    initialMessages: [
-      "Bonjour 👋 Je suis l'assistant d'Apexus-BMT. Posez-moi vos questions sur l'accompagnement de Bertrand Marat, ou dites-moi ce qui vous amène."
-    ],
-    i18n: {
-      en: {
-        title: 'Apexus-BMT',
-        subtitle: "Une question sur votre projet ? Discutons-en.",
-        footer: '',
-        getStarted: 'Nouvelle conversation',
-        inputPlaceholder: 'Écrivez votre message...',
-        closeButtonTooltip: 'Fermer le chat'
-      }
+
+  async function getVisitorContext() {
+    const fallback = {
+      ip: 'inconnu',
+      city: 'inconnu',
+      region: 'inconnu',
+      country: 'inconnu',
+      timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || 'inconnu',
+      language: navigator.language || 'inconnu',
+      referrer: document.referrer || 'direct'
+    };
+    try {
+      const controller = new AbortController();
+      const timeout = setTimeout(function () { controller.abort(); }, 2500);
+      const res = await fetch('https://ipapi.co/json/', { signal: controller.signal });
+      clearTimeout(timeout);
+      const d = await res.json();
+      return {
+        ip: d.ip || fallback.ip,
+        city: d.city || fallback.city,
+        region: d.region || fallback.region,
+        country: d.country_name || fallback.country,
+        timezone: d.timezone || fallback.timezone,
+        language: fallback.language,
+        referrer: fallback.referrer
+      };
+    } catch (e) {
+      return fallback;
     }
+  }
+
+  getVisitorContext().then(function (metadata) {
+    createChat({
+      webhookUrl: 'https://apexus.app.n8n.cloud/webhook/ca05b5f1-0f1b-4a0c-b0ba-78f290899684/chat',
+      mode: 'window',
+      showWelcomeScreen: false,
+      defaultLanguage: 'en',
+      metadata: metadata,
+      initialMessages: [
+        "Bonjour 👋 Je suis l'assistant d'Apexus-BMT. Posez-moi vos questions sur l'accompagnement de Bertrand Marat, ou dites-moi ce qui vous amène."
+      ],
+      i18n: {
+        en: {
+          title: 'Apexus-BMT',
+          subtitle: "Une question sur votre projet ? Discutons-en.",
+          footer: '',
+          getStarted: 'Nouvelle conversation',
+          inputPlaceholder: 'Écrivez votre message...',
+          closeButtonTooltip: 'Fermer le chat'
+        }
+      }
+    });
   });
 </script>
 </body>
