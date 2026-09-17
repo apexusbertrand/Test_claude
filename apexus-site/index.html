@@ -9,6 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/@n8n/chat@latest/dist/style.css" rel="stylesheet">
 <style>
 :root{
   --ink:#1E2225; --ink2:#2A2F33; --accent:#F29A1F; --accent-dark:#D9840F;
@@ -193,6 +194,31 @@ footer{background:var(--white);border-top:1px solid var(--line);padding:26px 0;}
   .grid-3,.grid-4,.stats-grid{grid-template-columns:1fr;}
   .steps-row{grid-template-columns:1fr;}
   .stat-row{grid-template-columns:1fr 1fr;}
+}
+
+/* chat Apexus-BMT */
+:root{
+  --chat--color-primary:var(--accent);
+  --chat--color-primary-shade-50:var(--accent-dark);
+  --chat--color-primary-shade-100:var(--accent-dark);
+  --chat--color-secondary:var(--ink);
+  --chat--color-secondary-shade-50:var(--ink2);
+  --chat--toggle--background:var(--accent);
+  --chat--toggle--hover--background:var(--accent-dark);
+  --chat--toggle--active--background:var(--accent-dark);
+  --chat--toggle--color:var(--ink);
+  --chat--toggle--size:60px;
+  --chat--window--width:380px;
+  --chat--window--height:600px;
+  --chat--header--background:var(--ink);
+  --chat--header--color:var(--ivory);
+  --chat--body--background:var(--white);
+  --chat--message--bot--background:var(--soft);
+  --chat--message--bot--color:var(--ink);
+  --chat--message--user--background:var(--accent);
+  --chat--message--user--color:var(--ink);
+  --chat--input--border:1px solid var(--line);
+  --chat--font-family:var(--font);
 }
 </style>
 </head>
@@ -615,6 +641,29 @@ footer{background:var(--white);border-top:1px solid var(--line);padding:26px 0;}
   if(cb) cb.addEventListener('click', function(){ mp.classList.remove('open'); });
   mp && mp.querySelectorAll('a').forEach(function(a){ a.addEventListener('click', function(){ mp.classList.remove('open'); }); });
 })();
+</script>
+
+<script type="module">
+  import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat@latest/dist/chat.bundle.es.js';
+  createChat({
+    webhookUrl: 'https://apexus.app.n8n.cloud/webhook/ca05b5f1-0f1b-4a0c-b0ba-78f290899684/chat',
+    mode: 'window',
+    showWelcomeScreen: false,
+    defaultLanguage: 'en',
+    initialMessages: [
+      "Bonjour 👋 Je suis l'assistant d'Apexus-BMT. Posez-moi vos questions sur l'accompagnement de Bertrand Marat, ou dites-moi ce qui vous amène."
+    ],
+    i18n: {
+      en: {
+        title: 'Apexus-BMT',
+        subtitle: "Une question sur votre projet ? Discutons-en.",
+        footer: '',
+        getStarted: 'Nouvelle conversation',
+        inputPlaceholder: 'Écrivez votre message...',
+        closeButtonTooltip: 'Fermer le chat'
+      }
+    }
+  });
 </script>
 </body>
 </html>
