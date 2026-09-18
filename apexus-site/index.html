@@ -685,9 +685,10 @@ footer{background:var(--white);border-top:1px solid var(--line);padding:26px 0;}
       </div>
       <div class="form-row">
         <div class="form-field"><label for="cf-email">Email *</label><input type="email" id="cf-email" name="email" autocomplete="email" required></div>
-        <div class="form-field"><label for="cf-fonction">Fonction dans l'entreprise</label><input type="text" id="cf-fonction" name="fonction" autocomplete="organization-title"></div>
+        <div class="form-field"><label for="cf-telephone">Téléphone</label><input type="tel" id="cf-telephone" name="telephone" autocomplete="tel"></div>
       </div>
       <div class="form-row">
+        <div class="form-field"><label for="cf-fonction">Fonction dans l'entreprise *</label><input type="text" id="cf-fonction" name="fonction" autocomplete="organization-title" required></div>
         <div class="form-field"><label for="cf-entreprise">Nom de l'entreprise</label><input type="text" id="cf-entreprise" name="entreprise" autocomplete="organization"></div>
       </div>
       <div class="form-row">
@@ -792,6 +793,7 @@ footer{background:var(--white);border-top:1px solid var(--line);padding:26px 0;}
       prenom: form.prenom.value.trim(),
       nom: form.nom.value.trim(),
       email: form.email.value.trim(),
+      telephone: form.telephone.value.trim(),
       fonction: form.fonction.value.trim(),
       entreprise: form.entreprise.value.trim(),
       siret: form.siret.value.trim(),
