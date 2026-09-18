@@ -255,6 +255,22 @@ footer{background:var(--white);border-top:1px solid var(--line);padding:26px 0;}
   fill:var(--ink) !important;
   color:var(--ink) !important;
 }
+
+/* formulaire de contact */
+.contact-form-wrap{margin-top:48px;padding-top:40px;border-top:1px solid var(--dark-ring);position:relative;z-index:1;}
+.contact-form-wrap h3{color:var(--white);margin:0 0 20px;}
+.contact-form{display:flex;flex-direction:column;gap:16px;max-width:640px;}
+.contact-form .form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.contact-form .form-field{display:flex;flex-direction:column;gap:6px;}
+.contact-form label{color:var(--ivory-muted);font-size:.85rem;font-weight:600;}
+.contact-form input{background:var(--ink2);border:1px solid var(--dark-ring);border-radius:10px;padding:11px 14px;color:var(--white);font-family:var(--font);font-size:.95rem;}
+.contact-form input:focus{outline:none;border-color:var(--accent);}
+.contact-form .btn{align-self:flex-start;margin-top:6px;border:none;cursor:pointer;}
+.contact-form .btn:disabled{opacity:.6;cursor:default;}
+.form-status{font-size:.9rem;min-height:1.2em;margin:0;}
+.form-status.success{color:#8FD19E;}
+.form-status.error{color:#F2A19A;}
+@media (max-width:600px){.contact-form .form-row{grid-template-columns:1fr;}}
 </style>
 </head>
 <body>
@@ -660,6 +676,28 @@ footer{background:var(--white);border-top:1px solid var(--line);padding:26px 0;}
       <div class="row"><svg class="ic "><use href="#i-map-pin"></use></svg>Artois, Hauts-de-France</div>
     </div>
   </div>
+  <div class="container contact-form-wrap">
+    <h3>Ou laissez-moi vos coordonnées</h3>
+    <form id="contactForm" class="contact-form" novalidate>
+      <div class="form-row">
+        <div class="form-field"><label for="cf-prenom">Prénom *</label><input type="text" id="cf-prenom" name="prenom" autocomplete="given-name" required></div>
+        <div class="form-field"><label for="cf-nom">Nom *</label><input type="text" id="cf-nom" name="nom" autocomplete="family-name" required></div>
+      </div>
+      <div class="form-row">
+        <div class="form-field"><label for="cf-email">Email *</label><input type="email" id="cf-email" name="email" autocomplete="email" required></div>
+        <div class="form-field"><label for="cf-fonction">Fonction dans l'entreprise</label><input type="text" id="cf-fonction" name="fonction" autocomplete="organization-title"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-field"><label for="cf-entreprise">Nom de l'entreprise</label><input type="text" id="cf-entreprise" name="entreprise" autocomplete="organization"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-field"><label for="cf-siret">Numéro SIRET</label><input type="text" id="cf-siret" name="siret" inputmode="numeric" pattern="[0-9 ]*" maxlength="20"></div>
+        <div class="form-field"><label for="cf-siren">Numéro SIREN</label><input type="text" id="cf-siren" name="siren" inputmode="numeric" pattern="[0-9 ]*" maxlength="20"></div>
+      </div>
+      <button type="submit" class="btn" id="cf-submit">Envoyer</button>
+      <p id="cf-status" class="form-status" role="status" aria-live="polite"></p>
+    </form>
+  </div>
 </section>
 
 <footer>
@@ -733,6 +771,57 @@ footer{background:var(--white);border-top:1px solid var(--line);padding:26px 0;}
       }
     });
   });
+</script>
+
+<script>
+(function(){
+  var form = document.getElementById('contactForm');
+  if (!form) return;
+  var status = document.getElementById('cf-status');
+  var submitBtn = document.getElementById('cf-submit');
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+
+    if (!form.checkValidity()) {
+      form.reportValidity();
+      return;
+    }
+
+    var data = {
+      prenom: form.prenom.value.trim(),
+      nom: form.nom.value.trim(),
+      email: form.email.value.trim(),
+      fonction: form.fonction.value.trim(),
+      entreprise: form.entreprise.value.trim(),
+      siret: form.siret.value.trim(),
+      siren: form.siren.value.trim()
+    };
+
+    submitBtn.disabled = true;
+    status.className = 'form-status';
+    status.textContent = 'Envoi en cours...';
+
+    fetch('https://apexus.app.n8n.cloud/webhook/contact-apexus', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    })
+      .then(function (res) { return res.json(); })
+      .then(function (json) {
+        status.className = 'form-status success';
+        status.textContent = (json && json.message) || 'Merci, votre message a bien été envoyé.';
+        form.reset();
+      })
+      .catch(function () {
+        status.className = 'form-status error';
+        status.textContent = "Une erreur est survenue. Vous pouvez aussi écrire directement à apexus.bertrand@gmail.com.";
+      })
+      .finally(function () {
+        submitBtn.disabled = false;
+      });
+  });
+})();
 </script>
 </body>
 </html>
