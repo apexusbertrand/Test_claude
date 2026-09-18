@@ -263,8 +263,10 @@ footer{background:var(--white);border-top:1px solid var(--line);padding:26px 0;}
 .contact-form .form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
 .contact-form .form-field{display:flex;flex-direction:column;gap:6px;}
 .contact-form label{color:var(--ivory-muted);font-size:.85rem;font-weight:600;}
-.contact-form input{background:var(--ink2);border:1px solid var(--dark-ring);border-radius:10px;padding:11px 14px;color:var(--white);font-family:var(--font);font-size:.95rem;}
-.contact-form input:focus{outline:none;border-color:var(--accent);}
+.contact-form input,.contact-form textarea{background:var(--ink2);border:1px solid var(--dark-ring);border-radius:10px;padding:11px 14px;color:var(--white);font-family:var(--font);font-size:.95rem;}
+.contact-form textarea{resize:vertical;min-height:90px;}
+.contact-form input:focus,.contact-form textarea:focus{outline:none;border-color:var(--accent);}
+.contact-form .form-row-1{grid-template-columns:1fr;}
 .contact-form .btn{align-self:flex-start;margin-top:6px;border:none;cursor:pointer;}
 .contact-form .btn:disabled{opacity:.6;cursor:default;}
 .form-status{font-size:.9rem;min-height:1.2em;margin:0;}
@@ -695,6 +697,9 @@ footer{background:var(--white);border-top:1px solid var(--line);padding:26px 0;}
         <div class="form-field"><label for="cf-siret">Numéro SIRET</label><input type="text" id="cf-siret" name="siret" inputmode="numeric" pattern="[0-9 ]*" maxlength="20"></div>
         <div class="form-field"><label for="cf-siren">Numéro SIREN</label><input type="text" id="cf-siren" name="siren" inputmode="numeric" pattern="[0-9 ]*" maxlength="20"></div>
       </div>
+      <div class="form-row form-row-1">
+        <div class="form-field"><label for="cf-commentaire">Décrivez votre projet ou votre question</label><textarea id="cf-commentaire" name="commentaire" rows="4" maxlength="2000"></textarea></div>
+      </div>
       <button type="submit" class="btn" id="cf-submit">Envoyer</button>
       <p id="cf-status" class="form-status" role="status" aria-live="polite"></p>
     </form>
@@ -797,7 +802,8 @@ footer{background:var(--white);border-top:1px solid var(--line);padding:26px 0;}
       fonction: form.fonction.value.trim(),
       entreprise: form.entreprise.value.trim(),
       siret: form.siret.value.trim(),
-      siren: form.siren.value.trim()
+      siren: form.siren.value.trim(),
+      commentaire: form.commentaire.value.trim()
     };
 
     submitBtn.disabled = true;
