@@ -880,30 +880,36 @@
   }
 
   function weatherIcon(code){
-    // Icônes SVG minimalistes selon le code WMO
-    var stroke = 'stroke="currentColor" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"';
+    // Icônes SVG en couleurs météo classiques (soleil jaune, nuages gris, pluie bleue…)
+    var SUN = '#FDC351', SUN_RAY = '#FDC351';
+    var CLOUD = '#D7DEE5', CLOUD_STROKE = '#AEB8C2', CLOUD_DARK = '#9AA5B1', CLOUD_DARK_STROKE = '#7C8894';
+    var RAIN = '#4FA3D8', SNOW = '#EAF4FC', SNOW_STROKE = '#BFDCF2', BOLT = '#F5C242';
+    var sunGlyph = '<circle cx="9" cy="9" r="4.2" fill="'+SUN+'"/><g stroke="'+SUN_RAY+'" stroke-width="1.6" stroke-linecap="round"><path d="M9 1.3v2.1M9 14.6v2.1M1.3 9h2.1M14.6 9h2.1M3.5 3.5l1.5 1.5M12 12l1.5 1.5M3.5 14.5l1.5-1.5M12 6l1.5-1.5"/></g>';
+    var cloudGlyph = function(fill, stroke, cy){
+      return '<path d="M4 '+cy+'a3.6 3.6 0 013.4-4.7 4.6 4.6 0 018.8-1.3A3.8 3.8 0 0119.6 '+cy+'z" fill="'+fill+'" stroke="'+stroke+'" stroke-width="1" stroke-linejoin="round"/>';
+    };
     if(code === 0){ // ciel clair
-      return '<svg viewBox="0 0 24 24" '+stroke+'><circle cx="12" cy="12" r="5"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></svg>';
+      return '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5.4" fill="'+SUN+'"/><g stroke="'+SUN_RAY+'" stroke-width="1.8" stroke-linecap="round"><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></g></svg>';
     }
     if(code === 1 || code === 2){ // peu nuageux
-      return '<svg viewBox="0 0 24 24" '+stroke+'><circle cx="9" cy="10" r="4"/><path d="M9 2v2M9 16v2M2 10h2M14.5 10h2M4 5l1.4 1.4M12.6 5l-1.4 1.4"/><path d="M9 17h8a4 4 0 000-8 5 5 0 00-9.7-1.5"/></svg>';
+      return '<svg viewBox="0 0 24 24"><g transform="translate(2,-1)">'+sunGlyph+'</g>'+cloudGlyph(CLOUD, CLOUD_STROKE, 18)+'</svg>';
     }
     if(code === 3){ // couvert
-      return '<svg viewBox="0 0 24 24" '+stroke+'><path d="M6 17h11a4 4 0 000-8 5.5 5.5 0 00-10.6-1.7A4.5 4.5 0 006 17z"/></svg>';
+      return '<svg viewBox="0 0 24 24">'+cloudGlyph(CLOUD_DARK, CLOUD_DARK_STROKE, 16)+'</svg>';
     }
     if(code === 45 || code === 48){ // brouillard
-      return '<svg viewBox="0 0 24 24" '+stroke+'><path d="M4 8h16M4 12h16M4 16h10"/></svg>';
+      return '<svg viewBox="0 0 24 24"><g stroke="'+CLOUD_STROKE+'" stroke-width="2" stroke-linecap="round"><path d="M4 8h16M3 12h18M5 16h14M7 20h10"/></g></svg>';
     }
     if((code>=51 && code<=57) || (code>=61 && code<=67) || (code>=80 && code<=82)){ // pluie
-      return '<svg viewBox="0 0 24 24" '+stroke+'><path d="M6 15h11a4 4 0 000-8 5.5 5.5 0 00-10.6-1.7A4.5 4.5 0 006 15z"/><path d="M8 19l-1 2M12 19l-1 2M16 19l-1 2"/></svg>';
+      return '<svg viewBox="0 0 24 24">'+cloudGlyph(CLOUD_DARK, CLOUD_DARK_STROKE, 14)+'<g stroke="'+RAIN+'" stroke-width="2" stroke-linecap="round"><path d="M8 18l-1.2 2.4M12.5 18l-1.2 2.4M17 18l-1.2 2.4"/></g></svg>';
     }
     if((code>=71 && code<=77) || (code>=85 && code<=86)){ // neige
-      return '<svg viewBox="0 0 24 24" '+stroke+'><path d="M6 13h11a4 4 0 000-8 5.5 5.5 0 00-10.6-1.7A4.5 4.5 0 006 13z"/><path d="M9 17v5M7 19l2-1 2 1M15 17v5M13 19l2-1 2 1"/></svg>';
+      return '<svg viewBox="0 0 24 24">'+cloudGlyph(CLOUD, CLOUD_STROKE, 14)+'<g stroke="'+SNOW_STROKE+'" stroke-width="1.6" stroke-linecap="round"><path d="M8 18v4M6.5 19l3 2M9.5 19l-3 2"/><path d="M16 18v4M14.5 19l3 2M17.5 19l-3 2"/></g></svg>';
     }
     if(code>=95){ // orage
-      return '<svg viewBox="0 0 24 24" '+stroke+'><path d="M6 13h11a4 4 0 000-8 5.5 5.5 0 00-10.6-1.7A4.5 4.5 0 006 13z"/><path d="M12 15l-2.5 4h3L11 22"/></svg>';
+      return '<svg viewBox="0 0 24 24">'+cloudGlyph(CLOUD_DARK, CLOUD_DARK_STROKE, 14)+'<path d="M12.5 15l-2.7 4.4h2.6L11 23l4.2-5.1h-2.7z" fill="'+BOLT+'"/></svg>';
     }
-    return '<svg viewBox="0 0 24 24" '+stroke+'><circle cx="12" cy="12" r="5"/></svg>';
+    return '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5.4" fill="'+SUN+'"/></svg>';
   }
 
   function loadWeather(){
