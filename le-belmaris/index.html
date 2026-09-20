@@ -221,6 +221,32 @@
     animation:riseIn 1s .55s ease forwards;
   }
   @keyframes riseIn{ to{opacity:1;transform:translateY(0);} }
+
+  /* ---------- RATINGS STRIP ---------- */
+  .ratings-strip{
+    display:flex;gap:12px;justify-content:center;flex-wrap:wrap;
+  }
+  .ratings-strip--hero{
+    position:absolute;top:98px;left:0;right:0;z-index:3;
+    padding:0 20px;
+    opacity:0;transform:translateY(-10px);
+    animation:riseIn 1s .05s ease forwards;
+  }
+  @media (max-width:640px){
+    .ratings-strip--hero{top:82px;}
+  }
+  .rating-pill{
+    display:inline-flex;align-items:center;gap:9px;
+    padding:9px 18px;border-radius:30px;
+    background:rgba(255,255,255,.95);color:var(--bleu-profond);
+    text-decoration:none;font-size:.85rem;font-weight:500;
+    box-shadow:0 8px 22px -6px rgba(15,43,70,.4);
+    transition:transform .2s ease, box-shadow .2s ease;
+  }
+  .rating-pill:hover{transform:translateY(-2px);box-shadow:0 12px 26px -6px rgba(15,43,70,.45);}
+  .rating-pill .score{font-family:var(--serif);font-weight:700;font-size:1.05rem;color:var(--corail);}
+  .rating-pill svg{width:18px;height:18px;flex-shrink:0;}
+  .ratings-strip--section{margin-top:40px;}
   .scroll-cue{
     position:absolute;bottom:28px;left:50%;transform:translateX(-50%);
     color:#fff;opacity:.75;font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;
@@ -524,6 +550,16 @@
       <div class="seagull g3"><svg viewBox="0 0 60 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M2 14c8-10 14-11 28-2 14-9 20-8 28 2"/></svg></div>
       <div class="seagull g4"><svg viewBox="0 0 60 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M2 14c8-10 14-11 28-2 14-9 20-8 28 2"/></svg></div>
     </div>
+    <div class="ratings-strip ratings-strip--hero">
+      <a class="rating-pill" href="https://www.airbnb.fr/rooms/1696355783970532804?unique_share_id=7acd6dee-2993-4f4e-b567-9ca37da995a7&viralityEntryPoint=1&s=76" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#0F2B46" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2c3 4 6 8.5 6 12a6 6 0 01-12 0c0-3.5 3-8 6-12z"/></svg>
+        <span class="score">4,8</span><span>★ · 15 avis Airbnb</span>
+      </a>
+      <a class="rating-pill" href="https://www.booking.com/Share-01mWzU" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#0F2B46" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18"/><path d="M8 14h3M8 17h6"/></svg>
+        <span class="score">8,7</span><span>/10 · 3 avis Booking.com</span>
+      </a>
+    </div>
     <div class="hero-content container">
       <span class="eyebrow">Wimereux · Côte d'Opale</span>
       <h1>Le Belmaris</h1>
@@ -739,6 +775,16 @@
           <strong>Réserver sur Booking.com</strong>
           <span>Annulation flexible selon les conditions</span>
           <span class="btn btn-dark">Voir sur Booking.com</span>
+        </a>
+      </div>
+      <div class="ratings-strip ratings-strip--section">
+        <a class="rating-pill" href="https://www.airbnb.fr/rooms/1696355783970532804?unique_share_id=7acd6dee-2993-4f4e-b567-9ca37da995a7&viralityEntryPoint=1&s=76" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#0F2B46" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2c3 4 6 8.5 6 12a6 6 0 01-12 0c0-3.5 3-8 6-12z"/></svg>
+          <span class="score">4,8</span><span>★ · 15 avis Airbnb</span>
+        </a>
+        <a class="rating-pill" href="https://www.booking.com/Share-01mWzU" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#0F2B46" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18"/><path d="M8 14h3M8 17h6"/></svg>
+          <span class="score">8,7</span><span>/10 · 3 avis Booking.com</span>
         </a>
       </div>
     </div>
