@@ -39,8 +39,8 @@
   },
   "geo": {
     "@type": "GeoCoordinates",
-    "latitude": 50.7686,
-    "longitude": 1.6089
+    "latitude": 50.7798027,
+    "longitude": 1.6136528
   },
   "numberOfRooms": 3,
   "petsAllowed": false,
@@ -861,7 +861,7 @@
   }
 
   /* ============ WEATHER (Open-Meteo) ============ */
-  var WEATHER_URL = "https://api.open-meteo.com/v1/forecast?latitude=50.7686&longitude=1.6089&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max&timezone=Europe/Paris&forecast_days=16";
+  var WEATHER_URL = "https://api.open-meteo.com/v1/forecast?latitude=50.7798027&longitude=1.6136528&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max&timezone=Europe/Paris&forecast_days=16";
   var weatherSection = document.getElementById('weatherSection');
   var weatherStrip = document.getElementById('weatherStrip');
   var JOURS = ["dim.","lun.","mar.","mer.","jeu.","ven.","sam."];
@@ -1064,7 +1064,7 @@
 
   /* ============ MAP (Leaflet + OSM) ============ */
   if(window.L){
-    var lat = 50.7686, lon = 1.6089; // Le Belmaris, rue Maryse Bastié
+    var lat = 50.7798027, lon = 1.6136528; // Le Belmaris, rue Maryse Bastié
     var centreLat = 50.7659, centreLon = 1.6157; // Centre-ville de Wimereux (digue / église)
 
     var map = L.map('map', {scrollWheelZoom:false});
