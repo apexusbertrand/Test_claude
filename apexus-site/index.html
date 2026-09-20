@@ -109,6 +109,8 @@ nav.links a:hover{opacity:1;color:var(--accent-dark);}
 .btn:hover{background:var(--accent-dark);}
 .btn-outline{background:transparent;border:1.5px solid var(--ivory-muted);color:var(--ivory);}
 .btn-outline:hover{border-color:var(--accent);color:var(--accent);}
+.btn-outline-dark{background:transparent;border:1.5px solid var(--line);color:var(--ink);}
+.btn-outline-dark:hover{border-color:var(--accent);color:var(--accent-dark);}
 .btn-sm{padding:9px 16px;font-size:.85rem;}
 .menu-toggle{display:none;background:none;border:none;cursor:pointer;color:var(--ink);}
 
@@ -136,6 +138,9 @@ nav.links a:hover{opacity:1;color:var(--accent-dark);}
 .ic-badge.sm{width:40px;height:40px;}
 .card-offer .deliv{margin-top:12px;font-size:.88rem;color:var(--ink);}
 .card-offer .deliv span{color:var(--muted);}
+.card-li-link{display:flex;align-items:center;gap:6px;margin-top:14px;font-size:.82rem;font-weight:600;color:var(--accent-dark);}
+.card-li-link .ic{width:15px;height:15px;}
+.card-li-link:hover{color:var(--ink);}
 
 /* proposition */
 .props{background:var(--ink);color:var(--ivory);}
@@ -249,6 +254,12 @@ footer{background:var(--white);border-top:1px solid var(--line);padding:26px 0;}
   .steps-row{grid-template-columns:1fr;}
   .stat-row{grid-template-columns:1fr 1fr;}
 }
+
+/* linkedin */
+.linkedin-section .btn{margin-top:18px;margin-bottom:32px;}
+.linkedin-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
+.linkedin-grid iframe{width:100%;border-radius:var(--radius);border:1px solid var(--line);}
+@media (max-width:900px){.linkedin-grid{grid-template-columns:1fr;max-width:504px;}}
 
 /* chat Apexus-BMT */
 :root{
@@ -492,6 +503,7 @@ footer{background:var(--white);border-top:1px solid var(--line);padding:26px 0;}
           <h3>Audit SI et ERP</h3>
           <p>Votre ERP a vieilli, les spécifiques s'empilent.</p>
           <p class="deliv"><span>Livrable&nbsp;:</span> feuille de route priorisée</p>
+          <a class="card-li-link" href="https://www.linkedin.com/posts/bertrand-marat-10a88920a_chez-lun-de-mes-clients-lerp-a-plus-de-activity-7502980335752728579-6Lfm" target="_blank" rel="noopener"><svg class="ic "><use href="#i-linkedin"></use></svg>Mon retour d'expérience sur LinkedIn</a>
         </div>
         <div class="card card-offer">
           <div class="ic-badge sm"><svg class="ic "><use href="#i-workflow"></use></svg></div>
@@ -715,6 +727,22 @@ footer{background:var(--white);border-top:1px solid var(--line);padding:26px 0;}
           <div class="env-fam"><span class="dot"></span>Méthodes</div>
           <div class="env-chips"><span class="chip">Cycle en V</span><span class="chip">Agilité</span><span class="chip">MVP</span><span class="chip">Lean</span><span class="chip">Conduite du changement</span></div>
         </div></div>
+  </div>
+</section>
+
+<section class="section linkedin-section" id="linkedin">
+  <div class="container">
+    <span class="eyebrow">Actualité</span>
+    <h2>Suivez mes réflexions sur LinkedIn</h2>
+    <p class="lede">Retours d'expérience et coups de gueule sur la transformation des SI, sans langue de bois.</p>
+    <a class="btn btn-outline-dark" href="https://www.linkedin.com/in/bertrand-marat-10a88920a" target="_blank" rel="noopener">
+      <svg class="ic "><use href="#i-linkedin"></use></svg>Suivre Bertrand Marat sur LinkedIn
+    </a>
+    <div class="linkedin-grid">
+      <iframe src="https://www.linkedin.com/embed/feed/update/urn:li:activity:7505509964011016192" height="620" width="504" frameborder="0" allowfullscreen="" title="Publication LinkedIn de Bertrand Marat"></iframe>
+      <iframe src="https://www.linkedin.com/embed/feed/update/urn:li:activity:7492830918844362752" height="620" width="504" frameborder="0" allowfullscreen="" title="Publication LinkedIn de Bertrand Marat"></iframe>
+      <iframe src="https://www.linkedin.com/embed/feed/update/urn:li:activity:7485218760128303105" height="620" width="504" frameborder="0" allowfullscreen="" title="Publication LinkedIn de Bertrand Marat"></iframe>
+    </div>
   </div>
 </section>
 
