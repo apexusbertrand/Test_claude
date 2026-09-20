@@ -679,7 +679,15 @@
               <span class="dist">5 min à pied</span>
             </li>
             <li>
-              <span class="place">Boulogne-sur-Mer et Nausicaá<small>Centre national de la mer</small></span>
+              <span class="place">La Pointe aux Oies<small>Point de vue sur la Côte d'Opale</small></span>
+              <span class="dist">30 min à pied</span>
+            </li>
+            <li>
+              <span class="place">Nausicaá<small>Centre national de la mer</small></span>
+              <span class="dist">15 min en voiture</span>
+            </li>
+            <li>
+              <span class="place">Boulogne-sur-Mer<small>Centre-ville et port</small></span>
               <span class="dist">15 min en voiture</span>
             </li>
             <li>
@@ -954,7 +962,9 @@
     {src:"photo-12.jpg", cat:"exterieurs", alt:"Guirlande lumineuse sur la terrasse en soirée"},
     {src:"photo-13.jpg", cat:"exterieurs", alt:"Façade du Belmaris, maison semi-mitoyenne rénovée"},
     {src:"photo-14.jpg", cat:"chambres", alt:"Détail de la chambre principale"},
-    {src:"photo-15.jpg", cat:"sejour", alt:"Vue depuis la cuisine vers le jardin", size:"tall"}
+    {src:"photo-15.jpg", cat:"sejour", alt:"Vue depuis la cuisine vers le jardin", size:"tall"},
+    {src:"photo-16.jpg", cat:"exterieurs", alt:"Coucher de soleil sur la Manche depuis la Pointe aux Oies, à proximité du Belmaris", size:"wide"},
+    {src:"photo-17.jpg", cat:"exterieurs", alt:"Vue sur la plage et la Côte d'Opale depuis la Pointe aux Oies au crépuscule"}
   ];
 
   var masonry = document.getElementById('masonry');
@@ -1048,8 +1058,11 @@
 
   /* ============ MAP (Leaflet + OSM) ============ */
   if(window.L){
-    var lat = 50.7686, lon = 1.6089;
-    var map = L.map('map', {scrollWheelZoom:false}).setView([lat, lon], 16);
+    var lat = 50.7686, lon = 1.6089; // Le Belmaris, rue Maryse Bastié
+    var centreLat = 50.7659, centreLon = 1.6157; // Centre-ville de Wimereux (digue / église)
+
+    var map = L.map('map', {scrollWheelZoom:false});
+
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution:'&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors',
       maxZoom:19
@@ -1061,8 +1074,19 @@
       iconSize:[34,34],
       iconAnchor:[17,34]
     });
+    var centreIcon = L.divIcon({
+      className:'',
+      html:'<div style="background:#D97757;width:16px;height:16px;border-radius:50%;border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.35);"></div>',
+      iconSize:[16,16],
+      iconAnchor:[8,8]
+    });
+
     L.marker([lat, lon], {icon:icon, title:"Le Belmaris"}).addTo(map)
       .bindPopup("<strong>Le Belmaris</strong><br>Rue Maryse Bastié, 62930 Wimereux");
+    L.marker([centreLat, centreLon], {icon:centreIcon, title:"Centre-ville de Wimereux"}).addTo(map)
+      .bindPopup("<strong>Centre-ville de Wimereux</strong><br>Digue, commerces et marché");
+
+    map.fitBounds([[lat, lon], [centreLat, centreLon]], {padding:[38,38], maxZoom:16});
   }
 
   /* ============ CONTACT FORM ============ */
