@@ -838,6 +838,14 @@ footer{background:var(--white);border-top:1px solid var(--line);padding:26px 0;}
 })();
 </script>
 
+<script>
+(function(){
+  var v = document.querySelector('video.hero-logo');
+  if(!v) return;
+  v.addEventListener('ended', function(){ v.currentTime = 0; v.play(); });
+})();
+</script>
+
 <script type="module">
   import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat@latest/dist/chat.bundle.es.js';
 
