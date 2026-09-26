@@ -167,6 +167,16 @@
     <string name="apps_clear_cache">Clear cache</string>
     <string name="apps_details">App info</string>
     <string name="apps_uninstall">Uninstall</string>
+    <string name="apps_select_all">Select all</string>
+    <string name="apps_selected_cache">including %1$s of cache</string>
+    <string name="apps_action_cache">Cache</string>
+    <string name="apps_action_uninstall">Uninstall</string>
+    <string name="apps_batch_cache_title">Clearing cache: %1$d / %2$d — %3$s</string>
+    <string name="apps_batch_uninstall_title">Uninstalling: %1$d / %2$d — %3$s</string>
+    <string name="apps_batch_cache_hint">In the screen that opens, tap “Storage” then “Clear cache”, then come back with the Back button: the next app opens automatically.</string>
+    <string name="apps_batch_uninstall_hint">Confirm in the Android dialog (or cancel to keep the app): the next one appears automatically.</string>
+    <string name="apps_batch_stop">Stop</string>
+    <string name="apps_uninstall_confirm_text">Android will ask you to confirm each uninstall, one app after another. These apps’ data will be erased.</string>
 
     <string name="trash_empty_title">Trash is empty</string>
     <string name="trash_empty_message">Items deleted from Apexus Cleaner appear here and can be restored.</string>
@@ -358,5 +368,33 @@
     <plurals name="explorer_select_all_summary">
         <item quantity="one">%1$d item · %2$s</item>
         <item quantity="other">%1$d items · %2$s</item>
+    </plurals>
+    <plurals name="apps_selected_summary">
+        <item quantity="one">%1$d selected · %2$s</item>
+        <item quantity="other">%1$d selected · %2$s</item>
+    </plurals>
+    <plurals name="apps_select_all_summary">
+        <item quantity="one">%1$d app shown · %2$s of cache</item>
+        <item quantity="other">%1$d apps shown · %2$s of cache</item>
+    </plurals>
+    <plurals name="apps_uninstall_confirm_title">
+        <item quantity="one">Uninstall %1$d app (%2$s)?</item>
+        <item quantity="other">Uninstall %1$d apps (%2$s)?</item>
+    </plurals>
+    <plurals name="apps_batch_cache_done">
+        <item quantity="one">Cache cleared for %1$d app, %2$s freed</item>
+        <item quantity="other">Cache cleared for %1$d apps, %2$s freed</item>
+    </plurals>
+    <plurals name="apps_batch_uninstall_done">
+        <item quantity="one">%1$d app uninstalled, %2$s freed</item>
+        <item quantity="other">%1$d apps uninstalled, %2$s freed</item>
+    </plurals>
+    <plurals name="apps_batch_skipped_system">
+        <item quantity="one">%1$d system app skipped (cannot be uninstalled)</item>
+        <item quantity="other">%1$d system apps skipped (cannot be uninstalled)</item>
+    </plurals>
+    <plurals name="apps_batch_skipped_no_cache">
+        <item quantity="one">%1$d app without cache skipped</item>
+        <item quantity="other">%1$d apps without cache skipped</item>
     </plurals>
 </resources>

@@ -179,6 +179,16 @@
     <string name="apps_clear_cache">Vider le cache</string>
     <string name="apps_details">Informations sur l’application</string>
     <string name="apps_uninstall">Désinstaller</string>
+    <string name="apps_select_all">Tout cocher</string>
+    <string name="apps_selected_cache">dont %1$s de cache</string>
+    <string name="apps_action_cache">Cache</string>
+    <string name="apps_action_uninstall">Désinstaller</string>
+    <string name="apps_batch_cache_title">Vider le cache : %1$d / %2$d — %3$s</string>
+    <string name="apps_batch_uninstall_title">Désinstallation : %1$d / %2$d — %3$s</string>
+    <string name="apps_batch_cache_hint">Dans l’écran qui s’ouvre, touchez « Stockage » puis « Vider le cache », puis revenez avec le bouton Retour : l’application suivante s’ouvrira automatiquement.</string>
+    <string name="apps_batch_uninstall_hint">Confirmez dans la fenêtre d’Android (ou annulez pour garder l’application) : la suivante s’affichera automatiquement.</string>
+    <string name="apps_batch_stop">Arrêter</string>
+    <string name="apps_uninstall_confirm_text">Android vous demandera de confirmer chaque désinstallation, une application après l’autre. Les données de ces applications seront effacées.</string>
 
     <!-- Corbeille -->
     <string name="trash_empty_title">Corbeille vide</string>
@@ -403,5 +413,40 @@
         <item quantity="one">%1$d élément · %2$s</item>
         <item quantity="many">%1$d éléments · %2$s</item>
         <item quantity="other">%1$d éléments · %2$s</item>
+    </plurals>
+    <plurals name="apps_selected_summary">
+        <item quantity="one">%1$d sélectionnée · %2$s</item>
+        <item quantity="many">%1$d sélectionnées · %2$s</item>
+        <item quantity="other">%1$d sélectionnées · %2$s</item>
+    </plurals>
+    <plurals name="apps_select_all_summary">
+        <item quantity="one">%1$d application affichée · %2$s de cache</item>
+        <item quantity="many">%1$d applications affichées · %2$s de cache</item>
+        <item quantity="other">%1$d applications affichées · %2$s de cache</item>
+    </plurals>
+    <plurals name="apps_uninstall_confirm_title">
+        <item quantity="one">Désinstaller %1$d application (%2$s) ?</item>
+        <item quantity="many">Désinstaller %1$d applications (%2$s) ?</item>
+        <item quantity="other">Désinstaller %1$d applications (%2$s) ?</item>
+    </plurals>
+    <plurals name="apps_batch_cache_done">
+        <item quantity="one">Cache vidé pour %1$d application, %2$s libérés</item>
+        <item quantity="many">Cache vidé pour %1$d applications, %2$s libérés</item>
+        <item quantity="other">Cache vidé pour %1$d applications, %2$s libérés</item>
+    </plurals>
+    <plurals name="apps_batch_uninstall_done">
+        <item quantity="one">%1$d application désinstallée, %2$s libérés</item>
+        <item quantity="many">%1$d applications désinstallées, %2$s libérés</item>
+        <item quantity="other">%1$d applications désinstallées, %2$s libérés</item>
+    </plurals>
+    <plurals name="apps_batch_skipped_system">
+        <item quantity="one">%1$d application système ignorée (non désinstallable)</item>
+        <item quantity="many">%1$d applications système ignorées (non désinstallables)</item>
+        <item quantity="other">%1$d applications système ignorées (non désinstallables)</item>
+    </plurals>
+    <plurals name="apps_batch_skipped_no_cache">
+        <item quantity="one">%1$d application sans cache ignorée</item>
+        <item quantity="many">%1$d applications sans cache ignorées</item>
+        <item quantity="other">%1$d applications sans cache ignorées</item>
     </plurals>
 </resources>
