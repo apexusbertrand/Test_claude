@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 import java.io.File
 import java.io.IOException
+import java.nio.file.Files
 import java.util.UUID
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -62,6 +63,29 @@ class TrashRepository @Inject constructor(
             entity.copy(id = id).toDomain()
         }
     }
+
+    /**
+     * Envoie dans la corbeille chaque fichier de [directory], sauf ceux pour lesquels [skip]
+     * est vrai (ex. : médias déjà dans la corbeille Android, qui doivent rester en place pour
+     * pouvoir y être restaurés). Les dossiers devenus vides sont ensuite supprimés.
+     * Renvoie les chemins d'origine des fichiers déplacés.
+     */
+    suspend fun moveContentsToTrash(directory: File, batchId: String, skip: (File) -> Boolean): Result<List<String>> =
+        withContext(Dispatchers.IO) {
+            val files = directory.walkTopDown()
+                .onEnter { !Files.isSymbolicLink(it.toPath()) }
+                .filter { it.isFile && !Files.isSymbolicLink(it.toPath()) && !skip(it) }
+                .toList()
+            val moved = ArrayList<String>()
+            var failures = 0
+            files.forEach { file ->
+                moveToTrash(file, batchId).onSuccess { moved += file.path }.onFailure { failures++ }
+            }
+            directory.walkBottomUp()
+                .filter { it.isDirectory && !Files.isSymbolicLink(it.toPath()) }
+                .forEach { dir -> if (dir.list()?.isEmpty() == true) dir.delete() }
+            if (failures == 0) Result.success(moved) else Result.failure(IOException("$failures fichier(s) non déplacé(s)"))
+        }
 
     suspend fun restore(itemId: Long): Result<String> = withContext(Dispatchers.IO) {
         runCatching {

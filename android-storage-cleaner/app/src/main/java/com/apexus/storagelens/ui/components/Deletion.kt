@@ -47,6 +47,7 @@ data class PendingItem(
     val risk: RiskLevel,
     val permanent: Boolean,
     val isPhotoOrVideo: Boolean = false,
+    val isDirectory: Boolean = false,
 )
 
 data class PendingDeletion(val items: List<PendingItem>, val trashEnabled: Boolean) {
@@ -54,6 +55,7 @@ data class PendingDeletion(val items: List<PendingItem>, val trashEnabled: Boole
     val risky: List<PendingItem> get() = items.filter { it.risk != RiskLevel.LOW }
     val permanentCount: Int get() = if (trashEnabled) items.count { it.permanent } else items.size
     val photoVideoCount: Int get() = items.count { it.isPhotoOrVideo }
+    val directoryCount: Int get() = items.count { it.isDirectory }
 }
 
 @Composable
@@ -82,6 +84,16 @@ fun DeleteConfirmDialog(pending: PendingDeletion, onConfirm: () -> Unit, onDismi
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Icon(Icons.Filled.PhotoLibrary, contentDescription = null, modifier = Modifier.size(18.dp))
                         Text(note, Modifier.padding(start = 8.dp), style = MaterialTheme.typography.bodyMedium)
+                    }
+                }
+                if (pending.directoryCount > 0 && Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Icon(Icons.Filled.PhotoLibrary, contentDescription = null, modifier = Modifier.size(18.dp))
+                        Text(
+                            pluralStringResource(R.plurals.confirm_delete_folders_media, pending.directoryCount),
+                            Modifier.padding(start = 8.dp),
+                            style = MaterialTheme.typography.bodyMedium,
+                        )
                     }
                 }
                 if (pending.risky.isNotEmpty()) {

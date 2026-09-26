@@ -36,4 +36,17 @@ class MediaRoutingTest {
         assertEquals(DeletionRoute.DIRECT, route(index = null))
         assertEquals(DeletionRoute.DIRECT, route(supported = false))
     }
+
+    @Test
+    fun `folders containing photos or videos go through the system confirmation`() {
+        assertEquals(DeletionRoute.SYSTEM_TRASH, MediaRouting.routeDirectory(allowTrash = true, trashEnabled = true, systemConfirmationSupported = true, indexedMediaCount = 3))
+        assertEquals(DeletionRoute.SYSTEM_DELETE, MediaRouting.routeDirectory(allowTrash = true, trashEnabled = false, systemConfirmationSupported = true, indexedMediaCount = 3))
+        assertEquals(DeletionRoute.SYSTEM_DELETE, MediaRouting.routeDirectory(allowTrash = false, trashEnabled = true, systemConfirmationSupported = true, indexedMediaCount = 3))
+    }
+
+    @Test
+    fun `folders without indexed media or on old android are handled directly`() {
+        assertEquals(DeletionRoute.DIRECT, MediaRouting.routeDirectory(allowTrash = true, trashEnabled = true, systemConfirmationSupported = true, indexedMediaCount = 0))
+        assertEquals(DeletionRoute.DIRECT, MediaRouting.routeDirectory(allowTrash = true, trashEnabled = true, systemConfirmationSupported = false, indexedMediaCount = 5))
+    }
 }

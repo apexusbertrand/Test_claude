@@ -394,4 +394,9 @@
         <item quantity="many">%1$d photos/vidéos conservées (confirmation refusée)</item>
         <item quantity="other">%1$d photos/vidéos conservées (confirmation refusée)</item>
     </plurals>
+    <plurals name="confirm_delete_folders_media">
+        <item quantity="one">Si ce dossier contient des photos ou vidéos, Android vous demandera aussi de confirmer : elles iront dans la corbeille Android (ou seront supprimées définitivement si la corbeille est désactivée).</item>
+        <item quantity="many">Si ces dossiers contiennent des photos ou vidéos, Android vous demandera aussi de confirmer : elles iront dans la corbeille Android (ou seront supprimées définitivement si la corbeille est désactivée).</item>
+        <item quantity="other">Si ces dossiers contiennent des photos ou vidéos, Android vous demandera aussi de confirmer : elles iront dans la corbeille Android (ou seront supprimées définitivement si la corbeille est désactivée).</item>
+    </plurals>
 </resources>

@@ -41,4 +41,23 @@ object MediaRouting {
         trashEnabled && allowTrash -> DeletionRoute.SYSTEM_TRASH
         else -> DeletionRoute.SYSTEM_DELETE
     }
+
+    /**
+     * Un dossier contenant des photos ou vidéos indexées passe lui aussi par la confirmation
+     * d'Android : ses médias vont dans la corbeille Android (ou sont supprimés définitivement),
+     * le reste de son contenu suit le traitement habituel.
+     */
+    fun routeDirectory(
+        allowTrash: Boolean,
+        trashEnabled: Boolean,
+        systemConfirmationSupported: Boolean,
+        indexedMediaCount: Int,
+    ): DeletionRoute = when {
+        !systemConfirmationSupported || indexedMediaCount == 0 -> DeletionRoute.DIRECT
+        trashEnabled && allowTrash -> DeletionRoute.SYSTEM_TRASH
+        else -> DeletionRoute.SYSTEM_DELETE
+    }
+
+    /** Fichiers renommés par Android lorsqu'ils sont placés dans sa corbeille. */
+    fun isInAndroidTrash(name: String): Boolean = name.startsWith(".trashed-")
 }

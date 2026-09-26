@@ -55,12 +55,26 @@ class MediaStoreSync @Inject constructor(
     fun findPhotosAndVideos(paths: Collection<String>): Map<String, IndexedMedia> {
         if (!systemConfirmationSupported || paths.isEmpty()) return emptyMap()
         val result = HashMap<String, IndexedMedia>()
-        paths.distinct().chunked(QUERY_CHUNK).forEach { chunk -> result += query(chunk) }
+        paths.distinct().chunked(QUERY_CHUNK).forEach { chunk ->
+            result += query(
+                "${MediaStore.Files.FileColumns.DATA} IN (${chunk.joinToString(",") { "?" }})",
+                chunk.toTypedArray(),
+            )
+        }
         return result
     }
 
+    /** Photos et vidéos indexées situées n'importe où sous [directory]. */
+    fun findPhotosAndVideosUnder(directory: String): Map<String, IndexedMedia> {
+        if (!systemConfirmationSupported) return emptyMap()
+        val prefix = directory.trimEnd('/') + "/"
+        // LIKE traite « _ » comme joker : on refiltre donc par préfixe exact.
+        return query("${MediaStore.Files.FileColumns.DATA} LIKE ?", arrayOf("$prefix%"))
+            .filterKeys { it.startsWith(prefix) }
+    }
+
     @RequiresApi(Build.VERSION_CODES.R)
-    private fun query(paths: List<String>): Map<String, IndexedMedia> {
+    private fun query(pathSelection: String, selectionArgs: Array<String>): Map<String, IndexedMedia> {
         val projection = arrayOf(
             MediaStore.Files.FileColumns._ID,
             MediaStore.Files.FileColumns.DATA,
@@ -70,11 +84,10 @@ class MediaStoreSync @Inject constructor(
         val args = Bundle().apply {
             putString(
                 ContentResolver.QUERY_ARG_SQL_SELECTION,
-                "${MediaStore.Files.FileColumns.DATA} IN (${paths.joinToString(",") { "?" }}) AND " +
-                    "${MediaStore.Files.FileColumns.MEDIA_TYPE} IN (" +
+                "$pathSelection AND ${MediaStore.Files.FileColumns.MEDIA_TYPE} IN (" +
                     "${MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE},${MediaStore.Files.FileColumns.MEDIA_TYPE_VIDEO})",
             )
-            putStringArray(ContentResolver.QUERY_ARG_SQL_SELECTION_ARGS, paths.toTypedArray())
+            putStringArray(ContentResolver.QUERY_ARG_SQL_SELECTION_ARGS, selectionArgs)
             putInt(MediaStore.QUERY_ARG_MATCH_TRASHED, MediaStore.MATCH_INCLUDE)
             putInt(MediaStore.QUERY_ARG_MATCH_PENDING, MediaStore.MATCH_INCLUDE)
         }

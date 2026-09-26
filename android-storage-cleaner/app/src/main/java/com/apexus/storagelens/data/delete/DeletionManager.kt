@@ -42,10 +42,22 @@ data class DeletionTarget(
     val fileCount: Int = 1,
 )
 
-/** Photos/vidéos soumises à la fenêtre de confirmation d'Android. */
+/**
+ * Élément (fichier ou dossier) dont les photos/vidéos passent par la confirmation d'Android.
+ * [mediaPaths] : le fichier lui-même, ou les médias indexés contenus dans le dossier.
+ */
+data class SystemConfirmedTarget(
+    val target: DeletionTarget,
+    val toTrash: Boolean,
+    val mediaPaths: List<String>,
+)
+
+/** Une fenêtre de confirmation d'Android (au plus [MAX_URIS_PER_REQUEST] médias). */
 data class MediaConfirmationRequest(
     val toTrash: Boolean,
-    val targets: List<DeletionTarget>,
+    /** Éléments dont au moins un média figure dans cette demande. */
+    val targetPaths: Set<String>,
+    val mediaCount: Int,
     val intentSender: IntentSender,
 )
 
@@ -53,6 +65,7 @@ data class MediaConfirmationRequest(
 data class DeletionPlan(
     val batchId: String,
     val direct: List<DeletionTarget>,
+    val systemTargets: List<SystemConfirmedTarget>,
     val mediaRequests: List<MediaConfirmationRequest>,
     val rejected: List<DeletionFailure>,
     val requestedCount: Int,
@@ -103,40 +116,66 @@ class DeletionManager @Inject constructor(
         }
 
         val candidates = valid.filter { !it.isDirectory && MediaRouting.isPhotoOrVideo(File(it.path).name) }.map { it.path }
-        val index = mediaStoreSync.findPhotosAndVideos(candidates)
+        val index = HashMap(mediaStoreSync.findPhotosAndVideos(candidates))
         val direct = ArrayList<DeletionTarget>()
-        val toTrash = ArrayList<DeletionTarget>()
-        val toDelete = ArrayList<DeletionTarget>()
+        val systemTargets = ArrayList<SystemConfirmedTarget>()
         valid.forEach { target ->
-            val route = MediaRouting.route(
-                name = File(target.path).name,
-                isDirectory = target.isDirectory,
-                allowTrash = target.allowTrash,
-                trashEnabled = trashEnabled,
-                systemConfirmationSupported = mediaStoreSync.systemConfirmationSupported,
-                index = index[target.path]?.entry,
-            )
-            when (route) {
-                DeletionRoute.SYSTEM_TRASH -> toTrash += target
-                DeletionRoute.SYSTEM_DELETE -> toDelete += target
-                DeletionRoute.DIRECT -> direct += target
+            if (target.isDirectory) {
+                val inside = mediaStoreSync.findPhotosAndVideosUnder(target.path)
+                index += inside
+                val route = MediaRouting.routeDirectory(
+                    allowTrash = target.allowTrash,
+                    trashEnabled = trashEnabled,
+                    systemConfirmationSupported = mediaStoreSync.systemConfirmationSupported,
+                    indexedMediaCount = inside.size,
+                )
+                if (route == DeletionRoute.DIRECT) {
+                    direct += target
+                } else {
+                    // Les médias déjà dans la corbeille Android n'ont pas besoin d'y être renvoyés.
+                    val media = inside.filterValues { !(route == DeletionRoute.SYSTEM_TRASH && it.entry.isTrashed) }.keys.sorted()
+                    if (media.isEmpty()) direct += target
+                    else systemTargets += SystemConfirmedTarget(target, route == DeletionRoute.SYSTEM_TRASH, media)
+                }
+            } else {
+                val route = MediaRouting.route(
+                    name = File(target.path).name,
+                    isDirectory = false,
+                    allowTrash = target.allowTrash,
+                    trashEnabled = trashEnabled,
+                    systemConfirmationSupported = mediaStoreSync.systemConfirmationSupported,
+                    index = index[target.path]?.entry,
+                )
+                when (route) {
+                    DeletionRoute.SYSTEM_TRASH -> systemTargets += SystemConfirmedTarget(target, true, listOf(target.path))
+                    DeletionRoute.SYSTEM_DELETE -> systemTargets += SystemConfirmedTarget(target, false, listOf(target.path))
+                    DeletionRoute.DIRECT -> direct += target
+                }
             }
         }
 
-        val requests = buildList {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                if (toTrash.isNotEmpty()) {
-                    add(MediaConfirmationRequest(true, toTrash, mediaStoreSync.confirmationRequest(toTrash.map { index.getValue(it.path).uri }, toTrash = true)))
-                }
-                if (toDelete.isNotEmpty()) {
-                    add(MediaConfirmationRequest(false, toDelete, mediaStoreSync.confirmationRequest(toDelete.map { index.getValue(it.path).uri }, toTrash = false)))
-                }
+        // Une demande par type (corbeille / suppression), découpée pour rester sous la taille maximale.
+        val requests = ArrayList<MediaConfirmationRequest>()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            listOf(true, false).forEach { toTrash ->
+                systemTargets.filter { it.toTrash == toTrash }
+                    .flatMap { st -> st.mediaPaths.map { path -> st.target.path to path } }
+                    .chunked(MAX_URIS_PER_REQUEST)
+                    .forEach { chunk ->
+                        requests += MediaConfirmationRequest(
+                            toTrash = toTrash,
+                            targetPaths = chunk.map { it.first }.toSet(),
+                            mediaCount = chunk.size,
+                            intentSender = mediaStoreSync.confirmationRequest(chunk.map { index.getValue(it.second).uri }, toTrash),
+                        )
+                    }
             }
         }
 
         DeletionPlan(
             batchId = UUID.randomUUID().toString(),
             direct = direct,
+            systemTargets = systemTargets,
             mediaRequests = requests,
             rejected = rejected,
             requestedCount = ordered.size,
@@ -160,20 +199,40 @@ class DeletionManager @Inject constructor(
             var systemTrashed = 0
             var refused = 0
 
-            // Photos/vidéos : Android les a déjà traitées si l'utilisateur a confirmé.
-            plan.mediaRequests.forEachIndexed { i, request ->
-                if (approvals.getOrElse(i) { false }) {
-                    request.targets.forEach { target ->
-                        if (File(target.path).exists()) {
-                            failures += DeletionFailure(target.path, REASON_IO)
-                        } else {
-                            removed += RemovedEntry(target.path, target.expectedSize, target.fileCount)
-                            if (request.toTrash) systemTrashed++
-                        }
-                    }
-                } else {
-                    refused += request.targets.size
+            // Photos/vidéos : Android les a déjà traitées si l'utilisateur a confirmé toutes les
+            // fenêtres concernant l'élément. Sinon, l'élément est conservé tel quel.
+            plan.systemTargets.forEach { st ->
+                val approved = plan.mediaRequests.withIndex()
+                    .filter { st.target.path in it.value.targetPaths }
+                    .all { approvals.getOrElse(it.index) { false } }
+                val handledMedia = st.mediaPaths.count { !File(it).exists() }
+                if (!approved) {
+                    refused += st.mediaPaths.size - handledMedia
+                    if (st.toTrash) systemTrashed += handledMedia
+                    return@forEach
                 }
+                if (st.toTrash) systemTrashed += handledMedia
+                val target = st.target
+                val file = File(target.path)
+                if (!target.isDirectory) {
+                    if (file.exists()) failures += DeletionFailure(target.path, REASON_IO)
+                    else removed += RemovedEntry(target.path, target.expectedSize, target.fileCount)
+                    return@forEach
+                }
+                // Dossier : ses médias sont traités par Android ; on s'occupe du reste de son contenu.
+                val problem = if (!guard.canDelete(target.path)) REASON_PROTECTED else null
+                val ok = when {
+                    problem != null -> false
+                    !file.exists() -> true
+                    st.toTrash -> trash.moveContentsToTrash(file, plan.batchId) { MediaRouting.isInAndroidTrash(it.name) }
+                        .onSuccess { moved ->
+                            if (moved.isNotEmpty()) movedToTrash = true
+                            deletedMedia += moved
+                        }.isSuccess
+                    else -> file.deleteRecursively().also { mediaStoreSync.forgetDirectory(target.path) }
+                }
+                if (ok) removed += RemovedEntry(target.path, target.expectedSize, target.fileCount)
+                else failures += DeletionFailure(target.path, problem ?: REASON_IO)
             }
 
             plan.direct.forEachIndexed { index, target ->
@@ -262,6 +321,8 @@ class DeletionManager @Inject constructor(
     }
 
     companion object {
+        /** Nombre de médias par fenêtre de confirmation (limite de taille des transactions Android). */
+        const val MAX_URIS_PER_REQUEST = 1000
         const val REASON_PROTECTED = "protected"
         const val REASON_MISSING = "missing"
         const val REASON_CHANGED = "changed"

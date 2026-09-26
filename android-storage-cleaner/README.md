@@ -50,7 +50,7 @@ Un élément dont un dossier parent est déjà proposé n'est jamais compté deu
 - **Chemins protégés** (`ProtectedPaths`) : racines des volumes, dossiers standards (`DCIM`, `Download`, `Documents`…), `DCIM/Camera`, `Android/`, `Android/data|obb|media` et les dossiers des applications **installées**, le dossier de l'application elle-même (sauf son cache), tout ce qui est hors des volumes de stockage.
 - Aucune règle automatique ne pioche dans `DCIM/Camera` (sélection manuelle uniquement).
 - Revérification juste avant chaque suppression : garde-fou, existence, taille et date inchangées depuis l'analyse.
-- **Photos et vidéos : double confirmation.** Après la confirmation de l'application, Android 11+ affiche sa propre fenêtre (`MediaStore.createTrashRequest` ou `createDeleteRequest`). Avec la corbeille activée, les médias vont dans la **corbeille Android** (restaurables 30 jours depuis Galerie ou Fichiers) ; sinon ils sont supprimés définitivement. Si l'utilisateur refuse, ils sont conservés et le reste du lot est traité. Sur Android 8–10, où cette fenêtre n'existe pas, le dialogue de l'application indique le nombre de photos et vidéos concernées. Les dossiers entiers (ex. « WhatsApp Video ») passent par la corbeille interne de l'application, sans fenêtre système.
+- **Photos et vidéos : double confirmation.** Après la confirmation de l'application, Android 11+ affiche sa propre fenêtre (`MediaStore.createTrashRequest` ou `createDeleteRequest`). Avec la corbeille activée, les médias vont dans la **corbeille Android** (restaurables 30 jours depuis Galerie ou Fichiers) ; sinon ils sont supprimés définitivement. Si l'utilisateur refuse, ils sont conservés et le reste du lot est traité. Sur Android 8–10, où cette fenêtre n'existe pas, le dialogue de l'application indique le nombre de photos et vidéos concernées. **Les dossiers sont concernés aussi** : si un dossier sélectionné (ex. « WhatsApp Video ») contient des photos ou vidéos indexées, elles passent par la même fenêtre d'Android ; le reste de son contenu suit le traitement habituel (corbeille interne ou suppression définitive). Les fenêtres sont découpées par lots de 1 000 médias ; un dossier n'est traité que si toutes les fenêtres qui le concernent ont été acceptées.
 - Aucune suppression sans action explicite ; l'analyse planifiée ne fait que notifier.
 - **Corbeille interne** activée par défaut ; les logs, caches, temporaires, miniatures et dossiers vides sont toujours supprimés définitivement.
 - **Aucun accès réseau** : la permission `INTERNET` est retirée du manifeste fusionné.
@@ -112,6 +112,8 @@ cd android-storage-cleaner
 ./gradlew testDebugUnitTest      # tests unitaires (JUnit 5)
 ./gradlew connectedAndroidTest   # tests d'interface Compose (appareil ou émulateur)
 ```
+
+**Sans installer Android Studio** : le workflow GitHub Actions `.github/workflows/android-apk.yml` exécute les tests et construit l'APK à chaque push touchant `android-storage-cleaner/` (ou manuellement via *Actions → StorageLens — APK Android → Run workflow*). L'APK se télécharge dans l'artefact **StorageLens-debug-apk** de l'exécution. Pour l'installer sur le téléphone, autorisez l'installation depuis des sources inconnues.
 
 - `minSdk` 26 (Android 8.0), `targetSdk`/`compileSdk` 35.
 - Langues : français (par défaut) et anglais.

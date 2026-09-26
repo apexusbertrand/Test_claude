@@ -351,4 +351,8 @@
         <item quantity="one">%1$d photo/video kept (confirmation declined)</item>
         <item quantity="other">%1$d photos/videos kept (confirmation declined)</item>
     </plurals>
+    <plurals name="confirm_delete_folders_media">
+        <item quantity="one">If this folder contains photos or videos, Android will also ask you to confirm: they will go to the Android trash (or be deleted permanently if the trash is disabled).</item>
+        <item quantity="other">If these folders contain photos or videos, Android will also ask you to confirm: they will go to the Android trash (or be deleted permanently if the trash is disabled).</item>
+    </plurals>
 </resources>

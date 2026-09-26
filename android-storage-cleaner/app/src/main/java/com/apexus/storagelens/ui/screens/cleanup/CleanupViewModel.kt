@@ -157,6 +157,7 @@ class CleanupViewModel @Inject constructor(
             PendingItem(
                 it.path, it.name, it.size, it.category.risk, permanent = it.category in PERMANENT_CATEGORIES,
                 isPhotoOrVideo = !it.isDirectory && MediaRouting.isPhotoOrVideo(it.name),
+                isDirectory = it.isDirectory,
             )
         }
         if (items.isEmpty()) return

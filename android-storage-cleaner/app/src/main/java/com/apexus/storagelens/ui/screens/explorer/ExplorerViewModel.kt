@@ -198,6 +198,7 @@ class ExplorerViewModel @Inject constructor(
             PendingItem(
                 it.path, it.name, it.size, if (it.isDirectory) RiskLevel.HIGH else RiskLevel.MEDIUM, permanent = false,
                 isPhotoOrVideo = !it.isDirectory && MediaRouting.isPhotoOrVideo(it.name),
+                isDirectory = it.isDirectory,
             )
         }
         local.update { it.copy(pendingDeletion = PendingDeletion(items, s.settings.trashEnabled)) }
