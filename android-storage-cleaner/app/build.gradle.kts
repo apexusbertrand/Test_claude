@@ -12,7 +12,7 @@ android {
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.apexus.storagelens"
+        applicationId = "com.apexus.cleaner"
         minSdk = 26
         targetSdk = 35
         versionCode = 1
@@ -49,6 +49,11 @@ kotlin {
     compilerOptions {
         jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
     }
+}
+
+// Nom des fichiers produits : apexus-cleaner-debug.apk, apexus-cleaner-release.apk
+base {
+    archivesName.set("apexus-cleaner")
 }
 
 ksp {

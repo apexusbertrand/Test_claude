@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">StorageLens</string>
+    <string name="app_name">Apexus Cleaner</string>
 
     <!-- Navigation -->
     <string name="nav_home">Accueil</string>
@@ -182,7 +182,7 @@
 
     <!-- Corbeille -->
     <string name="trash_empty_title">Corbeille vide</string>
-    <string name="trash_empty_message">Les éléments supprimés depuis StorageLens apparaissent ici et peuvent être restaurés.</string>
+    <string name="trash_empty_message">Les éléments supprimés depuis Apexus Cleaner apparaissent ici et peuvent être restaurés.</string>
     <string name="trash_disabled_message">La corbeille est désactivée : les suppressions sont définitives.</string>
     <string name="trash_info">%1$s dans la corbeille. Les éléments sont supprimés définitivement après %2$d jours. Attention : la corbeille est effacée si l’application est désinstallée.</string>
     <string name="trash_item_dates">Supprimé %1$s · effacé définitivement %2$s</string>
@@ -230,7 +230,7 @@
     <string name="theme_dark">Sombre</string>
 
     <!-- À propos -->
-    <string name="about_intro">StorageLens analyse tout le stockage de votre téléphone, classe les dossiers par taille et vous aide à libérer l’espace occupé par les fichiers inutiles. Rien n’est supprimé sans votre accord.</string>
+    <string name="about_intro">Apexus Cleaner analyse tout le stockage de votre téléphone, classe les dossiers par taille et vous aide à libérer l’espace occupé par les fichiers inutiles. Rien n’est supprimé sans votre accord.</string>
     <string name="about_limits_title">Ce qu’Android permet de nettoyer</string>
     <string name="about_col_android8">Android 8–10</string>
     <string name="about_col_android11">Android 11+</string>
@@ -248,7 +248,7 @@
 
     <!-- Onboarding -->
     <string name="onboarding_1_title">Voyez où part votre espace</string>
-    <string name="onboarding_1_text">StorageLens mesure tout votre stockage et classe dossiers et fichiers du plus volumineux au plus petit.</string>
+    <string name="onboarding_1_text">Apexus Cleaner mesure tout votre stockage et classe dossiers et fichiers du plus volumineux au plus petit.</string>
     <string name="onboarding_2_title">Libérez l’espace caché</string>
     <string name="onboarding_2_text">Logs, traces, caches, fichiers temporaires, doublons, APK oubliés… tout ce qui remplit le téléphone sans que vous le voyiez.</string>
     <string name="onboarding_3_title">Vous gardez le contrôle</string>
@@ -256,7 +256,7 @@
 
     <!-- Autorisations -->
     <string name="permissions_title">Autorisations</string>
-    <string name="permissions_intro">Voici les accès dont StorageLens a besoin, et pourquoi. Vous pouvez les modifier à tout moment dans les Paramètres Android.</string>
+    <string name="permissions_intro">Voici les accès dont Apexus Cleaner a besoin, et pourquoi. Vous pouvez les modifier à tout moment dans les Paramètres Android.</string>
     <string name="permissions_continue_limited">Continuer avec des fonctions limitées</string>
     <string name="permission_required">Indispensable</string>
     <string name="permission_optional">Facultatif</string>

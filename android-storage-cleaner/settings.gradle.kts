@@ -13,5 +13,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "StorageLens"
+rootProject.name = "ApexusCleaner"
 include(":app")

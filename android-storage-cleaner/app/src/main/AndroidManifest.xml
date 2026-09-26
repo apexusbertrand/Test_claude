@@ -41,13 +41,13 @@
         tools:node="remove" />
 
     <application
-        android:name=".StorageLensApp"
+        android:name=".ApexusCleanerApp"
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
-        android:theme="@style/Theme.StorageLens"
+        android:theme="@style/Theme.ApexusCleaner"
         android:requestLegacyExternalStorage="true"
         android:localeConfig="@xml/locales_config"
         tools:targetApi="35">
@@ -56,7 +56,7 @@
             android:name=".MainActivity"
             android:exported="true"
             android:windowSoftInputMode="adjustResize"
-            android:theme="@style/Theme.StorageLens">
+            android:theme="@style/Theme.ApexusCleaner">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -79,7 +79,7 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
-        <!-- WorkManager est initialisé à la demande avec la fabrique Hilt (voir StorageLensApp). -->
+        <!-- WorkManager est initialisé à la demande avec la fabrique Hilt (voir ApexusCleanerApp). -->
         <provider
             android:name="androidx.startup.InitializationProvider"
             android:authorities="${applicationId}.androidx-startup"

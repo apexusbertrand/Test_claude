@@ -1,4 +1,4 @@
-# StorageLens — Analyseur et nettoyeur de stockage Android
+# Apexus Cleaner — Analyseur et nettoyeur de stockage Android
 
 Application Android native (Kotlin, Jetpack Compose, Material 3) qui :
 
@@ -108,12 +108,12 @@ Prérequis : Android Studio (Ladybug ou plus récent) ou le SDK Android avec la 
 
 ```bash
 cd android-storage-cleaner
-./gradlew assembleDebug          # APK : app/build/outputs/apk/debug/app-debug.apk
+./gradlew assembleDebug          # APK : app/build/outputs/apk/debug/apexus-cleaner-debug.apk
 ./gradlew testDebugUnitTest      # tests unitaires (JUnit 5)
 ./gradlew connectedAndroidTest   # tests d'interface Compose (appareil ou émulateur)
 ```
 
-**Sans installer Android Studio** : le workflow GitHub Actions `.github/workflows/android-apk.yml` exécute les tests et construit l'APK à chaque push touchant `android-storage-cleaner/` (ou manuellement via *Actions → StorageLens — APK Android → Run workflow*). L'APK se télécharge dans l'artefact **StorageLens-debug-apk** de l'exécution. Pour l'installer sur le téléphone, autorisez l'installation depuis des sources inconnues.
+**Sans installer Android Studio** : le workflow GitHub Actions `.github/workflows/android-apk.yml` exécute les tests et construit l'APK à chaque push touchant `android-storage-cleaner/` (ou manuellement via *Actions → Apexus Cleaner — APK Android → Run workflow*). L'APK est publié à chaque build dans la release **apexus-cleaner-latest**, avec un lien fixe : https://github.com/apexusbertrand/Test_claude/releases/download/apexus-cleaner-latest/apexus-cleaner.apk. Pour l'installer sur le téléphone, autorisez l'installation depuis des sources inconnues.
 
 - `minSdk` 26 (Android 8.0), `targetSdk`/`compileSdk` 35.
 - Langues : français (par défaut) et anglais.

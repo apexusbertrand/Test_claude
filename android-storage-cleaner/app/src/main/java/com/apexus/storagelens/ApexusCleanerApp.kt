@@ -19,7 +19,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltAndroidApp
-class StorageLensApp : Application(), Configuration.Provider, ImageLoaderFactory {
+class ApexusCleanerApp : Application(), Configuration.Provider, ImageLoaderFactory {
 
     @Inject lateinit var workerFactory: HiltWorkerFactory
     @Inject lateinit var workScheduler: WorkScheduler

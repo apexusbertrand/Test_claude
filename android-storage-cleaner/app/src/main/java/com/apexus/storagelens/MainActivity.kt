@@ -13,7 +13,7 @@ import androidx.activity.viewModels
 import com.apexus.storagelens.data.prefs.AppSettings
 import com.apexus.storagelens.data.prefs.SettingsRepository
 import com.apexus.storagelens.ui.navigation.AppNavHost
-import com.apexus.storagelens.ui.theme.StorageLensTheme
+import com.apexus.storagelens.ui.theme.ApexusCleanerTheme
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
@@ -40,7 +40,7 @@ class MainActivity : ComponentActivity() {
             val current = settings ?: return@setContent
             // L'onboarding n'est choisi qu'au premier affichage : le NavHost garde ensuite son graphe.
             val showOnboarding = remember { !current.onboardingDone }
-            StorageLensTheme(themeMode = current.themeMode) {
+            ApexusCleanerTheme(themeMode = current.themeMode) {
                 AppNavHost(showOnboarding = showOnboarding)
             }
         }

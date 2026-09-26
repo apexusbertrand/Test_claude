@@ -169,7 +169,7 @@
     <string name="apps_uninstall">Uninstall</string>
 
     <string name="trash_empty_title">Trash is empty</string>
-    <string name="trash_empty_message">Items deleted from StorageLens appear here and can be restored.</string>
+    <string name="trash_empty_message">Items deleted from Apexus Cleaner appear here and can be restored.</string>
     <string name="trash_disabled_message">The trash is disabled: deletions are permanent.</string>
     <string name="trash_info">%1$s in the trash. Items are permanently deleted after %2$d days. Note: the trash is erased if the app is uninstalled.</string>
     <string name="trash_item_dates">Deleted %1$s · permanently removed %2$s</string>
@@ -214,7 +214,7 @@
     <string name="theme_light">Light</string>
     <string name="theme_dark">Dark</string>
 
-    <string name="about_intro">StorageLens scans all of your phone’s storage, ranks folders by size and helps you free the space taken by junk files. Nothing is deleted without your consent.</string>
+    <string name="about_intro">Apexus Cleaner scans all of your phone’s storage, ranks folders by size and helps you free the space taken by junk files. Nothing is deleted without your consent.</string>
     <string name="about_limits_title">What Android lets an app clean</string>
     <string name="about_col_android8">Android 8–10</string>
     <string name="about_col_android11">Android 11+</string>
@@ -231,14 +231,14 @@
     <string name="about_privacy">Privacy: the app has no Internet access. No data ever leaves your device.</string>
 
     <string name="onboarding_1_title">See where your space goes</string>
-    <string name="onboarding_1_text">StorageLens measures all of your storage and ranks folders and files from largest to smallest.</string>
+    <string name="onboarding_1_text">Apexus Cleaner measures all of your storage and ranks folders and files from largest to smallest.</string>
     <string name="onboarding_2_title">Free the hidden space</string>
     <string name="onboarding_2_text">Logs, traces, caches, temporary files, duplicates, forgotten APKs… everything that fills your phone without you noticing.</string>
     <string name="onboarding_3_title">You stay in control</string>
     <string name="onboarding_3_text">You choose what gets deleted. A trash lets you restore your files for 7 days.</string>
 
     <string name="permissions_title">Permissions</string>
-    <string name="permissions_intro">Here is the access StorageLens needs, and why. You can change it at any time in Android Settings.</string>
+    <string name="permissions_intro">Here is the access Apexus Cleaner needs, and why. You can change it at any time in Android Settings.</string>
     <string name="permissions_continue_limited">Continue with limited features</string>
     <string name="permission_required">Required</string>
     <string name="permission_optional">Optional</string>

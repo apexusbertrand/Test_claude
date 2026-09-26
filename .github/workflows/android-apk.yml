@@ -1,4 +1,4 @@
-name: StorageLens — APK Android
+name: Apexus Cleaner — APK Android
 
 on:
   push:
@@ -8,7 +8,7 @@ on:
   workflow_dispatch: {}
 
 permissions:
-  contents: read
+  contents: write
 
 concurrency:
   group: android-apk-${{ github.ref }}
@@ -40,11 +40,27 @@ jobs:
       - name: Construction de l'APK
         run: ./gradlew --no-daemon assembleDebug
 
+      - name: Préparation de l'APK
+        run: cp app/build/outputs/apk/debug/apexus-cleaner-debug.apk apexus-cleaner.apk
+
       - uses: actions/upload-artifact@v4
         with:
-          name: StorageLens-debug-apk
-          path: android-storage-cleaner/app/build/outputs/apk/debug/*.apk
+          name: apexus-cleaner-apk
+          path: android-storage-cleaner/apexus-cleaner.apk
           if-no-files-found: error
+
+      # Publie l'APK dans une release à lien fixe :
+      # https://github.com/<dépôt>/releases/download/apexus-cleaner-latest/apexus-cleaner.apk
+      - name: Publication (release « apexus-cleaner-latest »)
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release delete apexus-cleaner-latest --cleanup-tag --yes || true
+          gh release create apexus-cleaner-latest apexus-cleaner.apk \
+            --target "$GITHUB_SHA" \
+            --prerelease \
+            --title "Apexus Cleaner — dernière version de test" \
+            --notes "APK de test (debug) construit automatiquement depuis la branche ${GITHUB_REF_NAME}, commit ${GITHUB_SHA::7}. Installation : autoriser les sources inconnues sur le téléphone."
 
       - uses: actions/upload-artifact@v4
         if: failure()
