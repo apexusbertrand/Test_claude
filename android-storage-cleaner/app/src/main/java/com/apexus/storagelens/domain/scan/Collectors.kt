@@ -17,7 +17,7 @@ class TopFilesCollector(private val limit: Int = 100) : ScanVisitor {
         synchronized(heap) {
             if (heap.size < limit) {
                 heap += file.toEntry()
-            } else if (file.size > heap.peek().size) {
+            } else if (file.size > (heap.peek()?.size ?: 0L)) {
                 heap.poll()
                 heap += file.toEntry()
             }

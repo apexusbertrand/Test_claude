@@ -2,6 +2,8 @@ package com.apexus.storagelens.ui.util
 
 import androidx.annotation.StringRes
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.InsertDriveFile
+import androidx.compose.material.icons.automirrored.filled.ReceiptLong
 import androidx.compose.material.icons.filled.Android
 import androidx.compose.material.icons.filled.Apps
 import androidx.compose.material.icons.filled.Archive
@@ -16,12 +18,10 @@ import androidx.compose.material.icons.filled.FolderOff
 import androidx.compose.material.icons.filled.Forum
 import androidx.compose.material.icons.filled.HourglassEmpty
 import androidx.compose.material.icons.filled.Image
-import androidx.compose.material.icons.filled.InsertDriveFile
 import androidx.compose.material.icons.filled.Memory
 import androidx.compose.material.icons.filled.Movie
 import androidx.compose.material.icons.filled.MusicNote
 import androidx.compose.material.icons.filled.PhotoLibrary
-import androidx.compose.material.icons.filled.ReceiptLong
 import androidx.compose.material.icons.filled.SdStorage
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.apexus.storagelens.R
@@ -79,7 +79,7 @@ fun CleanupCategory.descriptionRes(): Int = when (this) {
 }
 
 fun CleanupCategory.icon(): ImageVector = when (this) {
-    CleanupCategory.LOGS -> Icons.Filled.ReceiptLong
+    CleanupCategory.LOGS -> Icons.AutoMirrored.Filled.ReceiptLong
     CleanupCategory.TRACES -> Icons.Filled.BugReport
     CleanupCategory.TEMP_FILES -> Icons.Filled.HourglassEmpty
     CleanupCategory.CACHES -> Icons.Filled.Cached
@@ -120,7 +120,7 @@ fun iconForFile(name: String, isDirectory: Boolean): ImageVector = when {
         FileType.DOCUMENT -> Icons.Filled.Description
         FileType.ARCHIVE -> Icons.Filled.Archive
         FileType.APK -> Icons.Filled.Android
-        FileType.OTHER -> Icons.Filled.InsertDriveFile
+        FileType.OTHER -> Icons.AutoMirrored.Filled.InsertDriveFile
     }
 }
 
@@ -133,7 +133,7 @@ fun StorageCategory.icon(): ImageVector = when (this) {
     StorageCategory.ARCHIVES -> Icons.Filled.Archive
     StorageCategory.APK -> Icons.Filled.Android
     StorageCategory.CACHE_TEMP -> Icons.Filled.Cached
-    StorageCategory.LOGS_TRACES -> Icons.Filled.ReceiptLong
-    StorageCategory.OTHER -> Icons.Filled.InsertDriveFile
+    StorageCategory.LOGS_TRACES -> Icons.AutoMirrored.Filled.ReceiptLong
+    StorageCategory.OTHER -> Icons.AutoMirrored.Filled.InsertDriveFile
     StorageCategory.SYSTEM -> Icons.Filled.Memory
 }
