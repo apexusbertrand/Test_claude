@@ -31,7 +31,12 @@ data class DeletionReport(
     val deletedCount: Int,
     val measuredFreedBytes: Long,
     val expectedFreedBytes: Long,
+    /** Vrai si des éléments sont dans la corbeille interne (annulation possible). */
     val movedToTrash: Boolean,
     val batchId: String,
     val failures: List<DeletionFailure>,
+    /** Photos/vidéos placées dans la corbeille Android après la confirmation système. */
+    val systemTrashedCount: Int = 0,
+    /** Photos/vidéos conservées car la confirmation système a été refusée. */
+    val refusedCount: Int = 0,
 )

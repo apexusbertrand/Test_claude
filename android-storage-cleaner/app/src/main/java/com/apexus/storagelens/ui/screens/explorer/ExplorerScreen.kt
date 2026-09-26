@@ -70,6 +70,7 @@ import com.apexus.storagelens.domain.model.FileNode
 import com.apexus.storagelens.domain.model.FileType
 import com.apexus.storagelens.ui.components.DeleteConfirmDialog
 import com.apexus.storagelens.ui.components.DeletionProgressDialog
+import com.apexus.storagelens.ui.components.SystemMediaConfirmation
 import com.apexus.storagelens.ui.components.EmptyState
 import com.apexus.storagelens.ui.components.FileThumbnail
 import com.apexus.storagelens.ui.components.ProportionBar
@@ -221,6 +222,12 @@ fun ExplorerScreen(onStartScan: () -> Unit, viewModel: ExplorerViewModel = hiltV
         DeleteConfirmDialog(pending, onConfirm = viewModel::confirmDelete, onDismiss = viewModel::dismissDelete)
     }
     (deletion as? DeletionState.Running)?.let { DeletionProgressDialog(it) }
+    val systemConfirmation by viewModel.systemConfirmation.collectAsStateWithLifecycle()
+    SystemMediaConfirmation(
+        pending = systemConfirmation,
+        onShown = viewModel::onSystemConfirmationShown,
+        onResult = viewModel::onSystemConfirmationResult,
+    )
 }
 
 @Composable

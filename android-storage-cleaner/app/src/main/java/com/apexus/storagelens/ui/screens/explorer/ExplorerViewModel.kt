@@ -16,7 +16,10 @@ import com.apexus.storagelens.domain.model.FileNode
 import com.apexus.storagelens.domain.model.FileType
 import com.apexus.storagelens.domain.model.RiskLevel
 import com.apexus.storagelens.domain.model.ScanResult
+import com.apexus.storagelens.domain.deletion.MediaRouting
+import com.apexus.storagelens.ui.components.DeletionFlow
 import com.apexus.storagelens.ui.components.PendingDeletion
+import com.apexus.storagelens.ui.components.PendingSystemConfirmation
 import com.apexus.storagelens.ui.components.PendingItem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -127,6 +130,9 @@ class ExplorerViewModel @Inject constructor(
 
     val deletionState: StateFlow<DeletionState> = deletionManager.state
 
+    private val deletionFlow = DeletionFlow(viewModelScope, deletionManager)
+    val systemConfirmation: StateFlow<PendingSystemConfirmation?> = deletionFlow.pending
+
     init {
         viewModelScope.launch {
             val guard = protectionProvider.current()
@@ -189,7 +195,10 @@ class ExplorerViewModel @Inject constructor(
         if (s.selection.isEmpty()) return
         val items = s.selection.values.map {
             // Suppression manuelle : risque élevé pour un dossier, moyen pour un fichier.
-            PendingItem(it.path, it.name, it.size, if (it.isDirectory) RiskLevel.HIGH else RiskLevel.MEDIUM, permanent = false)
+            PendingItem(
+                it.path, it.name, it.size, if (it.isDirectory) RiskLevel.HIGH else RiskLevel.MEDIUM, permanent = false,
+                isPhotoOrVideo = !it.isDirectory && MediaRouting.isPhotoOrVideo(it.name),
+            )
         }
         local.update { it.copy(pendingDeletion = PendingDeletion(items, s.settings.trashEnabled)) }
     }
@@ -199,22 +208,21 @@ class ExplorerViewModel @Inject constructor(
     fun confirmDelete() {
         val selection = state.value.selection.values.toList()
         local.update { it.copy(pendingDeletion = null) }
-        viewModelScope.launch {
-            deletionManager.delete(
-                selection.map {
-                    DeletionTarget(
-                        path = it.path,
-                        expectedSize = it.size,
-                        expectedLastModified = if (it.isDirectory) null else it.lastModified,
-                        isDirectory = it.isDirectory,
-                        allowTrash = true,
-                        fileCount = it.fileCount,
-                    )
-                }
+        val targets = selection.map {
+            DeletionTarget(
+                path = it.path,
+                expectedSize = it.size,
+                expectedLastModified = if (it.isDirectory) null else it.lastModified,
+                isDirectory = it.isDirectory,
+                allowTrash = true,
+                fileCount = it.fileCount,
             )
-            local.update { it.copy(selection = emptyMap()) }
         }
+        deletionFlow.start(targets) { local.update { it.copy(selection = emptyMap()) } }
     }
+
+    fun onSystemConfirmationShown() = deletionFlow.markShown()
+    fun onSystemConfirmationResult(approved: Boolean) = deletionFlow.onSystemResult(approved)
 
     fun undo(batchId: String) {
         viewModelScope.launch { deletionManager.undo(batchId) }

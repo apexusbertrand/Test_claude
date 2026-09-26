@@ -335,4 +335,20 @@
         <item quantity="one">%1$d item permanently deleted</item>
         <item quantity="other">%1$d items permanently deleted</item>
     </plurals>
+    <plurals name="confirm_delete_media_system">
+        <item quantity="one">Including %1$d photo or video: Android will ask you to confirm its deletion.</item>
+        <item quantity="other">Including %1$d photos or videos: Android will ask you to confirm their deletion.</item>
+    </plurals>
+    <plurals name="confirm_delete_media">
+        <item quantity="one">Including %1$d photo or video.</item>
+        <item quantity="other">Including %1$d photos or videos.</item>
+    </plurals>
+    <plurals name="deletion_result_system_trash">
+        <item quantity="one">%1$d photo/video in the Android trash (restorable for 30 days from Gallery or Files)</item>
+        <item quantity="other">%1$d photos/videos in the Android trash (restorable for 30 days from Gallery or Files)</item>
+    </plurals>
+    <plurals name="deletion_result_refused">
+        <item quantity="one">%1$d photo/video kept (confirmation declined)</item>
+        <item quantity="other">%1$d photos/videos kept (confirmation declined)</item>
+    </plurals>
 </resources>

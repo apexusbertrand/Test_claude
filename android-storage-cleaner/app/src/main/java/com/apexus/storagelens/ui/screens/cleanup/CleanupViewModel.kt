@@ -16,7 +16,10 @@ import com.apexus.storagelens.domain.model.CleanupCategory
 import com.apexus.storagelens.domain.model.CleanupGroup
 import com.apexus.storagelens.domain.model.ScanResult
 import com.apexus.storagelens.domain.selection.Selection
+import com.apexus.storagelens.domain.deletion.MediaRouting
+import com.apexus.storagelens.ui.components.DeletionFlow
 import com.apexus.storagelens.ui.components.PendingDeletion
+import com.apexus.storagelens.ui.components.PendingSystemConfirmation
 import com.apexus.storagelens.ui.components.PendingItem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -76,6 +79,9 @@ class CleanupViewModel @Inject constructor(
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), CleanupUiState())
 
     val deletionState: StateFlow<DeletionState> = deletionManager.state
+
+    private val deletionFlow = DeletionFlow(viewModelScope, deletionManager)
+    val systemConfirmation: StateFlow<PendingSystemConfirmation?> = deletionFlow.pending
 
     init {
         // Sélection initiale recalculée à chaque nouvelle analyse.
@@ -148,7 +154,10 @@ class CleanupViewModel @Inject constructor(
     fun requestDelete() {
         val s = state.value
         val items = Selection.selectedItems(s.groups, s.selection).map {
-            PendingItem(it.path, it.name, it.size, it.category.risk, permanent = it.category in PERMANENT_CATEGORIES)
+            PendingItem(
+                it.path, it.name, it.size, it.category.risk, permanent = it.category in PERMANENT_CATEGORIES,
+                isPhotoOrVideo = !it.isDirectory && MediaRouting.isPhotoOrVideo(it.name),
+            )
         }
         if (items.isEmpty()) return
         local.update { it.copy(pendingDeletion = PendingDeletion(items, s.settings.trashEnabled)) }
@@ -169,8 +178,11 @@ class CleanupViewModel @Inject constructor(
             )
         }
         local.update { it.copy(pendingDeletion = null) }
-        viewModelScope.launch { deletionManager.delete(targets) }
+        deletionFlow.start(targets)
     }
+
+    fun onSystemConfirmationShown() = deletionFlow.markShown()
+    fun onSystemConfirmationResult(approved: Boolean) = deletionFlow.onSystemResult(approved)
 
     fun undo(batchId: String) {
         viewModelScope.launch { deletionManager.undo(batchId) }

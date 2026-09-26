@@ -374,4 +374,24 @@
         <item quantity="many">%1$d éléments supprimés définitivement</item>
         <item quantity="other">%1$d éléments supprimés définitivement</item>
     </plurals>
+    <plurals name="confirm_delete_media_system">
+        <item quantity="one">Dont %1$d photo ou vidéo : Android vous demandera de confirmer sa suppression.</item>
+        <item quantity="many">Dont %1$d photos ou vidéos : Android vous demandera de confirmer leur suppression.</item>
+        <item quantity="other">Dont %1$d photos ou vidéos : Android vous demandera de confirmer leur suppression.</item>
+    </plurals>
+    <plurals name="confirm_delete_media">
+        <item quantity="one">Dont %1$d photo ou vidéo.</item>
+        <item quantity="many">Dont %1$d photos ou vidéos.</item>
+        <item quantity="other">Dont %1$d photos ou vidéos.</item>
+    </plurals>
+    <plurals name="deletion_result_system_trash">
+        <item quantity="one">%1$d photo/vidéo dans la corbeille Android (restaurable 30 jours depuis Galerie ou Fichiers)</item>
+        <item quantity="many">%1$d photos/vidéos dans la corbeille Android (restaurables 30 jours depuis Galerie ou Fichiers)</item>
+        <item quantity="other">%1$d photos/vidéos dans la corbeille Android (restaurables 30 jours depuis Galerie ou Fichiers)</item>
+    </plurals>
+    <plurals name="deletion_result_refused">
+        <item quantity="one">%1$d photo/vidéo conservée (confirmation refusée)</item>
+        <item quantity="many">%1$d photos/vidéos conservées (confirmation refusée)</item>
+        <item quantity="other">%1$d photos/vidéos conservées (confirmation refusée)</item>
+    </plurals>
 </resources>

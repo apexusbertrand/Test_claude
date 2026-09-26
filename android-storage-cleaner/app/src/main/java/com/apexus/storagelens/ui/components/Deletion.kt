@@ -11,6 +11,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.PhotoLibrary
 import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
@@ -35,6 +36,7 @@ import com.apexus.storagelens.data.delete.DeletionState
 import com.apexus.storagelens.domain.model.DeletionReport
 import com.apexus.storagelens.domain.model.RiskLevel
 import com.apexus.storagelens.ui.util.formatSize
+import android.os.Build
 import android.text.format.Formatter
 
 /** Élément présenté dans la confirmation de suppression. */
@@ -44,12 +46,14 @@ data class PendingItem(
     val size: Long,
     val risk: RiskLevel,
     val permanent: Boolean,
+    val isPhotoOrVideo: Boolean = false,
 )
 
 data class PendingDeletion(val items: List<PendingItem>, val trashEnabled: Boolean) {
     val totalBytes: Long get() = items.sumOf { it.size }
     val risky: List<PendingItem> get() = items.filter { it.risk != RiskLevel.LOW }
     val permanentCount: Int get() = if (trashEnabled) items.count { it.permanent } else items.size
+    val photoVideoCount: Int get() = items.count { it.isPhotoOrVideo }
 }
 
 @Composable
@@ -67,6 +71,18 @@ fun DeleteConfirmDialog(pending: PendingDeletion, onConfirm: () -> Unit, onDismi
                     pending.permanentCount == pending.items.size -> Text(stringResource(R.string.confirm_delete_permanent_all))
                     pending.permanentCount > 0 -> Text(pluralStringResource(R.plurals.confirm_delete_mixed, pending.permanentCount, pending.permanentCount))
                     else -> Text(stringResource(R.string.confirm_delete_to_trash))
+                }
+                if (pending.photoVideoCount > 0) {
+                    val n = pending.photoVideoCount
+                    val note = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                        pluralStringResource(R.plurals.confirm_delete_media_system, n, n)
+                    } else {
+                        pluralStringResource(R.plurals.confirm_delete_media, n, n)
+                    }
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Icon(Icons.Filled.PhotoLibrary, contentDescription = null, modifier = Modifier.size(18.dp))
+                        Text(note, Modifier.padding(start = 8.dp), style = MaterialTheme.typography.bodyMedium)
+                    }
                 }
                 if (pending.risky.isNotEmpty()) {
                     Surface(color = MaterialTheme.colorScheme.errorContainer, shape = MaterialTheme.shapes.medium) {
@@ -127,9 +143,19 @@ fun DeletionProgressDialog(state: DeletionState.Running) {
 @Composable
 fun deletionReportMessage(report: DeletionReport): String {
     val context = LocalContext.current
-    return deletionReportMessage(report) { Formatter.formatShortFileSize(context, it) }.let { (res, args) ->
-        context.resources.getQuantityString(res, report.deletedCount, *args)
+    val res = context.resources
+    val main = deletionReportMessage(report) { Formatter.formatShortFileSize(context, it) }.let { (id, args) ->
+        res.getQuantityString(id, report.deletedCount, *args)
     }
+    val extras = buildList {
+        if (report.systemTrashedCount > 0) {
+            add(res.getQuantityString(R.plurals.deletion_result_system_trash, report.systemTrashedCount, report.systemTrashedCount))
+        }
+        if (report.refusedCount > 0) {
+            add(res.getQuantityString(R.plurals.deletion_result_refused, report.refusedCount, report.refusedCount))
+        }
+    }
+    return (listOf(main) + extras).joinToString(" · ")
 }
 
 private fun deletionReportMessage(report: DeletionReport, format: (Long) -> String): Pair<Int, Array<Any>> {
