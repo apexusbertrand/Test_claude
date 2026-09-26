@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths>
+    <external-path name="external" path="." />
+    <!-- Cartes SD et clés USB (hors du volume principal). -->
+    <root-path name="root" path="storage" />
+</paths>

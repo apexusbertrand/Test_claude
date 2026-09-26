@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="nav_home">Home</string>
+    <string name="nav_explorer">Folders</string>
+    <string name="nav_cleanup">Cleanup</string>
+    <string name="nav_apps">Apps</string>
+    <string name="nav_trash">Trash</string>
+    <string name="nav_history">History</string>
+    <string name="nav_settings">Settings</string>
+    <string name="nav_about">About</string>
+
+    <string name="action_add">Add</string>
+    <string name="action_back">Back</string>
+    <string name="action_cancel">Cancel</string>
+    <string name="action_clean">Clean</string>
+    <string name="action_clear_selection">Clear selection</string>
+    <string name="action_close">Close</string>
+    <string name="action_continue">Continue</string>
+    <string name="action_delete">Delete</string>
+    <string name="action_enable">Enable</string>
+    <string name="action_explore">Explore</string>
+    <string name="action_grant">Allow</string>
+    <string name="action_next">Next</string>
+    <string name="action_rescan">Rescan</string>
+    <string name="action_retry">Retry</string>
+    <string name="action_skip">Skip</string>
+    <string name="action_sort">Sort</string>
+    <string name="action_undo">Undo</string>
+    <string name="action_up">Parent folder</string>
+
+    <string name="a11y_app_actions">Actions for %1$s</string>
+    <string name="a11y_collapse">Collapse</string>
+    <string name="a11y_expand">Expand</string>
+    <string name="a11y_delete_forever">Delete %1$s permanently</string>
+    <string name="a11y_more_options">More options</string>
+    <string name="a11y_remove_exclusion">Remove exclusion %1$s</string>
+    <string name="a11y_restore">Restore %1$s</string>
+    <string name="a11y_storage_ring">%1$s used of %2$s</string>
+
+    <string name="category_apps">Apps</string>
+    <string name="category_images">Images</string>
+    <string name="category_videos">Videos</string>
+    <string name="category_audio">Audio</string>
+    <string name="category_documents">Documents</string>
+    <string name="category_archives">Archives</string>
+    <string name="category_apk">APK files</string>
+    <string name="category_cache_temp">Caches and temporary files</string>
+    <string name="category_logs_traces">Logs and traces</string>
+    <string name="category_other">Other files</string>
+    <string name="category_system">System and other</string>
+
+    <string name="home_used">Used</string>
+    <string name="home_free">Free</string>
+    <string name="home_total">Total</string>
+    <string name="home_breakdown">Breakdown</string>
+    <string name="home_recoverable">Recoverable space</string>
+    <string name="home_recoverable_recommended">including %1$s risk-free (recommended selection)</string>
+    <string name="home_no_result">Run a scan to see how your storage is used and how much space can be freed.</string>
+    <string name="home_start_scan">Run full scan</string>
+    <string name="home_scan_running">Scan in progress…</string>
+    <string name="home_last_scan">Last scan: %1$s</string>
+    <string name="home_permission_missing">All files access is required to scan the storage.</string>
+    <string name="home_result_stale">Files were restored: rescan to refresh the numbers.</string>
+    <string name="home_inaccessible_dirs">%1$d folders protected by Android could not be measured.</string>
+
+    <string name="scan_phase_listing">Scanning files…</string>
+    <string name="scan_phase_duplicates">Looking for duplicates…</string>
+    <string name="scan_phase_analyzing">Computing breakdown…</string>
+    <string name="scan_progress">%1$d files · %2$s</string>
+    <string name="scan_failed">Scan failed</string>
+
+    <string name="explorer_tab_folders">Folders</string>
+    <string name="explorer_tab_treemap">Map</string>
+    <string name="explorer_tab_top_files">Top 100</string>
+    <string name="explorer_empty_title">No scan available</string>
+    <string name="explorer_empty_message">Run a scan to browse folders sorted by size.</string>
+    <string name="explorer_exclude_folder">Exclude this folder from scans</string>
+    <string name="explorer_folder_empty">This folder is empty.</string>
+    <string name="explorer_no_match">No file matches the filters.</string>
+    <string name="explorer_other_files_hint">Small files grouped to save memory</string>
+    <string name="sort_size">Size</string>
+    <string name="sort_count">File count</string>
+    <string name="sort_date">Date modified</string>
+    <string name="sort_name">Name</string>
+    <string name="filter_all_types">All</string>
+    <string name="filter_any_age">Any date</string>
+    <string name="filter_older_30">Older than 30 days</string>
+    <string name="filter_older_90">Older than 90 days</string>
+    <string name="filter_older_365">Older than a year</string>
+    <string name="selection_summary">%1$d selected — %2$s to free</string>
+
+    <string name="cleanup_empty_title">Nothing to clean yet</string>
+    <string name="cleanup_empty_message">Run a scan to detect junk files and hidden space.</string>
+    <string name="cleanup_nothing_found">No junk files found. Your storage is clean!</string>
+    <string name="select_recommended">Recommended selection</string>
+    <string name="select_all">Select all</string>
+    <string name="select_none">Select none</string>
+    <string name="risk_low">Low risk</string>
+    <string name="risk_medium">Medium risk</string>
+    <string name="risk_high">High risk</string>
+
+    <string name="cleanup_logs">Log files</string>
+    <string name="cleanup_logs_desc">Logs written by apps (.log…). Only useful for debugging and recreated when needed.</string>
+    <string name="cleanup_traces">Trace files</string>
+    <string name="cleanup_traces_desc">Crash reports, memory dumps (.hprof, .dmp) and traces: useless day to day.</string>
+    <string name="cleanup_temp">Temporary files</string>
+    <string name="cleanup_temp_desc">Interrupted downloads, .tmp files and old backups (.bak, unchecked by default).</string>
+    <string name="cleanup_caches">Accessible caches</string>
+    <string name="cleanup_caches_desc">Cache folders found in shared storage. Apps rebuild them automatically.</string>
+    <string name="cleanup_thumbnails">Thumbnails</string>
+    <string name="cleanup_thumbnails_desc">Photo previews (.thumbnails), regenerated by the gallery when needed.</string>
+    <string name="cleanup_empty_folders">Empty folders</string>
+    <string name="cleanup_empty_folders_desc">Folders that contain no file.</string>
+    <string name="cleanup_apk">Installer files (APK)</string>
+    <string name="cleanup_apk_desc">Downloaded installers. Those whose app is already installed are useless.</string>
+    <string name="cleanup_orphans">Leftovers from uninstalled apps</string>
+    <string name="cleanup_orphans_desc">Folders left behind by apps that are no longer installed.</string>
+    <string name="cleanup_trash">Trash folders</string>
+    <string name="cleanup_trash_desc">Items already moved to a trash (gallery, file managers) that still take space.</string>
+    <string name="cleanup_duplicates">Duplicates</string>
+    <string name="cleanup_duplicates_desc">Identical copies of the same file. The original (oldest) is always kept.</string>
+    <string name="cleanup_messaging">Messaging media</string>
+    <string name="cleanup_messaging_desc">Received photos, videos and voice notes (WhatsApp, Telegram…). Check before deleting.</string>
+    <string name="cleanup_large_old">Large old files</string>
+    <string name="cleanup_large_old_desc">Large files not modified for a long time (thresholds in settings).</string>
+
+    <string name="detail_apk_installed">App already installed</string>
+    <string name="detail_apk_not_installed">Not installed (%1$s)</string>
+    <string name="detail_apk_unknown">Unreadable or incomplete file</string>
+    <string name="detail_backup">Backup: check before deleting</string>
+    <string name="detail_duplicate_of">Copy of %1$s</string>
+    <string name="detail_messaging_app">Received via %1$s</string>
+    <string name="detail_orphan">Uninstalled app</string>
+
+    <string name="app_cache_title">App caches</string>
+    <string name="app_cache_need_usage">Allow usage access to measure each app’s cache.</string>
+    <string name="app_cache_explanation">Android does not let an app clear other apps’ caches directly. Use the system cleanup (Android 11+) or the assisted mode, app by app.</string>
+    <string name="app_cache_clear_all">Clear all caches</string>
+    <string name="app_cache_assisted">Assisted mode</string>
+
+    <string name="system_logs_title">System logs</string>
+    <string name="system_logs_inaccessible">Not accessible</string>
+    <string name="system_logs_explanation">System logs (/data/log, tombstones, ANR, dropbox) are protected by Android. Only a rooted device can clean them (advanced mode in settings). The system purges them automatically anyway.</string>
+    <string name="system_logs_root_unavailable">Root access is unavailable or was denied on this device.</string>
+    <string name="system_logs_clean">Clean system logs</string>
+    <string name="root_clean_confirm_title">Clean system logs?</string>
+    <string name="root_clean_confirm_text">The contents of /data/log, /data/tombstones, /data/anr and /data/system/dropbox will be deleted with root rights. These files are only used for diagnostics.</string>
+
+    <string name="confirm_delete_to_trash">Items will be moved to the app’s trash and can be restored.</string>
+    <string name="confirm_delete_permanent_all">Deletion is permanent.</string>
+    <string name="deleting_title">Deleting…</string>
+    <string name="deleting_progress">%1$d of %2$d</string>
+
+    <string name="apps_need_usage">Allow usage access to see the size of every app.</string>
+    <string name="apps_sort_total">Total size</string>
+    <string name="apps_sort_cache">Cache</string>
+    <string name="apps_filter_all">All</string>
+    <string name="apps_filter_unused_30">Unused for 30 days</string>
+    <string name="apps_filter_unused_90">Unused for 90 days</string>
+    <string name="apps_show_system">System apps</string>
+    <string name="apps_empty_title">No apps</string>
+    <string name="apps_empty_message">No app matches the filters.</string>
+    <string name="apps_assisted_hint">Assisted mode: %1$s of cache in total. Open “Clear cache” for each app, tap “Clear cache” in Settings, then come back here.</string>
+    <string name="apps_breakdown">App %1$s · Data %2$s · Cache %3$s</string>
+    <string name="apps_last_used">Used %1$s</string>
+    <string name="apps_last_used_unknown">Last use unknown</string>
+    <string name="apps_clear_cache">Clear cache</string>
+    <string name="apps_details">App info</string>
+    <string name="apps_uninstall">Uninstall</string>
+
+    <string name="trash_empty_title">Trash is empty</string>
+    <string name="trash_empty_message">Items deleted from StorageLens appear here and can be restored.</string>
+    <string name="trash_disabled_message">The trash is disabled: deletions are permanent.</string>
+    <string name="trash_info">%1$s in the trash. Items are permanently deleted after %2$d days. Note: the trash is erased if the app is uninstalled.</string>
+    <string name="trash_item_dates">Deleted %1$s · permanently removed %2$s</string>
+    <string name="trash_empty_action">Empty trash</string>
+    <string name="trash_empty_confirm_title">Empty the trash?</string>
+    <string name="trash_empty_confirm_text">%1$s will be permanently deleted.</string>
+    <string name="trash_action_failed">The operation failed.</string>
+
+    <string name="history_total_freed">Total space freed</string>
+    <string name="history_cleanups">Cleanups</string>
+    <string name="history_scans">Scans</string>
+    <string name="history_none">No entries yet.</string>
+    <string name="history_freed">%1$s freed</string>
+    <string name="history_via_trash">via the trash</string>
+
+    <string name="settings_detection">Detection</string>
+    <string name="settings_large_threshold">Minimum size of a “large file”</string>
+    <string name="settings_old_months">Age of an “old file”</string>
+    <string name="settings_show_hidden">Show hidden files</string>
+    <string name="settings_show_hidden_desc">Files and folders whose name starts with a dot</string>
+    <string name="settings_trash">Trash</string>
+    <string name="settings_trash_enabled">App trash</string>
+    <string name="settings_trash_enabled_desc">Lets you restore deleted items. Logs, caches and temporary files are always deleted permanently.</string>
+    <string name="settings_retention">Retention period</string>
+    <string name="settings_schedule">Scheduled scan</string>
+    <string name="settings_schedule_desc">The scheduled scan never deletes anything: it only notifies you about recoverable space.</string>
+    <string name="settings_notify_threshold">Notify above</string>
+    <string name="settings_exclusions">Exclusions</string>
+    <string name="settings_exclusions_desc">These folders are neither scanned nor offered for deletion.</string>
+    <string name="settings_exclusion_hint">Full path, e.g. /storage/emulated/0/Projects</string>
+    <string name="settings_appearance">Appearance</string>
+    <string name="settings_advanced">Advanced</string>
+    <string name="settings_root_mode">Root mode (system logs)</string>
+    <string name="settings_root_mode_desc">Rooted devices only. Disabled by default.</string>
+    <string name="settings_root_confirm_title">Enable root mode?</string>
+    <string name="settings_root_confirm_text">This mode runs commands with root rights to measure and clear system logs. Only enable it if you know what you are doing.</string>
+    <string name="settings_permissions">Permissions</string>
+    <string name="schedule_off">Off</string>
+    <string name="schedule_weekly">Weekly</string>
+    <string name="schedule_monthly">Monthly</string>
+    <string name="theme_system">System</string>
+    <string name="theme_light">Light</string>
+    <string name="theme_dark">Dark</string>
+
+    <string name="about_intro">StorageLens scans all of your phone’s storage, ranks folders by size and helps you free the space taken by junk files. Nothing is deleted without your consent.</string>
+    <string name="about_limits_title">What Android lets an app clean</string>
+    <string name="about_col_android8">Android 8–10</string>
+    <string name="about_col_android11">Android 11+</string>
+    <string name="about_cap_shared_files">Files in shared storage</string>
+    <string name="about_cap_logs_traces">App logs and traces (shared storage)</string>
+    <string name="about_cap_android_data">Android/data and Android/obb folders</string>
+    <string name="about_cap_app_cache">Other apps’ caches</string>
+    <string name="about_cap_system_logs">System logs (/data/log…) without root</string>
+    <string name="about_cap_app_sizes">App sizes (usage access)</string>
+    <string name="about_legend_yes">Possible</string>
+    <string name="about_legend_assisted">Through Settings</string>
+    <string name="about_legend_no">Not possible</string>
+    <string name="about_system_explained">“System and other” is the space no app can measure: Android itself, system partitions, apps’ private data and protected areas. It is computed as total − free − everything measured.</string>
+    <string name="about_privacy">Privacy: the app has no Internet access. No data ever leaves your device.</string>
+
+    <string name="onboarding_1_title">See where your space goes</string>
+    <string name="onboarding_1_text">StorageLens measures all of your storage and ranks folders and files from largest to smallest.</string>
+    <string name="onboarding_2_title">Free the hidden space</string>
+    <string name="onboarding_2_text">Logs, traces, caches, temporary files, duplicates, forgotten APKs… everything that fills your phone without you noticing.</string>
+    <string name="onboarding_3_title">You stay in control</string>
+    <string name="onboarding_3_text">You choose what gets deleted. A trash lets you restore your files for 7 days.</string>
+
+    <string name="permissions_title">Permissions</string>
+    <string name="permissions_intro">Here is the access StorageLens needs, and why. You can change it at any time in Android Settings.</string>
+    <string name="permissions_continue_limited">Continue with limited features</string>
+    <string name="permission_required">Required</string>
+    <string name="permission_optional">Optional</string>
+    <string name="permission_granted">Allowed</string>
+    <string name="permission_files_title">All files access</string>
+    <string name="permission_files_why">To measure every folder in the storage and delete the files you select.</string>
+    <string name="permission_files_without">Without it, no scan is possible.</string>
+    <string name="permission_usage_title">Usage access</string>
+    <string name="permission_usage_why">To know each app’s size and cache, and when it was last used.</string>
+    <string name="permission_usage_without">Without it, the Apps screen and cache measurement are unavailable.</string>
+    <string name="permission_notif_title">Notifications</string>
+    <string name="permission_notif_why">To let you know when the scheduled scan finds space to free.</string>
+    <string name="permission_notif_without">Without it, the scheduled scan stays silent.</string>
+
+    <string name="notification_channel_scan">Scheduled scan</string>
+    <string name="notification_channel_scan_desc">Recoverable space found by the scheduled scan</string>
+    <string name="notification_recoverable_title">%1$s can be freed</string>
+    <string name="notification_recoverable_text">Tap to review and choose what to delete.</string>
+
+    <string name="error_file_missing">This file no longer exists.</string>
+    <string name="error_cannot_open">Unable to open this file.</string>
+    <string name="error_no_app_to_open">No app can open this file.</string>
+    <string name="error_settings_unavailable">Settings screen unavailable on this device.</string>
+
+    <plurals name="selected_count">
+        <item quantity="one">%1$d selected</item>
+        <item quantity="other">%1$d selected</item>
+    </plurals>
+    <plurals name="file_count">
+        <item quantity="one">%1$d file</item>
+        <item quantity="other">%1$d files</item>
+    </plurals>
+    <plurals name="explorer_other_files">
+        <item quantity="one">%1$d other file</item>
+        <item quantity="other">%1$d other files</item>
+    </plurals>
+    <plurals name="cleanup_group_summary">
+        <item quantity="one">%1$d item · %2$s (%3$s selected)</item>
+        <item quantity="other">%1$d items · %2$s (%3$s selected)</item>
+    </plurals>
+    <plurals name="cleanup_more_items">
+        <item quantity="one">… and %1$d more item</item>
+        <item quantity="other">… and %1$d more items</item>
+    </plurals>
+    <plurals name="app_cache_summary">
+        <item quantity="one">%1$s of cache in %2$d app</item>
+        <item quantity="other">%1$s of cache in %2$d apps</item>
+    </plurals>
+    <plurals name="confirm_delete_title">
+        <item quantity="one">Delete %1$d item (%2$s)?</item>
+        <item quantity="other">Delete %1$d items (%2$s)?</item>
+    </plurals>
+    <plurals name="confirm_delete_mixed">
+        <item quantity="one">%1$d item (logs, caches, temporary files) will be deleted permanently; the others go to the trash.</item>
+        <item quantity="other">%1$d items (logs, caches, temporary files) will be deleted permanently; the others go to the trash.</item>
+    </plurals>
+    <plurals name="confirm_delete_risky">
+        <item quantity="one">%1$d risky item — please check:</item>
+        <item quantity="other">%1$d risky items — please check:</item>
+    </plurals>
+    <plurals name="deletion_result">
+        <item quantity="one">%1$d item deleted, %2$s freed</item>
+        <item quantity="other">%1$d items deleted, %2$s freed</item>
+    </plurals>
+    <plurals name="deletion_result_trash">
+        <item quantity="one">%1$d item deleted (%2$s) — restorable from the trash</item>
+        <item quantity="other">%1$d items deleted (%2$s) — restorable from the trash</item>
+    </plurals>
+    <plurals name="deletion_result_with_failures">
+        <item quantity="one">%1$d item deleted (%2$s), %3$d failed: protected, modified or missing files</item>
+        <item quantity="other">%1$d items deleted (%2$s), %3$d failed: protected, modified or missing files</item>
+    </plurals>
+    <plurals name="days">
+        <item quantity="one">%1$d day</item>
+        <item quantity="other">%1$d days</item>
+    </plurals>
+    <plurals name="months">
+        <item quantity="one">%1$d month</item>
+        <item quantity="other">%1$d months</item>
+    </plurals>
+    <plurals name="history_cleanup_detail">
+        <item quantity="one">%1$d item · %2$s</item>
+        <item quantity="other">%1$d items · %2$s</item>
+    </plurals>
+    <plurals name="history_scan_detail">
+        <item quantity="one">%1$d file · %2$s scanned · %3$s recoverable · %4$.1f s</item>
+        <item quantity="other">%1$d files · %2$s scanned · %3$s recoverable · %4$.1f s</item>
+    </plurals>
+    <plurals name="trash_restored">
+        <item quantity="one">%1$d item restored</item>
+        <item quantity="other">%1$d items restored</item>
+    </plurals>
+    <plurals name="trash_deleted">
+        <item quantity="one">%1$d item permanently deleted</item>
+        <item quantity="other">%1$d items permanently deleted</item>
+    </plurals>
+</resources>

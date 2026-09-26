@@ -1,0 +1,377 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">StorageLens</string>
+
+    <!-- Navigation -->
+    <string name="nav_home">Accueil</string>
+    <string name="nav_explorer">Répertoires</string>
+    <string name="nav_cleanup">Nettoyage</string>
+    <string name="nav_apps">Applications</string>
+    <string name="nav_trash">Corbeille</string>
+    <string name="nav_history">Historique</string>
+    <string name="nav_settings">Réglages</string>
+    <string name="nav_about">À propos</string>
+
+    <!-- Actions -->
+    <string name="action_add">Ajouter</string>
+    <string name="action_back">Retour</string>
+    <string name="action_cancel">Annuler</string>
+    <string name="action_clean">Nettoyer</string>
+    <string name="action_clear_selection">Effacer la sélection</string>
+    <string name="action_close">Fermer</string>
+    <string name="action_continue">Continuer</string>
+    <string name="action_delete">Supprimer</string>
+    <string name="action_enable">Activer</string>
+    <string name="action_explore">Explorer</string>
+    <string name="action_grant">Autoriser</string>
+    <string name="action_next">Suivant</string>
+    <string name="action_rescan">Réanalyser</string>
+    <string name="action_retry">Réessayer</string>
+    <string name="action_skip">Passer</string>
+    <string name="action_sort">Trier</string>
+    <string name="action_undo">Annuler</string>
+    <string name="action_up">Dossier parent</string>
+
+    <!-- Accessibilité -->
+    <string name="a11y_app_actions">Actions pour %1$s</string>
+    <string name="a11y_collapse">Replier</string>
+    <string name="a11y_expand">Déplier</string>
+    <string name="a11y_delete_forever">Supprimer définitivement %1$s</string>
+    <string name="a11y_more_options">Plus d’options</string>
+    <string name="a11y_remove_exclusion">Retirer l’exclusion %1$s</string>
+    <string name="a11y_restore">Restaurer %1$s</string>
+    <string name="a11y_storage_ring">%1$s utilisés sur %2$s</string>
+
+    <!-- Catégories -->
+    <string name="category_apps">Applications</string>
+    <string name="category_images">Images</string>
+    <string name="category_videos">Vidéos</string>
+    <string name="category_audio">Audio</string>
+    <string name="category_documents">Documents</string>
+    <string name="category_archives">Archives</string>
+    <string name="category_apk">Fichiers APK</string>
+    <string name="category_cache_temp">Caches et fichiers temporaires</string>
+    <string name="category_logs_traces">Logs et traces</string>
+    <string name="category_other">Autres fichiers</string>
+    <string name="category_system">Système et autres</string>
+
+    <!-- Accueil -->
+    <string name="home_used">Utilisé</string>
+    <string name="home_free">Libre</string>
+    <string name="home_total">Total</string>
+    <string name="home_breakdown">Répartition</string>
+    <string name="home_recoverable">Espace récupérable</string>
+    <string name="home_recoverable_recommended">dont %1$s sans risque (sélection recommandée)</string>
+    <string name="home_no_result">Lancez une analyse pour voir la répartition de votre stockage et l’espace récupérable.</string>
+    <string name="home_start_scan">Lancer l’analyse complète</string>
+    <string name="home_scan_running">Analyse en cours…</string>
+    <string name="home_last_scan">Dernière analyse : %1$s</string>
+    <string name="home_permission_missing">L’accès à tous les fichiers est nécessaire pour analyser le stockage.</string>
+    <string name="home_result_stale">Des fichiers ont été restaurés : relancez l’analyse pour actualiser les chiffres.</string>
+    <string name="home_inaccessible_dirs">%1$d dossiers inaccessibles (protégés par Android) n’ont pas pu être mesurés.</string>
+
+    <!-- Analyse -->
+    <string name="scan_phase_listing">Analyse des fichiers…</string>
+    <string name="scan_phase_duplicates">Recherche des doublons…</string>
+    <string name="scan_phase_analyzing">Calcul de la répartition…</string>
+    <string name="scan_progress">%1$d fichiers · %2$s</string>
+    <string name="scan_failed">L’analyse a échoué</string>
+
+    <!-- Explorateur -->
+    <string name="explorer_tab_folders">Dossiers</string>
+    <string name="explorer_tab_treemap">Carte</string>
+    <string name="explorer_tab_top_files">Top 100</string>
+    <string name="explorer_empty_title">Aucune analyse disponible</string>
+    <string name="explorer_empty_message">Lancez une analyse pour parcourir les dossiers classés par taille.</string>
+    <string name="explorer_exclude_folder">Exclure ce dossier des analyses</string>
+    <string name="explorer_folder_empty">Ce dossier est vide.</string>
+    <string name="explorer_no_match">Aucun fichier ne correspond aux filtres.</string>
+    <string name="explorer_other_files_hint">Petits fichiers regroupés pour économiser la mémoire</string>
+    <string name="sort_size">Taille</string>
+    <string name="sort_count">Nombre de fichiers</string>
+    <string name="sort_date">Date de modification</string>
+    <string name="sort_name">Nom</string>
+    <string name="filter_all_types">Tous</string>
+    <string name="filter_any_age">Toutes dates</string>
+    <string name="filter_older_30">Plus de 30 jours</string>
+    <string name="filter_older_90">Plus de 90 jours</string>
+    <string name="filter_older_365">Plus d’un an</string>
+    <string name="selection_summary">%1$d sélectionnés — %2$s à libérer</string>
+
+    <!-- Nettoyage -->
+    <string name="cleanup_empty_title">Rien à nettoyer pour l’instant</string>
+    <string name="cleanup_empty_message">Lancez une analyse pour détecter les fichiers inutiles et l’espace caché.</string>
+    <string name="cleanup_nothing_found">Aucun fichier inutile détecté. Votre stockage est propre !</string>
+    <string name="select_recommended">Sélection recommandée</string>
+    <string name="select_all">Tout sélectionner</string>
+    <string name="select_none">Tout désélectionner</string>
+    <string name="risk_low">Risque faible</string>
+    <string name="risk_medium">Risque moyen</string>
+    <string name="risk_high">Risque élevé</string>
+
+    <string name="cleanup_logs">Fichiers de logs</string>
+    <string name="cleanup_logs_desc">Journaux écrits par les applications (.log…). Ils ne servent qu’au débogage et sont recréés si besoin.</string>
+    <string name="cleanup_traces">Fichiers de traces</string>
+    <string name="cleanup_traces_desc">Rapports de plantage, vidages mémoire (.hprof, .dmp) et traces : inutiles au quotidien.</string>
+    <string name="cleanup_temp">Fichiers temporaires</string>
+    <string name="cleanup_temp_desc">Téléchargements interrompus, fichiers .tmp et anciennes sauvegardes (.bak, non cochées par défaut).</string>
+    <string name="cleanup_caches">Caches accessibles</string>
+    <string name="cleanup_caches_desc">Dossiers de cache présents dans le stockage partagé. Les applications les reconstruisent automatiquement.</string>
+    <string name="cleanup_thumbnails">Miniatures</string>
+    <string name="cleanup_thumbnails_desc">Aperçus des photos (.thumbnails), régénérés par la galerie quand elle en a besoin.</string>
+    <string name="cleanup_empty_folders">Dossiers vides</string>
+    <string name="cleanup_empty_folders_desc">Dossiers qui ne contiennent aucun fichier.</string>
+    <string name="cleanup_apk">Fichiers d’installation (APK)</string>
+    <string name="cleanup_apk_desc">Installateurs téléchargés. Ceux dont l’application est déjà installée sont inutiles.</string>
+    <string name="cleanup_orphans">Résidus d’applications désinstallées</string>
+    <string name="cleanup_orphans_desc">Dossiers laissés par des applications qui ne sont plus installées.</string>
+    <string name="cleanup_trash">Corbeilles</string>
+    <string name="cleanup_trash_desc">Éléments déjà placés dans une corbeille (galerie, gestionnaires de fichiers) qui occupent encore de la place.</string>
+    <string name="cleanup_duplicates">Doublons</string>
+    <string name="cleanup_duplicates_desc">Copies identiques d’un même fichier. L’original (le plus ancien) est toujours conservé.</string>
+    <string name="cleanup_messaging">Médias des messageries</string>
+    <string name="cleanup_messaging_desc">Photos, vidéos et notes vocales reçues (WhatsApp, Telegram…). Vérifiez avant de supprimer.</string>
+    <string name="cleanup_large_old">Gros fichiers anciens</string>
+    <string name="cleanup_large_old_desc">Fichiers volumineux non modifiés depuis longtemps (seuils réglables).</string>
+
+    <string name="detail_apk_installed">Application déjà installée</string>
+    <string name="detail_apk_not_installed">Non installée (%1$s)</string>
+    <string name="detail_apk_unknown">Fichier illisible ou incomplet</string>
+    <string name="detail_backup">Sauvegarde : vérifiez avant de supprimer</string>
+    <string name="detail_duplicate_of">Copie de %1$s</string>
+    <string name="detail_messaging_app">Reçu via %1$s</string>
+    <string name="detail_orphan">Application désinstallée</string>
+
+    <string name="app_cache_title">Caches des applications</string>
+    <string name="app_cache_need_usage">Autorisez l’accès aux données d’utilisation pour mesurer le cache de chaque application.</string>
+    <string name="app_cache_explanation">Android interdit à une application de vider directement le cache des autres. Utilisez le nettoyage système (Android 11+) ou le mode assisté, application par application.</string>
+    <string name="app_cache_clear_all">Vider tous les caches</string>
+    <string name="app_cache_assisted">Mode assisté</string>
+
+    <string name="system_logs_title">Journaux système</string>
+    <string name="system_logs_inaccessible">Non accessible</string>
+    <string name="system_logs_explanation">Les journaux système (/data/log, tombstones, ANR, dropbox) sont protégés par Android. Seul un appareil rooté permet de les nettoyer (mode avancé dans les réglages). Ils sont de toute façon purgés automatiquement par le système.</string>
+    <string name="system_logs_root_unavailable">Droits root non disponibles ou refusés sur cet appareil.</string>
+    <string name="system_logs_clean">Nettoyer les journaux système</string>
+    <string name="root_clean_confirm_title">Nettoyer les journaux système ?</string>
+    <string name="root_clean_confirm_text">Le contenu de /data/log, /data/tombstones, /data/anr et /data/system/dropbox sera supprimé avec les droits root. Ces fichiers servent uniquement au diagnostic.</string>
+
+    <!-- Suppression -->
+    <string name="confirm_delete_to_trash">Les éléments seront déplacés dans la corbeille de l’application et pourront être restaurés.</string>
+    <string name="confirm_delete_permanent_all">La suppression est définitive.</string>
+    <string name="deleting_title">Suppression en cours…</string>
+    <string name="deleting_progress">%1$d sur %2$d</string>
+
+    <!-- Applications -->
+    <string name="apps_need_usage">Autorisez l’accès aux données d’utilisation pour voir la taille de toutes les applications.</string>
+    <string name="apps_sort_total">Taille totale</string>
+    <string name="apps_sort_cache">Cache</string>
+    <string name="apps_filter_all">Toutes</string>
+    <string name="apps_filter_unused_30">Inutilisées depuis 30 j</string>
+    <string name="apps_filter_unused_90">Inutilisées depuis 90 j</string>
+    <string name="apps_show_system">Applications système</string>
+    <string name="apps_empty_title">Aucune application</string>
+    <string name="apps_empty_message">Aucune application ne correspond aux filtres.</string>
+    <string name="apps_assisted_hint">Mode assisté : %1$s de cache au total. Ouvrez « Vider le cache » pour chaque application, puis appuyez sur « Vider le cache » dans les Paramètres et revenez ici.</string>
+    <string name="apps_breakdown">Appli %1$s · Données %2$s · Cache %3$s</string>
+    <string name="apps_last_used">Utilisée %1$s</string>
+    <string name="apps_last_used_unknown">Dernière utilisation inconnue</string>
+    <string name="apps_clear_cache">Vider le cache</string>
+    <string name="apps_details">Informations sur l’application</string>
+    <string name="apps_uninstall">Désinstaller</string>
+
+    <!-- Corbeille -->
+    <string name="trash_empty_title">Corbeille vide</string>
+    <string name="trash_empty_message">Les éléments supprimés depuis StorageLens apparaissent ici et peuvent être restaurés.</string>
+    <string name="trash_disabled_message">La corbeille est désactivée : les suppressions sont définitives.</string>
+    <string name="trash_info">%1$s dans la corbeille. Les éléments sont supprimés définitivement après %2$d jours. Attention : la corbeille est effacée si l’application est désinstallée.</string>
+    <string name="trash_item_dates">Supprimé %1$s · effacé définitivement %2$s</string>
+    <string name="trash_empty_action">Vider la corbeille</string>
+    <string name="trash_empty_confirm_title">Vider la corbeille ?</string>
+    <string name="trash_empty_confirm_text">%1$s seront supprimés définitivement.</string>
+    <string name="trash_action_failed">L’opération a échoué.</string>
+
+    <!-- Historique -->
+    <string name="history_total_freed">Espace libéré au total</string>
+    <string name="history_cleanups">Nettoyages</string>
+    <string name="history_scans">Analyses</string>
+    <string name="history_none">Aucune entrée pour l’instant.</string>
+    <string name="history_freed">%1$s libérés</string>
+    <string name="history_via_trash">via la corbeille</string>
+
+    <!-- Réglages -->
+    <string name="settings_detection">Détection</string>
+    <string name="settings_large_threshold">Taille minimale d’un « gros fichier »</string>
+    <string name="settings_old_months">Ancienneté d’un « fichier ancien »</string>
+    <string name="settings_show_hidden">Afficher les fichiers cachés</string>
+    <string name="settings_show_hidden_desc">Fichiers et dossiers dont le nom commence par un point</string>
+    <string name="settings_trash">Corbeille</string>
+    <string name="settings_trash_enabled">Corbeille interne</string>
+    <string name="settings_trash_enabled_desc">Permet de restaurer les éléments supprimés. Les logs, caches et fichiers temporaires sont toujours supprimés définitivement.</string>
+    <string name="settings_retention">Durée de conservation</string>
+    <string name="settings_schedule">Analyse planifiée</string>
+    <string name="settings_schedule_desc">L’analyse planifiée ne supprime jamais rien : elle vous notifie seulement de l’espace récupérable.</string>
+    <string name="settings_notify_threshold">Notifier au-delà de</string>
+    <string name="settings_exclusions">Exclusions</string>
+    <string name="settings_exclusions_desc">Ces dossiers ne sont ni analysés ni proposés à la suppression.</string>
+    <string name="settings_exclusion_hint">Chemin complet, ex. /storage/emulated/0/Projets</string>
+    <string name="settings_appearance">Apparence</string>
+    <string name="settings_advanced">Avancé</string>
+    <string name="settings_root_mode">Mode root (journaux système)</string>
+    <string name="settings_root_mode_desc">Uniquement pour les appareils rootés. Désactivé par défaut.</string>
+    <string name="settings_root_confirm_title">Activer le mode root ?</string>
+    <string name="settings_root_confirm_text">Ce mode exécute des commandes avec les droits root pour mesurer et vider les journaux système. N’activez-le que si vous savez ce que vous faites.</string>
+    <string name="settings_permissions">Autorisations</string>
+    <string name="schedule_off">Désactivée</string>
+    <string name="schedule_weekly">Hebdomadaire</string>
+    <string name="schedule_monthly">Mensuelle</string>
+    <string name="theme_system">Système</string>
+    <string name="theme_light">Clair</string>
+    <string name="theme_dark">Sombre</string>
+
+    <!-- À propos -->
+    <string name="about_intro">StorageLens analyse tout le stockage de votre téléphone, classe les dossiers par taille et vous aide à libérer l’espace occupé par les fichiers inutiles. Rien n’est supprimé sans votre accord.</string>
+    <string name="about_limits_title">Ce qu’Android permet de nettoyer</string>
+    <string name="about_col_android8">Android 8–10</string>
+    <string name="about_col_android11">Android 11+</string>
+    <string name="about_cap_shared_files">Fichiers du stockage partagé</string>
+    <string name="about_cap_logs_traces">Logs et traces des applications (stockage partagé)</string>
+    <string name="about_cap_android_data">Dossiers Android/data et Android/obb</string>
+    <string name="about_cap_app_cache">Cache des autres applications</string>
+    <string name="about_cap_system_logs">Journaux système (/data/log…) sans root</string>
+    <string name="about_cap_app_sizes">Taille des applications (accès aux données d’utilisation)</string>
+    <string name="about_legend_yes">Possible</string>
+    <string name="about_legend_assisted">Via les Paramètres</string>
+    <string name="about_legend_no">Impossible</string>
+    <string name="about_system_explained">« Système et autres » correspond à l’espace qu’aucune application ne peut mesurer : Android lui-même, les partitions système, les données privées des applications et les zones protégées. Il est calculé ainsi : total − libre − tout ce qui a été mesuré.</string>
+    <string name="about_privacy">Confidentialité : l’application n’a pas accès à Internet. Aucune donnée ne quitte votre appareil.</string>
+
+    <!-- Onboarding -->
+    <string name="onboarding_1_title">Voyez où part votre espace</string>
+    <string name="onboarding_1_text">StorageLens mesure tout votre stockage et classe dossiers et fichiers du plus volumineux au plus petit.</string>
+    <string name="onboarding_2_title">Libérez l’espace caché</string>
+    <string name="onboarding_2_text">Logs, traces, caches, fichiers temporaires, doublons, APK oubliés… tout ce qui remplit le téléphone sans que vous le voyiez.</string>
+    <string name="onboarding_3_title">Vous gardez le contrôle</string>
+    <string name="onboarding_3_text">Vous choisissez ce qui est supprimé. Une corbeille permet de restaurer vos fichiers pendant 7 jours.</string>
+
+    <!-- Autorisations -->
+    <string name="permissions_title">Autorisations</string>
+    <string name="permissions_intro">Voici les accès dont StorageLens a besoin, et pourquoi. Vous pouvez les modifier à tout moment dans les Paramètres Android.</string>
+    <string name="permissions_continue_limited">Continuer avec des fonctions limitées</string>
+    <string name="permission_required">Indispensable</string>
+    <string name="permission_optional">Facultatif</string>
+    <string name="permission_granted">Autorisé</string>
+    <string name="permission_files_title">Accès à tous les fichiers</string>
+    <string name="permission_files_why">Pour mesurer chaque dossier du stockage et supprimer les fichiers que vous sélectionnez.</string>
+    <string name="permission_files_without">Sans cet accès, aucune analyse n’est possible.</string>
+    <string name="permission_usage_title">Accès aux données d’utilisation</string>
+    <string name="permission_usage_why">Pour connaître la taille et le cache de chaque application, et leur date de dernière utilisation.</string>
+    <string name="permission_usage_without">Sans cet accès, l’écran Applications et la mesure des caches sont indisponibles.</string>
+    <string name="permission_notif_title">Notifications</string>
+    <string name="permission_notif_why">Pour vous prévenir quand l’analyse planifiée trouve de l’espace à libérer.</string>
+    <string name="permission_notif_without">Sans cet accès, l’analyse planifiée reste silencieuse.</string>
+
+    <!-- Notifications -->
+    <string name="notification_channel_scan">Analyse planifiée</string>
+    <string name="notification_channel_scan_desc">Espace récupérable détecté par l’analyse planifiée</string>
+    <string name="notification_recoverable_title">%1$s peuvent être libérés</string>
+    <string name="notification_recoverable_text">Touchez pour vérifier et choisir quoi supprimer.</string>
+
+    <!-- Erreurs -->
+    <string name="error_file_missing">Ce fichier n’existe plus.</string>
+    <string name="error_cannot_open">Impossible d’ouvrir ce fichier.</string>
+    <string name="error_no_app_to_open">Aucune application ne peut ouvrir ce fichier.</string>
+    <string name="error_settings_unavailable">Écran des paramètres indisponible sur cet appareil.</string>
+
+    <!-- Pluriels -->
+    <plurals name="selected_count">
+        <item quantity="one">%1$d sélectionné</item>
+        <item quantity="many">%1$d sélectionnés</item>
+        <item quantity="other">%1$d sélectionnés</item>
+    </plurals>
+    <plurals name="file_count">
+        <item quantity="one">%1$d fichier</item>
+        <item quantity="many">%1$d fichiers</item>
+        <item quantity="other">%1$d fichiers</item>
+    </plurals>
+    <plurals name="explorer_other_files">
+        <item quantity="one">%1$d autre fichier</item>
+        <item quantity="many">%1$d autres fichiers</item>
+        <item quantity="other">%1$d autres fichiers</item>
+    </plurals>
+    <plurals name="cleanup_group_summary">
+        <item quantity="one">%1$d élément · %2$s (%3$s sélectionnés)</item>
+        <item quantity="many">%1$d éléments · %2$s (%3$s sélectionnés)</item>
+        <item quantity="other">%1$d éléments · %2$s (%3$s sélectionnés)</item>
+    </plurals>
+    <plurals name="cleanup_more_items">
+        <item quantity="one">… et %1$d autre élément</item>
+        <item quantity="many">… et %1$d autres éléments</item>
+        <item quantity="other">… et %1$d autres éléments</item>
+    </plurals>
+    <plurals name="app_cache_summary">
+        <item quantity="one">%1$s de cache dans %2$d application</item>
+        <item quantity="many">%1$s de cache dans %2$d applications</item>
+        <item quantity="other">%1$s de cache dans %2$d applications</item>
+    </plurals>
+    <plurals name="confirm_delete_title">
+        <item quantity="one">Supprimer %1$d élément (%2$s) ?</item>
+        <item quantity="many">Supprimer %1$d éléments (%2$s) ?</item>
+        <item quantity="other">Supprimer %1$d éléments (%2$s) ?</item>
+    </plurals>
+    <plurals name="confirm_delete_mixed">
+        <item quantity="one">%1$d élément (logs, caches, temporaires) sera supprimé définitivement ; les autres iront dans la corbeille.</item>
+        <item quantity="many">%1$d éléments (logs, caches, temporaires) seront supprimés définitivement ; les autres iront dans la corbeille.</item>
+        <item quantity="other">%1$d éléments (logs, caches, temporaires) seront supprimés définitivement ; les autres iront dans la corbeille.</item>
+    </plurals>
+    <plurals name="confirm_delete_risky">
+        <item quantity="one">%1$d élément à risque — vérifiez :</item>
+        <item quantity="many">%1$d éléments à risque — vérifiez :</item>
+        <item quantity="other">%1$d éléments à risque — vérifiez :</item>
+    </plurals>
+    <plurals name="deletion_result">
+        <item quantity="one">%1$d élément supprimé, %2$s libérés</item>
+        <item quantity="many">%1$d éléments supprimés, %2$s libérés</item>
+        <item quantity="other">%1$d éléments supprimés, %2$s libérés</item>
+    </plurals>
+    <plurals name="deletion_result_trash">
+        <item quantity="one">%1$d élément supprimé (%2$s) — restaurable depuis la corbeille</item>
+        <item quantity="many">%1$d éléments supprimés (%2$s) — restaurables depuis la corbeille</item>
+        <item quantity="other">%1$d éléments supprimés (%2$s) — restaurables depuis la corbeille</item>
+    </plurals>
+    <plurals name="deletion_result_with_failures">
+        <item quantity="one">%1$d élément supprimé (%2$s), %3$d échec(s) : fichiers protégés, modifiés ou introuvables</item>
+        <item quantity="many">%1$d éléments supprimés (%2$s), %3$d échec(s) : fichiers protégés, modifiés ou introuvables</item>
+        <item quantity="other">%1$d éléments supprimés (%2$s), %3$d échec(s) : fichiers protégés, modifiés ou introuvables</item>
+    </plurals>
+    <plurals name="days">
+        <item quantity="one">%1$d jour</item>
+        <item quantity="many">%1$d jours</item>
+        <item quantity="other">%1$d jours</item>
+    </plurals>
+    <plurals name="months">
+        <item quantity="one">%1$d mois</item>
+        <item quantity="many">%1$d mois</item>
+        <item quantity="other">%1$d mois</item>
+    </plurals>
+    <plurals name="history_cleanup_detail">
+        <item quantity="one">%1$d élément · %2$s</item>
+        <item quantity="many">%1$d éléments · %2$s</item>
+        <item quantity="other">%1$d éléments · %2$s</item>
+    </plurals>
+    <plurals name="history_scan_detail">
+        <item quantity="one">%1$d fichier · %2$s analysés · %3$s récupérables · %4$.1f s</item>
+        <item quantity="many">%1$d fichiers · %2$s analysés · %3$s récupérables · %4$.1f s</item>
+        <item quantity="other">%1$d fichiers · %2$s analysés · %3$s récupérables · %4$.1f s</item>
+    </plurals>
+    <plurals name="trash_restored">
+        <item quantity="one">%1$d élément restauré</item>
+        <item quantity="many">%1$d éléments restaurés</item>
+        <item quantity="other">%1$d éléments restaurés</item>
+    </plurals>
+    <plurals name="trash_deleted">
+        <item quantity="one">%1$d élément supprimé définitivement</item>
+        <item quantity="many">%1$d éléments supprimés définitivement</item>
+        <item quantity="other">%1$d éléments supprimés définitivement</item>
+    </plurals>
+</resources>
