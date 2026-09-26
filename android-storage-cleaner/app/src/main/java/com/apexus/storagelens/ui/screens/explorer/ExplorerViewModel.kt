@@ -183,6 +183,23 @@ class ExplorerViewModel @Inject constructor(
         }
     }
 
+    /** « Tout sélectionner » : coche tous les éléments supprimables de la liste, ou les décoche s'ils le sont déjà. */
+    fun toggleAllNodes(nodes: List<FileNode>) =
+        toggleAll(nodes.map { ManualSelection(it.path, it.name, it.size, it.lastModified, it.isDirectory, it.fileCount) })
+
+    fun toggleAllEntries(entries: List<FileEntry>) =
+        toggleAll(entries.map { ManualSelection(it.path, it.name, it.size, it.lastModified, false, 1) })
+
+    private fun toggleAll(items: List<ManualSelection>) {
+        val selectable = items.filter { state.value.canDelete(it.path) }
+        if (selectable.isEmpty()) return
+        local.update { s ->
+            val allSelected = selectable.all { it.path in s.selection }
+            val selection = if (allSelected) s.selection - selectable.map { it.path }.toSet() else s.selection + selectable.associateBy { it.path }
+            s.copy(selection = selection)
+        }
+    }
+
     fun clearSelection() = local.update { it.copy(selection = emptyMap()) }
 
     fun excludeCurrentFolder() {

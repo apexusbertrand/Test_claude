@@ -399,4 +399,9 @@
         <item quantity="many">Si ces dossiers contiennent des photos ou vidéos, Android vous demandera aussi de confirmer : elles iront dans la corbeille Android (ou seront supprimées définitivement si la corbeille est désactivée).</item>
         <item quantity="other">Si ces dossiers contiennent des photos ou vidéos, Android vous demandera aussi de confirmer : elles iront dans la corbeille Android (ou seront supprimées définitivement si la corbeille est désactivée).</item>
     </plurals>
+    <plurals name="explorer_select_all_summary">
+        <item quantity="one">%1$d élément · %2$s</item>
+        <item quantity="many">%1$d éléments · %2$s</item>
+        <item quantity="other">%1$d éléments · %2$s</item>
+    </plurals>
 </resources>

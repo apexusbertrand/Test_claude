@@ -47,6 +47,8 @@ import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TriStateCheckbox
+import androidx.compose.ui.state.ToggleableState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -250,6 +252,17 @@ private fun DirectoryList(state: ExplorerUiState, viewModel: ExplorerViewModel, 
     val node = state.currentNode ?: return
     val children = state.visibleChildren
     LazyColumn(Modifier.fillMaxSize()) {
+        if (children.isNotEmpty()) {
+            item(key = "select_all") {
+                SelectAllRow(
+                    paths = children.map { it.path },
+                    sizes = children.map { it.size },
+                    state = state,
+                    onToggle = { viewModel.toggleAllNodes(children) },
+                )
+                HorizontalDivider()
+            }
+        }
         items(children, key = { it.path }) { child ->
             NodeRow(
                 node = child,
@@ -276,6 +289,32 @@ private fun DirectoryList(state: ExplorerUiState, viewModel: ExplorerViewModel, 
             }
         }
     }
+}
+
+/** Ligne « Tout sélectionner » à trois états, en tête de liste. */
+@Composable
+private fun SelectAllRow(paths: List<String>, sizes: List<Long>, state: ExplorerUiState, onToggle: () -> Unit) {
+    val selectable = paths.indices.filter { state.canDelete(paths[it]) }
+    val selectedCount = selectable.count { paths[it] in state.selection }
+    val toggleState = when {
+        selectable.isEmpty() || selectedCount == 0 -> ToggleableState.Off
+        selectedCount == selectable.size -> ToggleableState.On
+        else -> ToggleableState.Indeterminate
+    }
+    val total = selectable.sumOf { sizes[it] }
+    ListItem(
+        modifier = Modifier.clickable(enabled = selectable.isNotEmpty(), onClick = onToggle),
+        headlineContent = { Text(stringResource(R.string.select_all), style = MaterialTheme.typography.titleSmall) },
+        supportingContent = {
+            Text(
+                pluralStringResource(R.plurals.explorer_select_all_summary, selectable.size, selectable.size, formatSize(total)),
+                style = MaterialTheme.typography.bodySmall,
+            )
+        },
+        trailingContent = {
+            TriStateCheckbox(state = toggleState, onClick = onToggle, enabled = selectable.isNotEmpty())
+        },
+    )
 }
 
 @Composable
@@ -335,6 +374,17 @@ private fun TopFiles(state: ExplorerUiState, viewModel: ExplorerViewModel, onOpe
             }
         }
         LazyColumn(Modifier.fillMaxSize()) {
+            if (files.isNotEmpty()) {
+                item(key = "select_all") {
+                    SelectAllRow(
+                        paths = files.map { it.path },
+                        sizes = files.map { it.size },
+                        state = state,
+                        onToggle = { viewModel.toggleAllEntries(files) },
+                    )
+                    HorizontalDivider()
+                }
+            }
             items(files, key = { it.path }) { entry ->
                 TopFileRow(
                     entry = entry,
