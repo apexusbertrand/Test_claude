@@ -153,7 +153,7 @@ class ScanManager @Inject constructor(
         val groups = analyzer.finish(listOf(DuplicatesRule(sizes::sameSizeGroups)))
 
         onProgress(ScanState.Running("", counters.files.get(), counters.bytes.get(), null, ScanPhase.ANALYZING))
-        val categoryList = buildCategories(volume.isPrimary, categories.result(), volume.totalBytes, volume.freeBytes)
+        val categoryList = buildCategories(volume.isPrimary, root, categories.result(), volume.totalBytes, volume.freeBytes)
 
         val result = ScanResult(
             volume = volume,
@@ -182,6 +182,7 @@ class ScanManager @Inject constructor(
 
     private suspend fun buildCategories(
         isPrimary: Boolean,
+        root: String,
         fileCategories: List<CategoryUsage>,
         totalBytes: Long,
         freeBytes: Long,
@@ -191,6 +192,10 @@ class ScanManager @Inject constructor(
             val appsBytes = runCatching { apps.appsWithStorage().sumOf { it.totalBytes } }.getOrDefault(0L)
             if (appsBytes > 0) list += CategoryUsage(StorageCategory.APPS, appsBytes)
         }
+        // La corbeille interne est exclue de l'analyse : on la mesure à part pour qu'elle ne
+        // gonfle pas « Système et autres ».
+        val trashBytes = runCatching { trash.sizeOnVolume(root) }.getOrDefault(0L)
+        if (trashBytes > 0) list += CategoryUsage(StorageCategory.APP_TRASH, trashBytes)
         val measured = list.sumOf { it.bytes }
         list += CategoryUsage(StorageCategory.SYSTEM, SystemSpace.compute(totalBytes, freeBytes, measured))
         return list.filter { it.bytes > 0 }.sortedByDescending { it.bytes }

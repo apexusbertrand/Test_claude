@@ -53,6 +53,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LifecycleEventEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.apexus.storagelens.R
+import com.apexus.storagelens.domain.model.StorageCategory
 import com.apexus.storagelens.domain.model.StorageVolumeInfo
 import com.apexus.storagelens.ui.components.CategoryBreakdown
 import com.apexus.storagelens.ui.components.InfoBanner
@@ -69,6 +70,8 @@ fun HomeScreen(
     onOpenExplorer: () -> Unit,
     onOpenPermissions: () -> Unit,
     onOpenTrash: () -> Unit,
+    onOpenApps: () -> Unit,
+    onOpenSystem: () -> Unit,
     onOpenHistory: () -> Unit,
     onOpenSettings: () -> Unit,
     onOpenAbout: () -> Unit,
@@ -147,7 +150,25 @@ fun HomeScreen(
                     Column(Modifier.padding(16.dp)) {
                         Text(stringResource(R.string.home_breakdown), style = MaterialTheme.typography.titleMedium)
                         Spacer(Modifier.height(12.dp))
-                        CategoryBreakdown(result.categories, result.volume.totalBytes)
+                        CategoryBreakdown(
+                            categories = result.categories,
+                            totalBytes = result.volume.totalBytes,
+                            onCategoryClick = { category ->
+                                when (category) {
+                                    StorageCategory.APPS -> onOpenApps()
+                                    StorageCategory.SYSTEM -> onOpenSystem()
+                                    StorageCategory.APP_TRASH -> onOpenTrash()
+                                    StorageCategory.CACHE_TEMP, StorageCategory.LOGS_TRACES -> onOpenCleanup()
+                                    else -> onOpenExplorer()
+                                }
+                            },
+                        )
+                        Spacer(Modifier.height(4.dp))
+                        Text(
+                            stringResource(R.string.home_breakdown_hint),
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        )
                         if (result.inaccessibleDirectories > 0) {
                             Spacer(Modifier.height(8.dp))
                             Text(
@@ -171,7 +192,11 @@ fun HomeScreen(
                             fontWeight = FontWeight.Bold,
                         )
                         Text(
-                            stringResource(R.string.home_recoverable_recommended, formatSize(result.recommendedBytes)),
+                            if (result.recommendedBytes > 0) {
+                                stringResource(R.string.home_recoverable_recommended, formatSize(result.recommendedBytes))
+                            } else {
+                                stringResource(R.string.home_recoverable_none_safe)
+                            },
                             style = MaterialTheme.typography.bodyMedium,
                         )
                         Spacer(Modifier.height(12.dp))

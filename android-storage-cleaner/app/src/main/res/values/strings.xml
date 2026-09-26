@@ -54,6 +54,37 @@
     <string name="category_logs_traces">Logs et traces</string>
     <string name="category_other">Autres fichiers</string>
     <string name="category_system">Système et autres</string>
+    <string name="category_app_trash">Corbeille Apexus Cleaner</string>
+    <string name="home_breakdown_hint">Touchez une catégorie pour la détailler.</string>
+    <string name="home_recoverable_none_safe">Aucun élément sans risque : ouvrez « Nettoyer » et cochez vous-même ce que vous acceptez de supprimer.</string>
+    <string name="system_intro">C’est ce qui reste une fois soustraits l’espace libre, les fichiers mesurés et les applications. Aucune application ne peut en voir le détail, mais sur la plupart des téléphones il se compose des éléments ci-dessous.</string>
+    <string name="system_contents_title">Ce qui compose généralement cet espace</string>
+    <string name="system_size_variable">Variable</string>
+    <string name="system_size_unknown">Inconnue</string>
+    <string name="system_item_os_title">Android et l’interface du fabricant</string>
+    <string name="system_item_os_size">12 à 18 Go</string>
+    <string name="system_item_os_text">Le système lui-même, en lecture seule. C’est normal et cela ne se réduit pas.</string>
+    <string name="system_item_ramplus_title">RAM Plus (mémoire virtuelle)</string>
+    <string name="system_item_ramplus_size">2 à 8 Go</string>
+    <string name="system_item_ramplus_text">Samsung réserve une partie du stockage comme mémoire vive supplémentaire. Pour la récupérer : Entretien de l’appareil › Mémoire › RAM Plus › Désactivé, puis redémarrez.</string>
+    <string name="system_item_trash_title">Corbeilles de la Galerie et des Fichiers</string>
+    <string name="system_item_trash_text">Les photos, vidéos et fichiers supprimés y restent 30 jours. Ouvrez l’application, menu › Corbeille › Vider.</string>
+    <string name="system_item_app_trash_title">Corbeille Apexus Cleaner</string>
+    <string name="system_item_app_trash_text">Désormais comptée à part dans la répartition. Videz-la si vous n’avez plus besoin de restaurer ces éléments.</string>
+    <string name="system_item_secure_title">Dossier sécurisé Samsung</string>
+    <string name="system_item_secure_text">Son contenu est chiffré et invisible pour les autres applications. Faites le tri depuis le Dossier sécurisé lui-même.</string>
+    <string name="system_item_temp_title">Mises à jour et fichiers temporaires</string>
+    <string name="system_item_temp_size">1 à 5 Go</string>
+    <string name="system_item_temp_text">Mises à jour système téléchargées, fichiers temporaires d’Android. Un redémarrage du téléphone en libère souvent une partie.</string>
+    <string name="system_item_protected_title">Dossiers protégés</string>
+    <string name="system_item_protected_text">%1$d dossiers n’ont pas pu être lus pendant l’analyse (protégés par Android). Leur contenu est compté ici.</string>
+    <string name="system_realistic_title">Ce qu’on peut espérer</string>
+    <string name="system_realistic_text">RAM Plus, les corbeilles et un redémarrage font souvent gagner 5 à 10 Go. En dessous de 15 à 18 Go, il ne reste que le système lui-même.</string>
+    <string name="system_action_device_care">Ouvrir Entretien de l’appareil</string>
+    <string name="system_action_gallery">Ouvrir la Galerie</string>
+    <string name="system_action_files">Ouvrir les Fichiers</string>
+    <string name="system_action_app_trash">Ouvrir la corbeille</string>
+    <string name="system_action_android_storage">Stockage dans les Paramètres Android</string>
 
     <!-- Accueil -->
     <string name="home_used">Utilisé</string>

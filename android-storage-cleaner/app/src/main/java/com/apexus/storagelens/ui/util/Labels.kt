@@ -43,6 +43,7 @@ fun StorageCategory.labelRes(): Int = when (this) {
     StorageCategory.CACHE_TEMP -> R.string.category_cache_temp
     StorageCategory.LOGS_TRACES -> R.string.category_logs_traces
     StorageCategory.OTHER -> R.string.category_other
+    StorageCategory.APP_TRASH -> R.string.category_app_trash
     StorageCategory.SYSTEM -> R.string.category_system
 }
 
@@ -135,5 +136,6 @@ fun StorageCategory.icon(): ImageVector = when (this) {
     StorageCategory.CACHE_TEMP -> Icons.Filled.Cached
     StorageCategory.LOGS_TRACES -> Icons.AutoMirrored.Filled.ReceiptLong
     StorageCategory.OTHER -> Icons.AutoMirrored.Filled.InsertDriveFile
+    StorageCategory.APP_TRASH -> Icons.Filled.Delete
     StorageCategory.SYSTEM -> Icons.Filled.Memory
 }

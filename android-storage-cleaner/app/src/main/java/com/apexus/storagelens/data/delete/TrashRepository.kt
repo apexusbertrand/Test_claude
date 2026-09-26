@@ -32,6 +32,9 @@ class TrashRepository @Inject constructor(
 ) {
     val items: Flow<List<TrashItem>> = dao.observeAll().map { list -> list.map { it.toDomain() } }
 
+    /** Taille de la corbeille située sur le volume dont la racine est [volumeRoot]. */
+    suspend fun sizeOnVolume(volumeRoot: String): Long = dao.totalSizeUnder(volumeRoot.trimEnd('/') + "/")
+
     /** Dossiers de corbeille de tous les volumes (exclus de l'analyse). */
     fun trashDirectories(): List<String> =
         context.getExternalFilesDirs(TRASH_DIR).filterNotNull().map { it.path }

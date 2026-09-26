@@ -23,6 +23,9 @@ interface TrashDao {
     @Query("SELECT * FROM trash_items")
     suspend fun all(): List<TrashItemEntity>
 
+    @Query("SELECT COALESCE(SUM(size), 0) FROM trash_items WHERE trashPath LIKE :prefix || '%'")
+    suspend fun totalSizeUnder(prefix: String): Long
+
     @Insert
     suspend fun insert(item: TrashItemEntity): Long
 

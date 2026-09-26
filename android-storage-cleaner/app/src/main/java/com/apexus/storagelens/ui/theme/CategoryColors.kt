@@ -18,6 +18,7 @@ fun StorageCategory.color(): Color = when (this) {
     StorageCategory.CACHE_TEMP -> Color(0xFFC2C23A)
     StorageCategory.LOGS_TRACES -> Color(0xFFD16BA5)
     StorageCategory.OTHER -> Color(0xFF7D8A99)
+    StorageCategory.APP_TRASH -> Color(0xFFB0413E)
     StorageCategory.SYSTEM -> Color(0xFF4A4F57)
 }
 

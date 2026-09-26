@@ -37,6 +37,7 @@ import com.apexus.storagelens.ui.screens.onboarding.PermissionsScreen
 import com.apexus.storagelens.ui.screens.scan.ScanScreen
 import com.apexus.storagelens.ui.screens.settings.AboutScreen
 import com.apexus.storagelens.ui.screens.settings.SettingsScreen
+import com.apexus.storagelens.ui.screens.system.SystemStorageScreen
 import com.apexus.storagelens.ui.screens.trash.TrashScreen
 import kotlin.reflect.KClass
 
@@ -111,6 +112,8 @@ fun AppNavHost(showOnboarding: Boolean, navController: NavHostController = remem
                     onOpenExplorer = { navigateTopLevel(ExplorerRoute) },
                     onOpenPermissions = { navController.navigate(PermissionsRoute()) },
                     onOpenTrash = { navController.navigate(TrashRoute) },
+                    onOpenApps = { navigateTopLevel(AppsRoute()) },
+                    onOpenSystem = { navController.navigate(SystemStorageRoute) },
                     onOpenHistory = { navController.navigate(HistoryRoute) },
                     onOpenSettings = { navController.navigate(SettingsRoute) },
                     onOpenAbout = { navController.navigate(AboutRoute) },
@@ -142,6 +145,12 @@ fun AppNavHost(showOnboarding: Boolean, navController: NavHostController = remem
                 )
             }
             composable<AboutRoute> { AboutScreen(onBack = { navController.popBackStack() }) }
+            composable<SystemStorageRoute> {
+                SystemStorageScreen(
+                    onBack = { navController.popBackStack() },
+                    onOpenTrash = { navController.navigate(TrashRoute) },
+                )
+            }
         }
     }
 }
