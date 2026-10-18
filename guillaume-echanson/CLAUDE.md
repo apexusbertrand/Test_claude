@@ -1,6 +1,6 @@
 # Site de Guillaume l'Échanson
 
-Site vitrine (6 pages) pour Guillaume l'Échanson, ancien sommelier devenu vigneron et négociant-vinificateur à Chassagne-Montrachet (Bourgogne). Le site est un projet à soumettre à Guillaume avant toute publication. Rien n'est en ligne.
+Site vitrine (6 pages) pour Guillaume l'Échanson, ancien sommelier devenu vigneron et négociant-vinificateur à Chassagne-Montrachet (Bourgogne). Le site est un projet à soumettre à Guillaume. Une préversion de validation est en ligne sur GitHub Pages (https://apexusbertrand.github.io/Test_claude/), déployée à chaque push sur `main` par `.github/workflows/deploy-pages.yml`. Elle est en `noindex` (balise meta dans chaque page + `robots.txt`) : à retirer à la vraie mise en ligne.
 
 Instagram : @the_wine_nomad (https://www.instagram.com/the_wine_nomad/). C'est le seul contact réel pour l'instant.
 

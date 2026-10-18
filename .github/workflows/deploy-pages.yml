@@ -1,4 +1,4 @@
-name: Deploy PhotoTag to GitHub Pages
+name: Deploy Guillaume l'Échanson to GitHub Pages
 
 on:
   push:
@@ -15,21 +15,16 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-      - run: npm ci
-      - run: npm run build
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: public
+          path: guillaume-echanson
       - id: deployment
         uses: actions/deploy-pages@v4
