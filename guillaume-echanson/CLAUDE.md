@@ -58,6 +58,8 @@ Cuvées : Bourgogne Aligoté, Bourgogne Blanc, Bourgogne Côte d'Or (rouge), Sav
 - La mention « document de travail, non publié » du pied de page est à retirer à la mise en ligne.
 - Pas de mentions légales, pas de bandeau cookies pour l'instant. Si le site est vendu en ligne ou héberge des formulaires, il faudra les ajouter. Mention obligatoire sur l'alcool à prévoir selon les règles françaises.
 
+`sw.js` n'est pas un vrai service worker du site : il désinstalle celui de l'ancienne app PhotoTag, publiée avant à la même adresse et restée en cache chez ceux qui l'avaient ouverte. Le garder tant que le site reste sur cette URL.
+
 ## Ce qui reste à faire côté technique
 
 - Choisir l'hébergement et le nom de domaine (non décidés).
