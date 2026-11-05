@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Contact et devis · Michael Rénovation</title>
+<meta name="description" content="Demandez un devis gratuit à Michael : carrelage, plâtrerie, couverture.">
+<link rel="icon" href="assets/logo.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<script src="js/site.js" defer></script>
+<script src="js/chat.js" defer></script>
+</head>
+<body>
+<main>
+  <section class="page-hero"><div class="wrap">
+    <span class="mono">Contact</span>
+    <h1>Parlons de votre chantier.</h1>
+    <p>Quelques lignes suffisent. Je vous rappelle pour fixer une visite, le devis est gratuit.</p>
+  </div></section>
+  <section class="sec" style="padding-top:48px"><div class="wrap contact-grid">
+    <form class="form" id="devis" novalidate>
+      <div class="row">
+        <div class="field"><label for="f-prenom">Prénom *</label><input id="f-prenom" name="prenom" autocomplete="given-name" required></div>
+        <div class="field"><label for="f-nom">Nom *</label><input id="f-nom" name="nom" autocomplete="family-name" required></div>
+      </div>
+      <div class="row">
+        <div class="field"><label for="f-tel">Téléphone *</label><input id="f-tel" name="telephone" type="tel" autocomplete="tel" required></div>
+        <div class="field"><label for="f-email">E-mail</label><input id="f-email" name="email" type="email" autocomplete="email"></div>
+      </div>
+      <div class="row">
+        <div class="field"><label for="f-commune">Commune du chantier *</label><input id="f-commune" name="commune" autocomplete="address-level2" required></div>
+        <div class="field"><label for="f-surface">Surface approximative</label><input id="f-surface" name="surface" placeholder="ex. 12 m²"></div>
+      </div>
+      <fieldset class="field">
+        <legend>Type de travaux</legend>
+        <div class="checks">
+          <label><input type="checkbox" name="travaux" value="carrelage"> Carrelage</label>
+          <label><input type="checkbox" name="travaux" value="platrerie"> Plâtrerie</label>
+          <label><input type="checkbox" name="travaux" value="couverture"> Couverture</label>
+          <label><input type="checkbox" name="travaux" value="autre"> Autre</label>
+        </div>
+      </fieldset>
+      <div class="field"><label for="f-delai">Délai souhaité</label>
+        <select id="f-delai" name="delai"><option value="">Choisir…</option><option>Urgent</option><option>Sous 1 mois</option><option>1 à 3 mois</option><option>Pas pressé</option></select></div>
+      <div class="field"><label for="f-desc">Votre projet *</label><textarea id="f-desc" name="description" maxlength="2000" required placeholder="Pièce, état actuel, ce que vous voulez obtenir…"></textarea></div>
+      <!-- Photos du client : désactivé pour l'instant.
+           Pour l'activer : ajouter <input type="file" name="photos" accept="image/*" multiple>,
+           envoyer en multipart/form-data (FormData) au lieu de JSON, limiter à 5 fichiers / 10 Mo côté navigateur,
+           et configurer le webhook n8n pour recevoir des fichiers binaires. -->
+      <div class="hp" aria-hidden="true"><label>Site web <input name="website" tabindex="-1" autocomplete="off"></label></div>
+      <label class="consent"><input type="checkbox" name="consent" required> J’accepte que mes informations soient utilisées pour être recontacté au sujet de ma demande. <a href="mentions-legales.html#confidentialite">Confidentialité</a></label>
+      <button class="btn brick" type="submit">Envoyer ma demande <span class="arr">→</span></button>
+      <p class="status-msg" role="status" aria-live="polite"></p>
+    </form>
+    <aside>
+      <div class="card-info">
+        <span class="mono">Téléphone</span><a class="big" data-tel href="#">06 39 98 12 34</a>
+        <span class="mono">E-mail</span><a class="big" data-email href="#" style="font-size:1.2rem">contact@michael-renovation.example</a>
+        <span class="mono">Adresse</span><p data-cfg="adresse">12 rue de l’Exemple, 59000 Lille</p>
+        <span class="mono">Horaires</span><p data-cfg="horaires" style="margin:0">Lun – ven, 7 h 30 – 18 h</p>
+      </div>
+      <div class="zone">
+        <span class="mono">Zone d’intervention (bouchon)</span>
+        <div class="chips" style="margin-top:10px"><span class="chip">Lille</span><span class="chip">Roubaix</span><span class="chip">Tourcoing</span><span class="chip">Villeneuve-d’Ascq</span><span class="chip">Marcq-en-Barœul</span><span class="chip">Lambersart</span><span class="chip">Wasquehal</span><span class="chip">Armentières</span></div>
+      </div>
+    </aside>
+  </div></section>
+</main>
+</body>
+</html>

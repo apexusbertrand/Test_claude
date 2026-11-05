@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000">
+<rect width="1600" height="1000" fill="#E7E2D7"/>
+<rect x="0" y="840" width="1600" height="160" fill="#B9B1A2"/>
+<rect x="160" y="140" width="1280" height="16" fill="#9AA0A6"/><rect x="160" y="824" width="1280" height="16" fill="#9AA0A6"/>
+<rect x="160" y="156" width="14" height="668" fill="#9AA0A6"/>
+<rect x="320" y="156" width="14" height="668" fill="#9AA0A6"/>
+<rect x="480" y="156" width="14" height="668" fill="#9AA0A6"/>
+<rect x="640" y="156" width="14" height="668" fill="#9AA0A6"/>
+<rect x="800" y="156" width="14" height="668" fill="#9AA0A6"/>
+<rect x="960" y="156" width="14" height="668" fill="#9AA0A6"/>
+<rect x="1120" y="156" width="14" height="668" fill="#9AA0A6"/>
+<rect x="1280" y="156" width="14" height="668" fill="#9AA0A6"/>
+<rect x="1440" y="156" width="14" height="668" fill="#9AA0A6"/>
+<rect x="174" y="156" width="626" height="668" fill="#9DC7A8"/><rect x="174" y="156" width="626" height="668" fill="none" stroke="#7FAE8C" stroke-width="4"/>
+<g fill="#6F9C7B"><circle cx="180" cy="200" r="5"/><circle cx="180" cy="310" r="5"/><circle cx="180" cy="420" r="5"/><circle cx="180" cy="530" r="5"/><circle cx="180" cy="640" r="5"/><circle cx="180" cy="750" r="5"/><circle cx="334" cy="200" r="5"/><circle cx="334" cy="310" r="5"/><circle cx="334" cy="420" r="5"/><circle cx="334" cy="530" r="5"/><circle cx="334" cy="640" r="5"/><circle cx="334" cy="750" r="5"/><circle cx="494" cy="200" r="5"/><circle cx="494" cy="310" r="5"/><circle cx="494" cy="420" r="5"/><circle cx="494" cy="530" r="5"/><circle cx="494" cy="640" r="5"/><circle cx="494" cy="750" r="5"/><circle cx="654" cy="200" r="5"/><circle cx="654" cy="310" r="5"/><circle cx="654" cy="420" r="5"/><circle cx="654" cy="530" r="5"/><circle cx="654" cy="640" r="5"/><circle cx="654" cy="750" r="5"/><circle cx="794" cy="200" r="5"/><circle cx="794" cy="310" r="5"/><circle cx="794" cy="420" r="5"/><circle cx="794" cy="530" r="5"/><circle cx="794" cy="640" r="5"/><circle cx="794" cy="750" r="5"/></g>
+<g stroke="#2B50E8" stroke-width="3" fill="none"><path d="M820 110 H1440"/><path d="M820 96 V124 M1440 96 V124"/></g><text x="1040" y="92" font-family="IBM Plex Mono, monospace" font-size="28" fill="#2B50E8">ossature 48 mm</text>
+<text x="230" y="520" font-family="IBM Plex Mono, monospace" font-size="34" fill="#2E5A3B">PLAQUE HYDRO</text>
+<g font-family="IBM Plex Mono, monospace" font-size="26" letter-spacing="2"><rect x="200" y="40" width="560" height="56" fill="#141517"/><text x="222" y="77" fill="#F2EFE8">ILLUSTRATION · CHANTIER EXEMPLE</text></g>
+</svg>

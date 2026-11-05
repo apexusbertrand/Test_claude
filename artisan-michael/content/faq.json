@@ -1,0 +1,161 @@
+{
+  "_note": "Base de connaissances du chat. En maquette, le chat de démo y cherche des mots-clés. Plus tard, le flux n8n lira ce fichier. Champ 'fait' : oui | non | sur devis. Réponses bouchon à valider avec Michael.",
+  "faq": [
+    {
+      "question": "Vous faites la couverture ?",
+      "reponse": "Oui, mais seulement les petits chantiers : pose de fenêtres de toit, remplacement de tuiles, petites réparations. Pour une toiture complète, Michael vous orientera vers un couvreur.",
+      "metier": "couverture",
+      "fait": "oui",
+      "mots_cles": [
+        "couverture",
+        "toit",
+        "toiture",
+        "tuile",
+        "tuiles",
+        "velux",
+        "fenêtre de toit",
+        "fuite"
+      ]
+    },
+    {
+      "question": "Vous posez du carrelage ?",
+      "reponse": "Oui, c'est son métier principal : sols, faïence, salles de bain, douches à l'italienne, grands formats. Il prépare toujours le support avant la pose.",
+      "metier": "carrelage",
+      "fait": "oui",
+      "mots_cles": [
+        "carrelage",
+        "carreau",
+        "faïence",
+        "faience",
+        "sol",
+        "douche",
+        "italienne",
+        "salle de bain",
+        "crédence"
+      ]
+    },
+    {
+      "question": "Vous faites le placo et l'isolation ?",
+      "reponse": "Oui : cloisons, doublages isolants, plafonds, rampants de combles, bandes et enduits. Michael aménage aussi des combles de A à Z côté plâtrerie.",
+      "metier": "platrerie",
+      "fait": "oui",
+      "mots_cles": [
+        "placo",
+        "plâtre",
+        "platre",
+        "plaque",
+        "cloison",
+        "doublage",
+        "isolation",
+        "isoler",
+        "plafond",
+        "combles",
+        "grenier",
+        "enduit"
+      ]
+    },
+    {
+      "question": "Vous faites l'électricité ou la plomberie ?",
+      "reponse": "Non, ce n'est pas son métier. Michael travaille avec des artisans de confiance et peut vous mettre en relation.",
+      "metier": null,
+      "fait": "non",
+      "mots_cles": [
+        "électricité",
+        "electricite",
+        "électricien",
+        "plomberie",
+        "plombier",
+        "chauffage",
+        "prise"
+      ]
+    },
+    {
+      "question": "Vous refaites des toitures complètes ?",
+      "reponse": "Non. Michael prend les interventions ciblées sur le toit, pas la réfection complète.",
+      "metier": "couverture",
+      "fait": "non",
+      "mots_cles": [
+        "refaire toiture",
+        "toiture complète",
+        "toute la toiture",
+        "charpente neuve"
+      ]
+    },
+    {
+      "question": "Vous intervenez où ?",
+      "reponse": "Dans un rayon d'environ 30 km autour de Lille (zone à confirmer). Indiquez votre commune dans le formulaire, il vous répondra.",
+      "metier": null,
+      "fait": "oui",
+      "mots_cles": [
+        "où",
+        "zone",
+        "secteur",
+        "commune",
+        "ville",
+        "distance",
+        "lille",
+        "roubaix",
+        "tourcoing",
+        "déplacement"
+      ]
+    },
+    {
+      "question": "Le devis est payant ?",
+      "reponse": "Non, le devis est gratuit. Michael passe voir le chantier, prend les mesures et vous envoie un devis détaillé.",
+      "metier": null,
+      "fait": "oui",
+      "mots_cles": [
+        "devis",
+        "gratuit",
+        "payant",
+        "estimation"
+      ]
+    },
+    {
+      "question": "Combien ça coûte ?",
+      "reponse": "Impossible de donner un prix sans voir le chantier : support, surface et matériaux changent tout. Le plus simple, c'est le formulaire de devis ou un appel.",
+      "metier": null,
+      "fait": "sur devis",
+      "mots_cles": [
+        "prix",
+        "coût",
+        "cout",
+        "combien",
+        "tarif",
+        "m2",
+        "m²",
+        "cher",
+        "budget"
+      ]
+    },
+    {
+      "question": "Vous êtes assuré ?",
+      "reponse": "Oui, Michael est couvert par une assurance décennale. L'attestation est jointe à chaque devis.",
+      "metier": null,
+      "fait": "oui",
+      "mots_cles": [
+        "assurance",
+        "décennale",
+        "decennale",
+        "assuré",
+        "garantie"
+      ]
+    },
+    {
+      "question": "Quels sont vos délais ?",
+      "reponse": "Ça dépend de la saison et de la taille du chantier. Michael vous donne une date de démarrage avec le devis.",
+      "metier": null,
+      "fait": "sur devis",
+      "mots_cles": [
+        "délai",
+        "delai",
+        "quand",
+        "disponible",
+        "dispo",
+        "rapidement",
+        "urgent",
+        "date"
+      ]
+    }
+  ]
+}

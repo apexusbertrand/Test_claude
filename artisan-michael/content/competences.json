@@ -1,0 +1,64 @@
+{
+  "_note": "Source unique des métiers. Lue par le site (savoir-faire.html, accueil) et, plus tard, par le flux n8n du chat. Textes provisoires à valider avec Michael.",
+  "metiers": [
+    {
+      "id": "carrelage",
+      "ref": "01",
+      "nom": "Carrelage",
+      "statut": "Activité principale",
+      "texture": "tile",
+      "accroche": "Des joints droits, des coupes propres, des pièces d'eau qui restent étanches.",
+      "texte": "Sols et murs, intérieur et extérieur. Je prépare le support avant de poser quoi que ce soit : c'est là que se joue la tenue dans le temps.",
+      "prestations": [
+        "Carrelage de sol, toutes pièces",
+        "Faïence murale, crédences de cuisine",
+        "Salles de bain complètes, douches à l'italienne",
+        "Étanchéité sous carrelage (SPEC)",
+        "Grands formats et effet parquet",
+        "Plinthes, seuils, terrasses"
+      ],
+      "materiaux": ["Grès cérame", "Faïence", "Grands formats 60×120", "Mosaïque", "Pierre naturelle (à confirmer)"]
+    },
+    {
+      "id": "platrerie",
+      "ref": "02",
+      "nom": "Plâtrerie",
+      "statut": "Activité principale",
+      "texture": "plaster",
+      "accroche": "Cloisons, doublages, plafonds : la pièce prend forme, et elle est isolée.",
+      "texte": "Ossature métallique, isolant, plaques, bandes et enduits. Je m'occupe de tout ce qu'il y a entre la brique et votre peinture.",
+      "prestations": [
+        "Cloisons en plaques de plâtre",
+        "Doublage isolant des murs",
+        "Isolation et habillage des rampants de combles",
+        "Faux plafonds, plafonds suspendus",
+        "Bandes, joints et enduits de finition",
+        "Aménagement de combles"
+      ],
+      "materiaux": ["Plaques de plâtre (standard, hydro, phonique)", "Ossature métallique", "Laine minérale", "Enduits"]
+    },
+    {
+      "id": "couverture",
+      "ref": "03",
+      "nom": "Couverture",
+      "statut": "Petits chantiers",
+      "texture": "roof",
+      "accroche": "Fenêtres de toit et petites réparations, pour que le toit reste un toit.",
+      "texte": "Je ne refais pas des toitures entières. Je prends les interventions ciblées, souvent liées à un aménagement intérieur.",
+      "prestations": [
+        "Pose de fenêtres de toit",
+        "Remplacement de tuiles cassées",
+        "Reprise de faîtage (à confirmer)",
+        "Petite zinguerie (à confirmer)"
+      ],
+      "materiaux": ["Fenêtres de toit", "Tuiles terre cuite", "Zinc (à confirmer)"]
+    }
+  ],
+  "ne_fait_pas": [
+    "Réfection complète de toiture",
+    "Gros œuvre et maçonnerie porteuse",
+    "Électricité et plomberie (je travaille avec des artisans de confiance)",
+    "Charpente neuve"
+  ],
+  "_ne_fait_pas_note": "Liste bouchon pour la maquette, à valider avec Michael."
+}

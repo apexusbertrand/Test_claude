@@ -1,0 +1,3 @@
+# Préversion de maquette : ne pas indexer. À remplacer à la mise en ligne.
+User-agent: *
+Disallow: /

@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000">
+<rect width="1600" height="1000" fill="#D7D0C2"/>
+<polygon points="0,700 1600,700 1600,1000 0,1000" fill="#A9A190"/>
+<path d="M0 700 H1600 V1000 H0 Z" fill="#2B50E8" opacity=".55"/>
+<rect x="0" y="520" width="1600" height="180" fill="#2B50E8" opacity=".45"/>
+<rect x="0" y="680" width="1600" height="40" fill="#E8582A" opacity=".8"/>
+<g stroke="#1B3AB8" stroke-width="6" opacity=".5" fill="none"><path d="M80 540 q40 60 0 140"/><path d="M200 540 q40 60 0 140"/><path d="M320 540 q40 60 0 140"/><path d="M440 540 q40 60 0 140"/><path d="M560 540 q40 60 0 140"/><path d="M680 540 q40 60 0 140"/><path d="M800 540 q40 60 0 140"/><path d="M920 540 q40 60 0 140"/><path d="M1040 540 q40 60 0 140"/><path d="M1160 540 q40 60 0 140"/><path d="M1280 540 q40 60 0 140"/><path d="M1400 540 q40 60 0 140"/><path d="M1520 540 q40 60 0 140"/></g>
+<rect x="1050" y="380" width="60" height="460" rx="8" transform="rotate(-28 1080 610)" fill="#2A2C2F"/><rect x="960" y="790" width="240" height="70" rx="10" transform="rotate(-28 1080 825)" fill="#E8582A"/>
+<g font-family="IBM Plex Mono, monospace" font-size="30" fill="#141517"><text x="80" y="500">relevé en pied de mur</text><text x="80" y="780">bande d'angle</text><text x="80" y="930">membrane au sol · pente 1 %</text></g>
+<g font-family="IBM Plex Mono, monospace" font-size="26" letter-spacing="2"><rect x="200" y="40" width="560" height="56" fill="#141517"/><text x="222" y="77" fill="#F2EFE8">ILLUSTRATION · CHANTIER EXEMPLE</text></g>
+</svg>

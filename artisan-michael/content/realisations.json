@@ -1,0 +1,95 @@
+{
+  "_note": "Une entrée = un chantier. Ajouter un chantier : copier une entrée, changer le slug, déposer les photos dans assets/realisations/<slug>/. Voir tools/ajout-realisation.md.",
+  "realisations": [
+    {
+      "slug": "combles-briques",
+      "titre": "Des combles en brique devenus une chambre",
+      "date": "2025-10",
+      "date_affichee": "2025 (à confirmer)",
+      "commune": "Métropole lilloise (à confirmer)",
+      "metiers": ["platrerie", "couverture"],
+      "fictif": false,
+      "duree": "À confirmer",
+      "resume": "Un grenier brut, pignon en brique et charpente apparente. On a ouvert le toit pour la lumière, isolé et doublé murs et rampants, puis livré une pièce prête à vivre.",
+      "couverture": "05-piece-livree.webp",
+      "avant": "01-etat-initial.webp",
+      "apres": "05-piece-livree.webp",
+      "video": null,
+      "etapes": [
+        {
+          "titre": "État des lieux",
+          "metier": null,
+          "photo": "01-etat-initial.webp",
+          "alt": "Combles bruts avec pignon en brique, charpente apparente et plancher bois",
+          "texte": "Le point de départ : combles sous une charpente bois, pignon en brique nue, une seule petite fenêtre de toit. On mesure, on vérifie la charpente et on décide où faire entrer la lumière."
+        },
+        {
+          "titre": "Ouverture du toit",
+          "metier": "couverture",
+          "photo": "02-fenetre-de-toit.webp",
+          "alt": "Fenêtre de toit neuve posée entre les chevrons, avec chevêtre en bois",
+          "texte": "Création d'un chevêtre entre les chevrons et pose d'une fenêtre de toit neuve. Le raccord avec la couverture est fait pour rester étanche."
+        },
+        {
+          "titre": "Charpente et deuxième ouverture",
+          "metier": "couverture",
+          "photo": "03-charpente.webp",
+          "alt": "Deux personnes au travail dans les combles, nouvelle fenêtre de toit installée",
+          "texte": "Une deuxième fenêtre, plus grande, et la reprise de l'ossature bois autour. Le chantier reste rangé, même au milieu des coupes."
+        },
+        {
+          "titre": "Isolation et doublage",
+          "metier": "platrerie",
+          "photo": "04-isolation-doublage.webp",
+          "alt": "Ossature métallique garnie de laine minérale et première plaque de plâtre posée",
+          "texte": "Ossature métallique sur les murs et les rampants, laine minérale entre les montants, puis les premières plaques. C'est cette couche-là qu'on ne voit plus à la fin, et c'est elle qui fait le confort."
+        },
+        {
+          "titre": "Pièce livrée",
+          "metier": "platrerie",
+          "photo": "05-piece-livree.webp",
+          "alt": "Chambre sous combles terminée, murs blancs, fenêtre de toit et sol clair",
+          "texte": "Bandes, enduits, finitions : murs et rampants lisses, une pièce lumineuse là où il n'y avait qu'un grenier."
+        }
+      ]
+    },
+    {
+      "slug": "salle-de-bain-exemple",
+      "titre": "Une salle de bain refaite autour d'une douche à l'italienne",
+      "date": "2025-06",
+      "date_affichee": "Exemple",
+      "commune": "Tourcoing (exemple)",
+      "metiers": ["carrelage", "platrerie"],
+      "fictif": true,
+      "duree": "2 semaines (exemple)",
+      "resume": "Chantier d'exemple pour la maquette. Ancienne baignoire déposée, cloison hydro, étanchéité sous carrelage et grands formats au mur comme au sol.",
+      "couverture": "couverture.svg",
+      "avant": null,
+      "apres": null,
+      "video": null,
+      "etapes": [
+        {
+          "titre": "Dépose et cloison",
+          "metier": "platrerie",
+          "photo": "etape-cloison.svg",
+          "alt": "Illustration : cloison en plaques hydrofuges sur ossature métallique",
+          "texte": "Dépose de l'ancienne baignoire et de la faïence. Nouvelle cloison en plaques hydrofuges pour fermer la douche et créer une niche."
+        },
+        {
+          "titre": "Étanchéité",
+          "metier": "carrelage",
+          "photo": "etape-etancheite.svg",
+          "alt": "Illustration : membrane d'étanchéité appliquée au sol et en pied de mur",
+          "texte": "Système d'étanchéité sous carrelage au sol et sur les murs exposés, bandes d'angle, pente vers le caniveau."
+        },
+        {
+          "titre": "Pose et joints",
+          "metier": "carrelage",
+          "photo": "couverture.svg",
+          "alt": "Illustration : mur carrelé en grands formats avec niche et douche",
+          "texte": "Grands formats calepinés pour aligner les joints avec la niche. Joints époxy dans la douche, silicone en finition."
+        }
+      ]
+    }
+  ]
+}
