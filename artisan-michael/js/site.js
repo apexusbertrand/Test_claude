@@ -4,7 +4,8 @@
 const CONFIG = {
   nom: 'LOGE&NERJ',
   prenom: 'Michael',
-  sousTitre: 'Carrelage · Plâtrerie · Couverture',
+  sousTitre: 'Rénover, isoler, économiser',   // signature du logo officiel
+  metiers: 'Carrelage · Plâtrerie · Couverture',
   telephone: '06 39 98 12 34',          // numéro fictif (plage réservée ARCEP à la fiction)
   email: 'contact@logenerj.example',
   adresse: '12 rue de l’Exemple, 59000 Lille',
@@ -17,7 +18,7 @@ const CONFIG = {
 };
 window.CONFIG = CONFIG;
 
-const LOGO = `<svg viewBox="0 0 136 116" aria-hidden="true" class="logo"><path class="lg-roof" d="M4 30 L68 4 L132 30" fill="none" stroke="#E8582A" stroke-width="8" stroke-linecap="square"/><g class="lg-tiles" fill="currentColor"><rect class="lg-t" x="0" y="40" width="16" height="16"/><rect class="lg-t" x="0" y="60" width="16" height="16"/><rect class="lg-t" x="0" y="80" width="16" height="16"/><rect class="lg-t" x="0" y="100" width="16" height="16"/><rect class="lg-t" x="20" y="100" width="16" height="16"/><rect class="lg-t" x="60" y="40" width="16" height="16"/><rect class="lg-t" x="60" y="60" width="16" height="16"/><rect class="lg-t" x="60" y="80" width="16" height="16"/><rect class="lg-t" x="60" y="100" width="16" height="16"/><rect class="lg-t lg-accent" x="80" y="60" width="16" height="16" fill="#E8582A"/><rect class="lg-t" x="100" y="80" width="16" height="16"/><rect class="lg-t" x="120" y="40" width="16" height="16"/><rect class="lg-t" x="120" y="60" width="16" height="16"/><rect class="lg-t" x="120" y="80" width="16" height="16"/><rect class="lg-t" x="120" y="100" width="16" height="16"/></g></svg>`;
+const LOGO = `<img src="assets/brand/embleme-160.webp" alt="" class="logo" width="160" height="114">`;  // emblème du logo officiel (assets/brand/)
 window.LOGO = LOGO;
 
 const NAV = [
@@ -34,7 +35,7 @@ const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': 
 function layout() {
   const here = (location.pathname.split('/').pop() || 'index.html');
   const current = here === 'chantier.html' ? 'realisations.html' : here;
-  const brand = `<a class="brand" href="index.html">${LOGO}<span><span class="brand-name">${esc(CONFIG.nom).replace('&amp;', '<span class="amp">&amp;</span>')}</span><span class="brand-sub">${esc(CONFIG.sousTitre)}</span></span></a>`;
+  const brand = `<a class="brand" href="index.html">${LOGO}<span><span class="brand-name">${esc(CONFIG.nom)}</span><span class="brand-sub">${esc(CONFIG.sousTitre)}</span></span></a>`;
 
   document.body.insertAdjacentHTML('afterbegin', `
     <div class="tape" aria-hidden="true"><div class="tape-fill"></div><span class="tape-count">000 cm</span></div>
@@ -45,28 +46,29 @@ function layout() {
         <nav class="nav" id="nav" aria-label="Menu principal">
           ${NAV.map(([h, l]) => `<a href="${h}"${h === current ? ' aria-current="page"' : ''}>${l}</a>`).join('')}
         </nav>
-        <a class="btn brick" href="contact.html">Devis gratuit <span class="arr">→</span></a>
+        <a class="btn sun" href="contact.html">Devis gratuit <span class="arr">→</span></a>
         <button class="burger" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="nav"><span></span></button>
       </div>
     </header>`);
 
   document.body.insertAdjacentHTML('beforeend', `
+    <div class="champs" aria-hidden="true"></div>
     <footer class="ftr">
       <div class="wrap">
         <div class="ftr-grid">
-          <div>${brand}<p>Artisan indépendant. Je pose, je double, je répare, et je laisse le chantier propre.</p></div>
+          <div><a href="index.html"><img class="ftr-logo" src="assets/brand/logo-transparent-900.webp" alt="LOGE&amp;NERJ, rénover, isoler, économiser" width="900" height="817" loading="lazy"></a><p>${esc(CONFIG.metiers)}. Artisan indépendant : je pose, j’isole, je répare, et je laisse le chantier propre.</p></div>
           <div><h4>Contact</h4><ul>
             <li><a href="${tel()}">${esc(CONFIG.telephone)}</a></li>
             <li><a href="mailto:${esc(CONFIG.email)}">${esc(CONFIG.email)}</a></li>
             <li>${esc(CONFIG.adresse)}</li><li>${esc(CONFIG.horaires)}</li></ul></div>
-          <div><h4>Le site</h4><ul>${NAV.map(([h, l]) => `<li><a href="${h}">${l}</a></li>`).join('')}<li><a href="mentions-legales.html">Mentions légales</a></li></ul></div>
+          <div><h4>Le site</h4><ul>${NAV.map(([h, l]) => `<li><a href="${h}">${l}</a></li>`).join('')}<li><a href="mentions-legales.html">Mentions légales</a></li>${CONFIG.maquette ? '<li><a href="charte.html">Charte graphique</a></li>' : ''}</ul></div>
         </div>
         <div class="ftr-legal"><span>SIRET ${esc(CONFIG.siret)} · Assurance décennale [à compléter]</span><span>${CONFIG.maquette ? 'Maquette · informations fictives' : '© ' + new Date().getFullYear() + ' ' + esc(CONFIG.nom)}</span></div>
       </div>
     </footer>
     <nav class="mbar" aria-label="Contact rapide">
       <a href="${tel()}">Appeler</a>
-      <a href="contact.html">Demander un devis</a>
+      <a href="contact.html">Devis gratuit</a>
     </nav>`);
 
   document.querySelectorAll('[data-tel]').forEach(a => { a.href = tel(); a.textContent = CONFIG.telephone; });

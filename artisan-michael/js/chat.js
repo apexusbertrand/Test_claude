@@ -27,9 +27,9 @@
     getJSON('content/faq.json').then(d => { faq = d.faq; }).catch(() => {});
 
     document.body.insertAdjacentHTML('beforeend', `
-      <button class="chat-fab" aria-controls="chat" aria-expanded="false">${LOGO.replace('fill="currentColor"', 'fill="#F2EFE8"')}<span class="lbl">Une question ?</span><span class="dot" aria-hidden="true"></span></button>
+      <button class="chat-fab" aria-controls="chat" aria-expanded="false">${LOGO}<span class="lbl">Une question ?</span><span class="dot" aria-hidden="true"></span></button>
       <section class="chat" id="chat" aria-label="Discuter avec l’assistant">
-        <div class="chat-hd">${LOGO.replace('fill="currentColor"', 'fill="#F2EFE8"')}<div><strong>L’assistant de ${CONFIG.prenom}</strong><span class="mono">Ce que je fais · ce que je ne fais pas</span></div><button class="chat-x" aria-label="Fermer le chat">×</button></div>
+        <div class="chat-hd">${LOGO}<div><strong>L’assistant de ${CONFIG.prenom}</strong><span class="mono">Ce que je fais · ce que je ne fais pas</span></div><button class="chat-x" aria-label="Fermer le chat">×</button></div>
         <div class="chat-log" aria-live="polite"></div>
         <div class="quick">
           <button>Vous faites la couverture ?</button><button>Vous intervenez où ?</button><button>Le devis est payant ?</button><button>Vous faites l’électricité ?</button>

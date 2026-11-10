@@ -2,7 +2,7 @@
 
 Maquette de site vitrine pour Michael, artisan indépendant multi-métiers : carrelage et plâtrerie en activité principale, couverture pour les petits chantiers. Brief complet : `../prompts/site-artisan-batiment.md`. Branche de travail : `SITE_MICHAEL`.
 
-Nom de société : LOGE&NERJ (donné par Bertrand le 10/11/2026). Affiché en majuscules, « & » en couleur brique dans le logotype. Dans le HTML, l'écrire `LOGE&amp;NERJ`. Domaine visé : logenerj.fr (disponibilité et marque INPI non vérifiées : réseau de la session bloqué).
+Nom de société : LOGE&NERJ (donné par Bertrand le 10/11/2026), signature « Rénover, isoler, économiser ». Dans le HTML, l'écrire `LOGE&amp;NERJ`. Domaine visé : logenerj.fr (disponibilité et marque INPI non vérifiées : réseau de la session bloqué).
 
 Statut : maquette de présentation. Coordonnées, e-mail (`contact@logenerj.example`), SIRET, adresse, zone et le chantier n°2 sont fictifs. Le bandeau jaune en haut des pages et la mention du pied de page le disent. Tout est en `noindex` (meta + `robots.txt`).
 
@@ -30,13 +30,22 @@ HTML, CSS et JS natifs, sans build. Polices Google Fonts : Bricolage Grotesque (
 
 ## Charte
 
-Variables dans `:root` de `css/style.css`. Plâtre `--plaster` #F2EFE8 (fond), anthracite `--ink` #141517, brique vive `--brick` #E8582A (accent), bleu cordeau `--cordeau` #2B50E8 (cotes, soulignés), jaune mètre #F6C744 (mètre ruban, niveau à bulle, notes).
+Tout le site est « charté » sur le logo officiel de Michael (`assets/brand/logo-officiel.webp`, reçu le 10/11/2026). Le détail est dans `docs/charte-graphique.md`, et la page `charte.html` (liée depuis le pied de page tant que `CONFIG.maquette` est vrai) sert à la faire valider.
 
-Les éléments qui font l'identité du site, à garder si on retouche : le mètre ruban en haut qui suit le défilement, la poignée du comparateur en niveau à bulle, les textures de matériaux en CSS (`.tex-tile`, `.tex-plaster`, `.tex-roof`, `.tex-brick`…), la coupe de mur en 5 couches, les fiches façon panneau de chantier. Angles droits, bordures de 2 px, ombres décalées pleines. Pas de dégradés décoratifs, pas d'emojis, pas de coins arrondis.
+En bref : verts du logo (forêt #425A1B, champ #597424, feuille #749A30), bleus des panneaux (#01CCFF, #01B0EB, #006CC0), jaune soleil #FFCD01 pour les boutons d'action, fond blanc cassé. Polices : Oswald (titres, comme le logotype), Amatic SC (petites touches, comme la signature), Nunito Sans (texte). Formes : coins arrondis, pastilles, blocs séparés par un filet blanc, bandes de champs incurvées (`assets/brand/champs.svg`) entre les sections. Variables dans `:root` de `css/style.css`.
+
+Éléments d'identité à garder : le titre d'accueil « Rénover, isoler, économiser » (« isoler » en dégradé bleu panneaux, point final en soleil), le mètre jaune qui suit le défilement, le niveau à bulle du comparateur, les textures de matériaux en CSS, la coupe de mur en 5 couches.
 
 ## Logo
 
-Fictif. `assets/logo.svg` et copie inline dans `js/site.js` (constante `LOGO`). Les initiales L et N en carreaux avec joints (carrelage) sous un toit (couverture), sur fond lisse (plâtrerie). Le carreau en brique est dans la diagonale du N. Chaque carreau a la classe `lg-t`, le toit `lg-roof` : prévu pour l'animation (pose carreau par carreau, puis le toit qui se trace).
+Logo officiel, à ne jamais redessiner ni recolorer. Fichiers dans `assets/brand/` :
+
+- `logo-officiel.webp` : fichier d'origine fourni (référence, fond blanc)
+- `logo-transparent.webp`, `logo-transparent-900.webp` : logo complet détouré (pied de page)
+- `embleme.webp`, `embleme-400.webp`, `embleme-160.webp` : emblème seul détouré (en-tête via la constante `LOGO` de `js/site.js`, chat)
+- `favicon-32.png`, `favicon-192.png`, `og-image.jpg` (aperçu de partage)
+
+Le détourage est automatique (blanc rendu transparent). Si Michael a un fichier vectoriel (SVG, AI, PDF), le récupérer : il remplacera ces dérivés. L'animation du logo prévue au départ porterait sur l'emblème (soleil qui se lève, panneaux qui s'allument) et demande ce fichier vectoriel.
 
 ## Ajouter du contenu
 
@@ -54,7 +63,7 @@ Les engagements de `qui-suis-je.html`, la liste « Ce que je ne fais pas », les
 
 ## À obtenir de Michael
 
-Nom de famille, forme juridique de LOGE&NERJ, SIRET, adresse, assurance décennale, téléphone, e-mail, horaires, zone réelle, parcours, portrait, photos de lui au travail (et savoir qui est qui sur la photo 03), liste exacte de ce qu'il fait et refuse, infos du chantier des combles (commune, date, durée), chantiers suivants.
+Fichier vectoriel du logo, statut RGE ou non (la signature parle d'économies d'énergie : les clients demanderont s'ils ont droit aux aides), nom de famille, forme juridique de LOGE&NERJ, SIRET, adresse, assurance décennale, téléphone, e-mail, horaires, zone réelle, parcours, portrait, photos de lui au travail (et savoir qui est qui sur la photo 03), liste exacte de ce qu'il fait et refuse, infos du chantier des combles (commune, date, durée), chantiers suivants.
 
 ## Publication
 
