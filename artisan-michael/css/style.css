@@ -1,4 +1,4 @@
-/* Michael Rénovation — maquette
+/* LOGE&NERJ — maquette
    Charte : plâtre (fond), anthracite (texte), brique vive (accent), bleu cordeau (cotes et annotations). */
 :root{
   --plaster:#F2EFE8;
@@ -39,7 +39,8 @@ a{color:inherit;}
 .hdr{position:sticky;top:var(--tape-h);z-index:50;background:rgba(242,239,232,.92);backdrop-filter:blur(8px);border-bottom:1px solid rgba(20,21,23,.12);}
 .hdr-in{display:flex;align-items:center;gap:24px;height:72px;}
 .brand{display:flex;align-items:center;gap:12px;text-decoration:none;}
-.brand svg{width:34px;height:auto;flex:none;}
+.brand svg{height:38px;width:auto;flex:none;}
+.brand-name .amp{color:var(--brick);}
 .brand-name{font-weight:800;font-size:1.15rem;letter-spacing:-.02em;line-height:1;}
 .brand-sub{display:block;font-family:var(--mono);font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--mute);margin-top:4px;font-weight:400;}
 .nav{display:flex;gap:4px;margin-left:auto;}
@@ -358,14 +359,14 @@ fieldset.field{border:0;padding:0;margin:0;}
 /* ---------- Chat ---------- */
 .chat-fab{position:fixed;right:20px;bottom:20px;z-index:58;display:flex;align-items:center;gap:10px;background:var(--ink);color:var(--plaster);border:2px solid var(--ink);padding:10px 16px 10px 10px;cursor:pointer;font-family:var(--display);font-weight:700;font-size:1rem;box-shadow:4px 4px 0 var(--brick);transition:transform .15s, box-shadow .15s;}
 .chat-fab:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--brick);}
-.chat-fab svg{width:30px;height:30px;}
+.chat-fab svg{width:36px;height:30px;}
 .chat-fab .dot{width:8px;height:8px;border-radius:50%;background:#5BD47A;box-shadow:0 0 0 3px rgba(91,212,122,.25);}
 @media (max-width:900px){.chat-fab{bottom:76px;right:12px;padding:10px;}.chat-fab .lbl{display:none;}}
 .chat{position:fixed;right:20px;bottom:20px;z-index:59;width:min(390px, calc(100vw - 24px));height:min(600px, calc(100vh - 120px));background:var(--plaster);border:2px solid var(--ink);box-shadow:8px 8px 0 var(--ink);display:none;flex-direction:column;}
 .chat.open{display:flex;}
 @media (max-width:900px){.chat{right:12px;bottom:76px;height:min(560px, calc(100vh - 140px));}}
 .chat-hd{background:var(--ink);color:var(--plaster);padding:14px 16px;display:flex;align-items:center;gap:12px;}
-.chat-hd svg{width:28px;}
+.chat-hd svg{width:34px;}
 .chat-hd strong{display:block;line-height:1.1;}
 .chat-hd .mono{color:#F6C744;font-size:.64rem;}
 .chat-x{margin-left:auto;background:none;border:2px solid var(--plaster);color:var(--plaster);width:34px;height:34px;cursor:pointer;font-size:1.1rem;line-height:1;}

@@ -1,12 +1,12 @@
-/* Michael Rénovation — script commun.
+/* LOGE&NERJ — script commun.
    Tout ce qui est coordonnées et URL de webhooks est dans CONFIG.
    Valeurs bouchon pour la maquette : à remplacer par les vraies. */
 const CONFIG = {
-  nom: 'Michael Rénovation',
+  nom: 'LOGE&NERJ',
   prenom: 'Michael',
   sousTitre: 'Carrelage · Plâtrerie · Couverture',
   telephone: '06 39 98 12 34',          // numéro fictif (plage réservée ARCEP à la fiction)
-  email: 'contact@michael-renovation.example',
+  email: 'contact@logenerj.example',
   adresse: '12 rue de l’Exemple, 59000 Lille',
   zone: 'Lille et 30 km autour',
   horaires: 'Lun – ven, 7 h 30 – 18 h',
@@ -17,7 +17,7 @@ const CONFIG = {
 };
 window.CONFIG = CONFIG;
 
-const LOGO = `<svg viewBox="0 0 96 116" aria-hidden="true" class="logo"><path class="lg-roof" d="M4 30 L48 6 L92 30" fill="none" stroke="#E8582A" stroke-width="8" stroke-linecap="square"/><g class="lg-tiles" fill="currentColor"><rect class="lg-t" x="0" y="40" width="16" height="16"/><rect class="lg-t" x="80" y="40" width="16" height="16"/><rect class="lg-t" x="0" y="60" width="16" height="16"/><rect class="lg-t" x="20" y="60" width="16" height="16"/><rect class="lg-t" x="60" y="60" width="16" height="16"/><rect class="lg-t" x="80" y="60" width="16" height="16"/><rect class="lg-t" x="0" y="80" width="16" height="16"/><rect class="lg-t lg-accent" x="40" y="80" width="16" height="16" fill="#E8582A"/><rect class="lg-t" x="80" y="80" width="16" height="16"/><rect class="lg-t" x="0" y="100" width="16" height="16"/><rect class="lg-t" x="80" y="100" width="16" height="16"/></g></svg>`;
+const LOGO = `<svg viewBox="0 0 136 116" aria-hidden="true" class="logo"><path class="lg-roof" d="M4 30 L68 4 L132 30" fill="none" stroke="#E8582A" stroke-width="8" stroke-linecap="square"/><g class="lg-tiles" fill="currentColor"><rect class="lg-t" x="0" y="40" width="16" height="16"/><rect class="lg-t" x="0" y="60" width="16" height="16"/><rect class="lg-t" x="0" y="80" width="16" height="16"/><rect class="lg-t" x="0" y="100" width="16" height="16"/><rect class="lg-t" x="20" y="100" width="16" height="16"/><rect class="lg-t" x="60" y="40" width="16" height="16"/><rect class="lg-t" x="60" y="60" width="16" height="16"/><rect class="lg-t" x="60" y="80" width="16" height="16"/><rect class="lg-t" x="60" y="100" width="16" height="16"/><rect class="lg-t lg-accent" x="80" y="60" width="16" height="16" fill="#E8582A"/><rect class="lg-t" x="100" y="80" width="16" height="16"/><rect class="lg-t" x="120" y="40" width="16" height="16"/><rect class="lg-t" x="120" y="60" width="16" height="16"/><rect class="lg-t" x="120" y="80" width="16" height="16"/><rect class="lg-t" x="120" y="100" width="16" height="16"/></g></svg>`;
 window.LOGO = LOGO;
 
 const NAV = [
@@ -34,7 +34,7 @@ const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': 
 function layout() {
   const here = (location.pathname.split('/').pop() || 'index.html');
   const current = here === 'chantier.html' ? 'realisations.html' : here;
-  const brand = `<a class="brand" href="index.html">${LOGO}<span><span class="brand-name">${esc(CONFIG.nom)}</span><span class="brand-sub">${esc(CONFIG.sousTitre)}</span></span></a>`;
+  const brand = `<a class="brand" href="index.html">${LOGO}<span><span class="brand-name">${esc(CONFIG.nom).replace('&amp;', '<span class="amp">&amp;</span>')}</span><span class="brand-sub">${esc(CONFIG.sousTitre)}</span></span></a>`;
 
   document.body.insertAdjacentHTML('afterbegin', `
     <div class="tape" aria-hidden="true"><div class="tape-fill"></div><span class="tape-count">000 cm</span></div>

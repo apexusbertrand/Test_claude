@@ -1,8 +1,10 @@
-# Site de Michael (artisan carrelage, plâtrerie, couverture)
+# Site de LOGE&NERJ, l'entreprise de Michael (carrelage, plâtrerie, couverture)
 
 Maquette de site vitrine pour Michael, artisan indépendant multi-métiers : carrelage et plâtrerie en activité principale, couverture pour les petits chantiers. Brief complet : `../prompts/site-artisan-batiment.md`. Branche de travail : `SITE_MICHAEL`.
 
-Statut : maquette de présentation. Coordonnées, SIRET, adresse, zone et le chantier n°2 sont fictifs. Le bandeau jaune en haut des pages et la mention du pied de page le disent. Tout est en `noindex` (meta + `robots.txt`).
+Nom de société : LOGE&NERJ (donné par Bertrand le 10/11/2026). Affiché en majuscules, « & » en couleur brique dans le logotype. Dans le HTML, l'écrire `LOGE&amp;NERJ`. Domaine visé : logenerj.fr (disponibilité et marque INPI non vérifiées : réseau de la session bloqué).
+
+Statut : maquette de présentation. Coordonnées, e-mail (`contact@logenerj.example`), SIRET, adresse, zone et le chantier n°2 sont fictifs. Le bandeau jaune en haut des pages et la mention du pied de page le disent. Tout est en `noindex` (meta + `robots.txt`).
 
 ## Lancer en local
 
@@ -34,7 +36,7 @@ Les éléments qui font l'identité du site, à garder si on retouche : le mètr
 
 ## Logo
 
-Fictif. `assets/logo.svg` et copie inline dans `js/site.js` (constante `LOGO`). Un M en carreaux avec joints (carrelage) sous un toit (couverture), sur fond lisse (plâtrerie). Un carreau en brique. Chaque carreau a la classe `lg-t`, le toit `lg-roof` : prévu pour l'animation (pose carreau par carreau, puis le toit qui se trace).
+Fictif. `assets/logo.svg` et copie inline dans `js/site.js` (constante `LOGO`). Les initiales L et N en carreaux avec joints (carrelage) sous un toit (couverture), sur fond lisse (plâtrerie). Le carreau en brique est dans la diagonale du N. Chaque carreau a la classe `lg-t`, le toit `lg-roof` : prévu pour l'animation (pose carreau par carreau, puis le toit qui se trace).
 
 ## Ajouter du contenu
 
@@ -52,7 +54,7 @@ Les engagements de `qui-suis-je.html`, la liste « Ce que je ne fais pas », les
 
 ## À obtenir de Michael
 
-Nom de famille et nom commercial, SIRET, adresse, assurance décennale, téléphone, e-mail, horaires, zone réelle, parcours, portrait, photos de lui au travail (et savoir qui est qui sur la photo 03), liste exacte de ce qu'il fait et refuse, infos du chantier des combles (commune, date, durée), chantiers suivants.
+Nom de famille, forme juridique de LOGE&NERJ, SIRET, adresse, assurance décennale, téléphone, e-mail, horaires, zone réelle, parcours, portrait, photos de lui au travail (et savoir qui est qui sur la photo 03), liste exacte de ce qu'il fait et refuse, infos du chantier des combles (commune, date, durée), chantiers suivants.
 
 ## Publication
 
