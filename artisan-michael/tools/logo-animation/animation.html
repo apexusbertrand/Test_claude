@@ -10,17 +10,31 @@
 </style>
 </head>
 <body>
-<!-- Source de l'animation du logo (≈ 10,8 s).
+<!-- Source de l'animation du logo (13 s, la dernière image est le logo officiel).
      Ouvrir dans un navigateur pour la voir en boucle, ou lancer render.js pour fabriquer la vidéo MP4.
      Scénario : un vieux pignon en brique -> rénovation (ossature, isolant, plaques) -> maison neuve ->
      le soleil se lève, panneaux solaires, feuilles, champs, sapins -> fondu vers le logo officiel. -->
 <canvas id="c" width="1080" height="1080"></canvas>
 <script>
-const W = 1080, C = document.getElementById('c'), X = C.getContext('2d');
+const W = 1080, C = document.getElementById('c'), MAIN = C.getContext('2d');
+let X = MAIN;   // contexte courant (permute vers un calque hors écran pour les fondus de groupe)
+const LAYER = document.createElement('canvas'); LAYER.width = LAYER.height = W; const LX2 = LAYER.getContext('2d');
+// Dessine fn() dans un calque puis le pose avec l'opacité alpha (les fonctions internes peuvent régler leur propre globalAlpha)
+function layer(alpha, fn) {
+  if (alpha <= 0) return;
+  if (alpha >= 1) { fn(); return; }
+  LX2.setTransform(1, 0, 0, 1, 0, 0); LX2.clearRect(0, 0, W, W);
+  LX2.setTransform(MAIN.getTransform());
+  X = LX2; fn(); X = MAIN;
+  MAIN.save(); MAIN.setTransform(1, 0, 0, 1, 0, 0); MAIN.globalAlpha = alpha; MAIN.drawImage(LAYER, 0, 0); MAIN.restore();
+}
 const COL = { paper:'#FBFBF6', forest:'#425A1B', forestD:'#2F4113', field:'#597424', leaf:'#749A30',
   sky:'#01CCFF', azure:'#01B0EB', blue:'#006CC0', sun:'#FFCD01', brick:'#A0583C', mortar:'#D9D3C4',
   stud:'#9AA3A8', wool:'#F2C94C', board:'#FFFFFF' };
-const DUR = 10.8;
+const DUR = 13;            // durée de la vidéo (s)
+const STORY_END = 10.2;    // fin de l'action en « temps du scénario »
+const ACTION_END = 11.7;   // instant réel où l'action se termine ; ensuite le logo reste affiché
+const K = STORY_END / ACTION_END;  // ralentissement : 10,2 s de scénario étalées sur 11,7 s
 
 // Logo officiel détouré (bbox 1568 x 1425). Placement final dans le cadre 1080 x 1080.
 const logo = new Image(); logo.src = '../../assets/brand/logo-transparent.webp';
@@ -92,7 +106,7 @@ function renovation(t) {
   X.restore();
 }
 function roof(t) {
-  const a = prog(t, 0, .7); if (!a) return;
+  const a = .6 + .4 * prog(t, 0, .7);   // visible dès la première image (pas d'image blanche)
   X.save(); X.globalAlpha = a; roofPath(); X.clip();
   const neu = io(prog(t, 4.2, 4.8));
   X.fillStyle = neu < 1 ? '#5B4A42' : COL.forest; X.fillRect(280, 320, 520, 130);
@@ -135,22 +149,22 @@ function outline(t) {
   const L = 2 * 440 + 2 * 210; X.setLineDash([L * p, L]);
   X.strokeRect(WALL.x0, WALL.y0, 440, 210); X.restore();
 }
-function sun(t) {
-  const p = io(prog(t, 4.4, 5.8)); if (!p) return;
-  const y = lerp(470, SUN.y, p);
+// Soleil, dessiné hors caméra : (x, y, r) en coordonnées de l'image finale
+function sunAt(t, x, y, r, rayA) {
   X.save();
-  const rp = out(prog(t, 5.3, 6.2)), fade = 1 - prog(t, 7.0, 7.6);
-  if (rp > 0) {
-    X.strokeStyle = COL.sun; X.lineWidth = 6; X.lineCap = 'round'; X.globalAlpha = .8 * fade;
+  const rp = out(prog(t, 5.3, 6.2));
+  if (rp > 0 && rayA > 0) {
+    X.strokeStyle = COL.sun; X.lineWidth = 6 * r / SUN.r; X.lineCap = 'round'; X.globalAlpha = .8 * rayA;
     const rot = t * .35;
     for (let i = 0; i < 12; i++) {
       const a = rot + i * Math.PI / 6;
       if (Math.sin(a) > .25) continue; // pas de rayons derrière le toit
-      X.beginPath(); X.moveTo(SUN.x + Math.cos(a) * (SUN.r + 14), y + Math.sin(a) * (SUN.r + 14));
-      X.lineTo(SUN.x + Math.cos(a) * (SUN.r + 14 + 34 * rp), y + Math.sin(a) * (SUN.r + 14 + 34 * rp)); X.stroke();
+      const k = r / SUN.r;
+      X.beginPath(); X.moveTo(x + Math.cos(a) * (r + 14 * k), y + Math.sin(a) * (r + 14 * k));
+      X.lineTo(x + Math.cos(a) * (r + (14 + 34 * rp) * k), y + Math.sin(a) * (r + (14 + 34 * rp) * k)); X.stroke();
     }
   }
-  X.globalAlpha = 1; X.fillStyle = COL.sun; X.beginPath(); X.arc(SUN.x, y, SUN.r, 0, 7); X.fill();
+  X.globalAlpha = 1; X.fillStyle = COL.sun; X.beginPath(); X.arc(x, y, r, 0, 7); X.fill();
   X.restore();
 }
 function leafBranch(t, side) {
@@ -185,19 +199,22 @@ function tree(t, x, base, h, delay) {
   }
   X.restore();
 }
-function scene(t) {
-  sun(t);
+// Décor sans le soleil (champs, sapins, feuilles)
+function decor(t) {
   fields(t);
   [[205,450,170,0],[262,440,120,.08],[300,440,80,.16],[875,450,170,.04],[818,440,120,.12],[780,440,80,.2]].forEach(a => tree(t, ...a));
-  roof(t);
-  bricks(prog(t, 0, .7) * (1 - prog(t, 3.9, 4.3)));
+  leafBranch(t, -1); leafBranch(t, 1);
+}
+// Murs (brique, rénovation, façade)
+function walls(t) {
+  bricks((.6 + .4 * prog(t, 0, .7)) * (1 - prog(t, 3.9, 4.3)));
   cracks(prog(t, .8, 1.8) * (1 - prog(t, 1.9, 2.4)));
   renovation(t);
   outline(t);
   facade(t);
-  panels(t);
-  leafBranch(t, -1); leafBranch(t, 1);
 }
+// Toit et panneaux solaires
+function topRoof(t) { roof(t); panels(t); }
 function drawBand(name, alpha, wipe, scale) {
   const [y0, y1] = BAND[name], dy = LY + y0 * LS, dh = (y1 - y0) * LS;
   X.save(); X.globalAlpha = alpha;
@@ -207,21 +224,41 @@ function drawBand(name, alpha, wipe, scale) {
   X.drawImage(logo, 0, y0, 1568, y1 - y0, LX, dy, LW, dh);
   X.restore();
 }
-function render(t) {
-  X.setTransform(1, 0, 0, 1, 0, 0);
-  X.fillStyle = '#FFFFFF'; X.fillRect(0, 0, W, W);   // fond blanc pur : sur le site, mix-blend-mode multiply le fond disparaît
-  // caméra : la maison est cadrée plus grande et centrée, puis remonte à la place de l'emblème
-  const cam = io(prog(t, 6.6, 7.9)), cs = lerp(1.3, 1, cam), cy = lerp(95, 0, cam);
-  const fadeOut = io(prog(t, 7.4, 8.0)), xf = io(prog(t, 7.5, 8.2));
-  if (fadeOut < 1) { X.save(); X.globalAlpha = 1 - fadeOut; X.translate(540, 450 + cy); X.scale(cs, cs); X.translate(-540, -450); scene(t); X.restore(); }
-  if (xf > 0) drawBand('emblem', xf, 1, 1.04 - .04 * xf);
-  const w = io(prog(t, 8.3, 9.1)); if (w > 0) drawBand('word', 1, w, 1);
-  const g = io(prog(t, 9.0, 9.8)); if (g > 0) drawBand('tag', g, g, 1);
+function render(time) {
+  const t = time * K;   // temps du scénario
+  X = MAIN; MAIN.setTransform(1, 0, 0, 1, 0, 0);
+  MAIN.fillStyle = '#FFFFFF'; MAIN.fillRect(0, 0, W, W);   // fond blanc pur : sur le site, mix-blend-mode multiply le fond disparaît
+  // Caméra : la maison est d'abord cadrée grande et centrée, puis glisse pour que son toit solaire
+  // vienne se placer sous les panneaux solaires du logo (centre ≈ 604, 478 dans l'image finale).
+  const cam = io(prog(t, 6.6, 8.6));
+  const s = lerp(1.3, 1.1, cam), tx = lerp(540, 604, cam), ty = lerp(463, 478, cam);
+  const toScreen = (x, y) => [tx + s * (x - 540), ty + s * (y - 387)];
+  const decorA = 1 - io(prog(t, 7.0, 7.8));      // le décor laisse la place à celui du logo
+  const wallA  = 1 - io(prog(t, 7.6, 8.5));      // les murs s'effacent d'abord
+  const roofA  = 1 - io(prog(t, 8.1, 9.0));      // le toit solaire se fond en dernier sous les panneaux du logo
+  const xf = io(prog(t, 7.4, 8.6));              // l'emblème du logo apparaît
+
+  // soleil : il glisse de sa place au-dessus de la maison jusqu'au soleil du logo
+  const sp = io(prog(t, 4.4, 5.8));
+  if (sp > 0) {
+    const [sx, sy] = toScreen(SUN.x, lerp(470, SUN.y, sp));
+    const b = io(prog(t, 7.0, 8.4));
+    const x = lerp(sx, 537, b), y = lerp(sy, 243, b), r = lerp(SUN.r * s, 53, b);
+    layer(1 - io(prog(t, 8.6, 9.0)), () => sunAt(t, x, y, r, 1 - prog(t, 6.8, 7.6)));
+  }
+  MAIN.save(); MAIN.translate(tx, ty); MAIN.scale(s, s); MAIN.translate(-540, -387);
+  layer(decorA, () => decor(t));
+  layer(wallA * roofA, () => walls(t));
+  layer(roofA, () => topRoof(t));
+  MAIN.restore();
+  if (xf > 0) drawBand('emblem', xf, 1, 1);
+  const w = io(prog(t, 8.8, 9.6)); if (w > 0) drawBand('word', 1, w, 1);
+  const g = io(prog(t, 9.5, 10.2)); if (g > 0) drawBand('tag', g, g, 1);
 }
 window.render = render; window.DUR = DUR;
 window.ready = new Promise(r => { if (logo.complete && logo.naturalWidth) r(); else logo.onload = r; });
 if (!location.search.includes('render')) {
-  window.ready.then(() => { const t0 = performance.now(); (function loop(){ render(((performance.now() - t0) / 1000) % (DUR + 1)); requestAnimationFrame(loop); })(); });
+  window.ready.then(() => { const t0 = performance.now(); (function loop(){ render(((performance.now() - t0) / 1000) % (DUR + .5)); requestAnimationFrame(loop); })(); });
 } else document.body.classList.add('render');
 </script>
 </body>

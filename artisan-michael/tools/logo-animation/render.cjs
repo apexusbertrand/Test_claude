@@ -13,8 +13,8 @@ const fs = require('fs');
   await p.goto('http://localhost:8765/tools/logo-animation/animation.html?render', { waitUntil: 'networkidle' });
   await p.evaluate(() => window.ready);
   const dur = await p.evaluate(() => window.DUR);
-  const times = keys ? [0.4, 1.4, 2.3, 2.9, 3.6, 4.3, 4.9, 5.4, 5.9, 6.5, 7.0, 7.6, 8.0, 8.6, 9.3, 10.8]
-                     : Array.from({ length: Math.round(dur * fps) + 1 }, (_, i) => i / fps);
+  const times = keys ? [0, 1.6, 3.0, 4.2, 5.4, 6.6, 7.6, 8.4, 8.9, 9.3, 9.7, 10.1, 10.5, 11.0, 11.6, 13]
+                     : Array.from({ length: Math.round(dur * fps) }, (_, i) => Math.min(i / fps, dur));
   const c = await p.$('canvas');
   for (let i = 0; i < times.length; i++) {
     await p.evaluate(t => window.render(t), times[i]);
