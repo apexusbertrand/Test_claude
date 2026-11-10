@@ -92,7 +92,7 @@ h1,h2,h3,h4{font-family:var(--display);font-weight:600;text-transform:uppercase;
 
 /* ---------- Hero ---------- */
 .hero{padding:clamp(28px,5vw,64px) 0 40px;position:relative;}
-.hero-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:24px;align-items:end;}
+.hero-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:24px;align-items:center;}
 .hero-title{grid-column:1/8;margin:0;font-family:var(--display);font-weight:700;font-size:clamp(3.4rem, 8vw, 7.6rem);line-height:.9;letter-spacing:-.005em;text-transform:uppercase;color:var(--forest);}
 .hero-title span{display:block;white-space:nowrap;}
 /* « isoler » prend le dégradé bleu des panneaux du logo */
@@ -102,6 +102,9 @@ h1,h2,h3,h4{font-family:var(--display);font-weight:600;text-transform:uppercase;
 @keyframes lever{from{transform:translateY(.4em);opacity:0}to{transform:none;opacity:1}}
 .hero-side{grid-column:8/-1;padding-bottom:10px;padding-left:clamp(0px,2vw,24px);}
 .hero-kicker{color:var(--leaf);margin:0 0 6px;}
+/* logo animé (assets/brand/logo-animation-720.mp4), même principe que sur le site Apexus */
+.hero-logo{display:block;width:100%;max-width:280px;aspect-ratio:1;margin:0 0 8px -12px;mix-blend-mode:multiply;cursor:pointer;}
+@media (max-width:980px){.hero-logo{max-width:190px;margin:8px auto 0;}}
 .hero-lede{font-size:1.2rem;line-height:1.5;margin:0 0 22px;}
 .hero-actions{display:flex;gap:12px;flex-wrap:wrap;}
 .specs{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px;}

@@ -291,8 +291,15 @@ function contactForm(form) {
   });
 }
 
+function heroLogo() {
+  const v = document.querySelector('.hero-logo'); if (!v) return;
+  // mouvement réduit demandé : on montre directement l'image finale
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) { v.removeAttribute('autoplay'); v.pause(); return; }
+  v.addEventListener('click', () => { v.currentTime = 0; v.play(); });   // un clic rejoue l'animation
+}
+
 document.addEventListener('DOMContentLoaded', () => {
-  layout(); tape(); reveal(); compare();
+  layout(); tape(); reveal(); compare(); heroLogo();
   const $ = s => document.querySelector(s);
   if ($('#samples')) renderSamples($('#samples'));
   if ($('#fiches')) renderFiches($('#fiches'), { limit: +$('#fiches').dataset.limit || 0, filters: $('#filters') });

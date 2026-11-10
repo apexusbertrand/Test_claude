@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>LOGE&amp;NERJ · animation du logo</title>
+<style>
+  html,body{margin:0;background:#FBFBF6;}
+  canvas{display:block;width:540px;height:540px;}
+  body.render canvas{width:1080px;height:1080px;}
+</style>
+</head>
+<body>
+<!-- Source de l'animation du logo (≈ 10,8 s).
+     Ouvrir dans un navigateur pour la voir en boucle, ou lancer render.js pour fabriquer la vidéo MP4.
+     Scénario : un vieux pignon en brique -> rénovation (ossature, isolant, plaques) -> maison neuve ->
+     le soleil se lève, panneaux solaires, feuilles, champs, sapins -> fondu vers le logo officiel. -->
+<canvas id="c" width="1080" height="1080"></canvas>
+<script>
+const W = 1080, C = document.getElementById('c'), X = C.getContext('2d');
+const COL = { paper:'#FBFBF6', forest:'#425A1B', forestD:'#2F4113', field:'#597424', leaf:'#749A30',
+  sky:'#01CCFF', azure:'#01B0EB', blue:'#006CC0', sun:'#FFCD01', brick:'#A0583C', mortar:'#D9D3C4',
+  stud:'#9AA3A8', wool:'#F2C94C', board:'#FFFFFF' };
+const DUR = 10.8;
+
+// Logo officiel détouré (bbox 1568 x 1425). Placement final dans le cadre 1080 x 1080.
+const logo = new Image(); logo.src = '../../assets/brand/logo-transparent.webp';
+const LS = 0.6, LW = 1568 * LS, LH = 1425 * LS, LX = (W - LW) / 2, LY = (W - LH) / 2;
+const BAND = { emblem:[0, 861], word:[861, 1230], tag:[1230, 1425] };   // lignes du fichier source
+
+const clamp = v => Math.max(0, Math.min(1, v));
+const prog = (t, a, b) => clamp((t - a) / (b - a));
+const io = p => p < .5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2;
+const out = p => 1 - Math.pow(1 - p, 3);
+const back = p => { const c1 = 1.7, c3 = c1 + 1; return 1 + c3 * Math.pow(p - 1, 3) + c1 * Math.pow(p - 1, 2); };
+const lerp = (a, b, p) => a + (b - a) * p;
+
+// Géométrie de la maison (vue de face)
+const WALL = { x0:320, x1:760, y0:440, y1:650 };
+const ROOF = { bl:[290,440], br:[790,440], tl:[390,330], tr:[690,330] };
+const SUN = { x:537, y:243, r:53 };
+
+function wallClip() { X.beginPath(); X.rect(WALL.x0, WALL.y0, WALL.x1 - WALL.x0, WALL.y1 - WALL.y0); X.clip(); }
+function roofPath() { X.beginPath(); X.moveTo(...ROOF.tl); X.lineTo(...ROOF.tr); X.lineTo(...ROOF.br); X.lineTo(...ROOF.bl); X.closePath(); }
+function roofPt(u, v) { // u gauche->droite, v haut->bas
+  const lx = lerp(ROOF.tl[0], ROOF.bl[0], v), rx = lerp(ROOF.tr[0], ROOF.br[0], v), y = lerp(ROOF.tl[1], ROOF.bl[1], v);
+  return [lerp(lx, rx, u), y];
+}
+
+function bricks(alpha) {
+  X.save(); wallClip(); X.globalAlpha = alpha;
+  X.fillStyle = COL.brick; X.fillRect(WALL.x0, WALL.y0, 440, 210);
+  X.fillStyle = COL.mortar;
+  for (let r = 0, y = WALL.y0; y < WALL.y1; r++, y += 21) {
+    X.fillRect(WALL.x0, y, 440, 3);
+    for (let x = WALL.x0 + (r % 2 ? 22 : 0); x < WALL.x1; x += 44) X.fillRect(x, y, 3, 21);
+  }
+  // vieux enduit gris en diagonale, comme sur le pignon du chantier
+  X.fillStyle = 'rgba(190,190,182,.75)';
+  X.beginPath(); X.moveTo(420, 440); X.lineTo(470, 440); X.lineTo(380, 650); X.lineTo(330, 650); X.fill();
+  X.beginPath(); X.moveTo(600, 440); X.lineTo(640, 440); X.lineTo(750, 650); X.lineTo(700, 650); X.fill();
+  X.restore();
+}
+function cracks(p) {
+  if (p <= 0) return;
+  X.save(); wallClip(); X.strokeStyle = '#3B2A20'; X.lineWidth = 4; X.lineCap = 'round'; X.lineJoin = 'round';
+  const paths = [[[520,440],[530,480],[515,520],[540,560],[528,600]], [[700,500],[680,530],[690,560],[665,600]]];
+  paths.forEach(pt => {
+    let L = 0; for (let i = 1; i < pt.length; i++) L += Math.hypot(pt[i][0]-pt[i-1][0], pt[i][1]-pt[i-1][1]);
+    X.setLineDash([L * p, L]); X.beginPath(); X.moveTo(...pt[0]); pt.slice(1).forEach(q => X.lineTo(...q)); X.stroke();
+  });
+  X.restore();
+}
+function renovation(t) {
+  X.save(); wallClip();
+  const n = 10, step = 44;
+  for (let k = 0; k < n; k++) { // isolant entre montants
+    const p = out(prog(t, 2.5 + k * .06, 3.3 + k * .06)); if (!p) continue;
+    const h = 210 * p, x = WALL.x0 + k * step + 4;
+    X.fillStyle = COL.wool; X.fillRect(x, WALL.y1 - h, step - 4, h);
+    X.fillStyle = 'rgba(255,255,255,.35)';
+    for (let y = WALL.y1 - 14; y > WALL.y1 - h; y -= 26) { X.beginPath(); X.arc(x + 12 + (y % 3) * 6, y, 5, 0, 7); X.fill(); }
+  }
+  for (let k = 0; k <= n; k++) { // montants métalliques
+    const p = out(prog(t, 1.8 + k * .05, 2.6 + k * .05)); if (!p) continue;
+    X.fillStyle = COL.stud; X.fillRect(WALL.x0 + k * step - 4, WALL.y1 - 210 * p, 8, 210 * p);
+  }
+  for (let k = 0; k < 5; k++) { // plaques de plâtre qui descendent
+    const p = io(prog(t, 3.3 + k * .1, 4.0 + k * .1)); if (!p) continue;
+    X.fillStyle = COL.board; X.fillRect(WALL.x0 + k * 88, WALL.y0, 88, 210 * p);
+    X.fillStyle = 'rgba(0,0,0,.06)'; X.fillRect(WALL.x0 + k * 88 + 86, WALL.y0, 2, 210 * p);
+  }
+  X.restore();
+}
+function roof(t) {
+  const a = prog(t, 0, .7); if (!a) return;
+  X.save(); X.globalAlpha = a; roofPath(); X.clip();
+  const neu = io(prog(t, 4.2, 4.8));
+  X.fillStyle = neu < 1 ? '#5B4A42' : COL.forest; X.fillRect(280, 320, 520, 130);
+  if (neu > 0) { X.globalAlpha = a * neu; X.fillStyle = COL.forest; X.fillRect(280, 320, 520, 130); X.globalAlpha = a; }
+  X.strokeStyle = neu > .5 ? 'rgba(255,255,255,.18)' : 'rgba(0,0,0,.25)'; X.lineWidth = 2;
+  for (let y = 345; y < 440; y += 18) { X.beginPath(); X.moveTo(280, y); X.lineTo(800, y); X.stroke(); }
+  if (neu < .5) { X.fillStyle = '#3A2E29'; [[430,372],[610,390],[520,410]].forEach(([x,y]) => X.fillRect(x, y, 30, 17)); }
+  X.restore();
+}
+function panels(t) {
+  const rows = 3, cols = 6, g = .035;
+  for (let r = 0; r < rows; r++) for (let c = 0; c < cols; c++) {
+    const p = prog(t, 4.9 + (r + c) * .08, 5.4 + (r + c) * .08); if (!p) continue;
+    const u0 = .06 + c * (.88 / cols) + g / 2, u1 = .06 + (c + 1) * (.88 / cols) - g / 2;
+    const v0 = .12 + r * (.8 / rows) + g, v1 = .12 + (r + 1) * (.8 / rows) - g;
+    const q = [roofPt(u0, v0), roofPt(u1, v0), roofPt(u1, v1), roofPt(u0, v1)];
+    const cx = (q[0][0] + q[2][0]) / 2, cy = (q[0][1] + q[2][1]) / 2, s = back(p);
+    const mix = (r / (rows - 1) + c / (cols - 1)) / 2;
+    X.fillStyle = mix < .33 ? COL.sky : mix < .66 ? COL.azure : COL.blue;
+    X.beginPath(); q.forEach(([x, y], i) => X[i ? 'lineTo' : 'moveTo'](cx + (x - cx) * s, cy + (y - cy) * s)); X.closePath(); X.fill();
+    const glint = prog(t, 6.0 + c * .05, 6.5 + c * .05);  // reflet qui balaie
+    if (glint > 0 && glint < 1) { X.fillStyle = `rgba(255,255,255,${.5 * Math.sin(glint * Math.PI)})`; X.fill(); }
+  }
+}
+function facade(t) {
+  const p = prog(t, 4.2, 4.7); if (!p) return;
+  X.save(); X.globalAlpha = p;
+  const lit = io(prog(t, 6.1, 6.8));
+  [[370, 500], [640, 500]].forEach(([x, y]) => {
+    X.fillStyle = lit ? `rgb(${lerp(1,255,lit)|0},${lerp(204,205,lit)|0},${lerp(255,1,lit)|0})` : COL.sky;
+    X.fillRect(x, y, 70, 60); X.fillStyle = COL.board; X.fillRect(x + 33, y, 4, 60); X.fillRect(x, y + 28, 70, 4);
+  });
+  X.fillStyle = COL.forest; X.fillRect(505, 560, 70, 90);
+  X.fillStyle = COL.sun; X.beginPath(); X.arc(563, 607, 4, 0, 7); X.fill();
+  X.restore();
+}
+function outline(t) {
+  const p = io(prog(t, 3.8, 4.6)); if (!p) return;
+  X.save(); X.strokeStyle = COL.forest; X.lineWidth = 7; X.lineJoin = 'round';
+  const L = 2 * 440 + 2 * 210; X.setLineDash([L * p, L]);
+  X.strokeRect(WALL.x0, WALL.y0, 440, 210); X.restore();
+}
+function sun(t) {
+  const p = io(prog(t, 4.4, 5.8)); if (!p) return;
+  const y = lerp(470, SUN.y, p);
+  X.save();
+  const rp = out(prog(t, 5.3, 6.2)), fade = 1 - prog(t, 7.0, 7.6);
+  if (rp > 0) {
+    X.strokeStyle = COL.sun; X.lineWidth = 6; X.lineCap = 'round'; X.globalAlpha = .8 * fade;
+    const rot = t * .35;
+    for (let i = 0; i < 12; i++) {
+      const a = rot + i * Math.PI / 6;
+      if (Math.sin(a) > .25) continue; // pas de rayons derrière le toit
+      X.beginPath(); X.moveTo(SUN.x + Math.cos(a) * (SUN.r + 14), y + Math.sin(a) * (SUN.r + 14));
+      X.lineTo(SUN.x + Math.cos(a) * (SUN.r + 14 + 34 * rp), y + Math.sin(a) * (SUN.r + 14 + 34 * rp)); X.stroke();
+    }
+  }
+  X.globalAlpha = 1; X.fillStyle = COL.sun; X.beginPath(); X.arc(SUN.x, y, SUN.r, 0, 7); X.fill();
+  X.restore();
+}
+function leafBranch(t, side) {
+  const p = out(prog(t, 5.6, 6.6)); if (!p) return;
+  X.save(); X.translate(side < 0 ? 410 : 670, 300); X.scale(side * p, p);
+  X.strokeStyle = COL.leaf; X.fillStyle = COL.leaf; X.lineWidth = 6; X.lineCap = 'round';
+  X.beginPath(); X.moveTo(0, 0); X.quadraticCurveTo(-30, -40, -70, -70); X.stroke();
+  [[-28,-30,-.9],[-50,-55,-.3],[-72,-72,-1.2],[-40,-48,-2.2]].forEach(([x, y, a]) => {
+    X.save(); X.translate(x, y); X.rotate(a); X.beginPath(); X.ellipse(0, -14, 9, 18, 0, 0, 7); X.fill(); X.restore();
+  });
+  X.restore();
+}
+function fields(t) {
+  const p = io(prog(t, 6.2, 7.3)); if (!p) return;
+  X.save(); X.beginPath(); X.arc(540, 330, 330, 0, Math.PI); X.closePath(); X.clip();
+  X.beginPath(); X.rect(540 - 420 * p, 0, 840 * p, W); X.clip();
+  const cols = [COL.field, COL.leaf, COL.field, COL.leaf, COL.field];
+  cols.forEach((c, i) => {
+    const y = 470 + i * 44;
+    X.strokeStyle = c; X.lineWidth = 36; X.beginPath(); X.moveTo(150, y - 60); X.quadraticCurveTo(540, y + 80, 930, y - 60); X.stroke();
+  });
+  X.restore();
+}
+function tree(t, x, base, h, delay) {
+  const p = prog(t, 6.6 + delay, 7.3 + delay); if (!p) return;
+  const s = back(p);
+  X.save(); X.translate(x, base); X.scale(1, s); X.fillStyle = COL.forest;
+  X.fillRect(-5, -16, 10, 16);
+  for (let i = 0; i < 3; i++) {
+    const w = h * (.42 - i * .09), y = -16 - i * h * .26;
+    X.beginPath(); X.moveTo(-w, y); X.lineTo(0, y - h * .42); X.lineTo(w, y); X.closePath(); X.fill();
+  }
+  X.restore();
+}
+function scene(t) {
+  sun(t);
+  fields(t);
+  [[205,450,170,0],[262,440,120,.08],[300,440,80,.16],[875,450,170,.04],[818,440,120,.12],[780,440,80,.2]].forEach(a => tree(t, ...a));
+  roof(t);
+  bricks(prog(t, 0, .7) * (1 - prog(t, 3.9, 4.3)));
+  cracks(prog(t, .8, 1.8) * (1 - prog(t, 1.9, 2.4)));
+  renovation(t);
+  outline(t);
+  facade(t);
+  panels(t);
+  leafBranch(t, -1); leafBranch(t, 1);
+}
+function drawBand(name, alpha, wipe, scale) {
+  const [y0, y1] = BAND[name], dy = LY + y0 * LS, dh = (y1 - y0) * LS;
+  X.save(); X.globalAlpha = alpha;
+  if (wipe < 1) { X.beginPath(); X.rect(LX, dy, LW * wipe, dh); X.clip(); }
+  const cx = W / 2, cy = dy + dh / 2;
+  X.translate(cx, cy); X.scale(scale, scale); X.translate(-cx, -cy);
+  X.drawImage(logo, 0, y0, 1568, y1 - y0, LX, dy, LW, dh);
+  X.restore();
+}
+function render(t) {
+  X.setTransform(1, 0, 0, 1, 0, 0);
+  X.fillStyle = '#FFFFFF'; X.fillRect(0, 0, W, W);   // fond blanc pur : sur le site, mix-blend-mode multiply le fond disparaît
+  // caméra : la maison est cadrée plus grande et centrée, puis remonte à la place de l'emblème
+  const cam = io(prog(t, 6.6, 7.9)), cs = lerp(1.3, 1, cam), cy = lerp(95, 0, cam);
+  const fadeOut = io(prog(t, 7.4, 8.0)), xf = io(prog(t, 7.5, 8.2));
+  if (fadeOut < 1) { X.save(); X.globalAlpha = 1 - fadeOut; X.translate(540, 450 + cy); X.scale(cs, cs); X.translate(-540, -450); scene(t); X.restore(); }
+  if (xf > 0) drawBand('emblem', xf, 1, 1.04 - .04 * xf);
+  const w = io(prog(t, 8.3, 9.1)); if (w > 0) drawBand('word', 1, w, 1);
+  const g = io(prog(t, 9.0, 9.8)); if (g > 0) drawBand('tag', g, g, 1);
+}
+window.render = render; window.DUR = DUR;
+window.ready = new Promise(r => { if (logo.complete && logo.naturalWidth) r(); else logo.onload = r; });
+if (!location.search.includes('render')) {
+  window.ready.then(() => { const t0 = performance.now(); (function loop(){ render(((performance.now() - t0) / 1000) % (DUR + 1)); requestAnimationFrame(loop); })(); });
+} else document.body.classList.add('render');
+</script>
+</body>
+</html>

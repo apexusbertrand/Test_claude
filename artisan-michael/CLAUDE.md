@@ -45,7 +45,9 @@ Logo officiel, à ne jamais redessiner ni recolorer. Fichiers dans `assets/brand
 - `embleme.webp`, `embleme-400.webp`, `embleme-160.webp` : emblème seul détouré (en-tête via la constante `LOGO` de `js/site.js`, chat)
 - `favicon-32.png`, `favicon-192.png`, `og-image.jpg` (aperçu de partage)
 
-Le détourage est automatique (blanc rendu transparent). Si Michael a un fichier vectoriel (SVG, AI, PDF), le récupérer : il remplacera ces dérivés. L'animation du logo prévue au départ porterait sur l'emblème (soleil qui se lève, panneaux qui s'allument) et demande ce fichier vectoriel.
+Logo animé (≈ 10,8 s, 30 i/s, carré) : `logo-animation.mp4` (1080 px) et `logo-animation-720.mp4` (utilisé en haut de l'accueil, comme sur le site Apexus), image de repli `logo-animation-poster.webp`. Scénario : vieux pignon en brique fissuré, rénovation (ossature, isolant, plaques), maison neuve, soleil levant, panneaux solaires, fenêtres qui s'allument, feuilles, champs et sapins, puis fondu vers le logo officiel, logotype et signature en dernier. Source modifiable : `tools/logo-animation/animation.html` (s'ouvre dans un navigateur et tourne en boucle), rendu vidéo avec `tools/logo-animation/render.cjs` (commandes en tête du fichier). Fond blanc pur : sur la page, `mix-blend-mode: multiply` le fait disparaître dans le fond papier. Un clic sur la vidéo la rejoue ; en mouvement réduit, seule l'image finale s'affiche.
+
+Le détourage est automatique (blanc rendu transparent). Si Michael a un fichier vectoriel (SVG, AI, PDF), le récupérer : il remplacera ces dérivés. Avec un fichier vectoriel, la fin de l'animation pourrait assembler l'emblème pièce par pièce au lieu d'un fondu.
 
 ## Ajouter du contenu
 
