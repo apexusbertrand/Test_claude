@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -19,6 +20,7 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.ChevronRight
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Download
 import androidx.compose.material.icons.filled.FolderOff
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Search
@@ -30,6 +32,7 @@ import androidx.compose.material3.Checkbox
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -189,11 +192,21 @@ fun ExplorerScreen(onStartScan: () -> Unit, viewModel: ExplorerViewModel = hiltV
                 message = stringResource(R.string.explorer_empty_message),
                 actionLabel = stringResource(R.string.home_start_scan),
                 onAction = onStartScan,
+                secondaryActionLabel = stringResource(R.string.downloads_button),
+                onSecondaryAction = viewModel::openDownloadsCleanup,
+                secondaryActionIcon = Icons.Filled.Download,
                 modifier = Modifier.padding(padding),
             )
             return@Scaffold
         }
         Column(Modifier.fillMaxSize().padding(padding)) {
+            FilledTonalButton(
+                onClick = viewModel::openDownloadsCleanup,
+                modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp),
+            ) {
+                Icon(Icons.Filled.Download, contentDescription = null, modifier = Modifier.size(18.dp))
+                Text(stringResource(R.string.downloads_button), Modifier.padding(start = 8.dp))
+            }
             TabRow(selectedTabIndex = state.tab.ordinal) {
                 ExplorerTab.entries.forEach { tab ->
                     Tab(
@@ -220,6 +233,16 @@ fun ExplorerScreen(onStartScan: () -> Unit, viewModel: ExplorerViewModel = hiltV
         }
     }
 
+    state.downloadsCleanup?.let { cleanup ->
+        DownloadsCleanupDialog(
+            state = cleanup,
+            trashEnabled = state.settings.trashEnabled,
+            onSearch = viewModel::searchDownloads,
+            onEditDays = viewModel::editDownloadsDays,
+            onConfirm = viewModel::confirmDownloadsCleanup,
+            onDismiss = viewModel::dismissDownloadsCleanup,
+        )
+    }
     state.pendingDeletion?.let { pending ->
         DeleteConfirmDialog(pending, onConfirm = viewModel::confirmDelete, onDismiss = viewModel::dismissDelete)
     }

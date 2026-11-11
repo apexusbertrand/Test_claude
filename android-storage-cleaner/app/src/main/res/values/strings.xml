@@ -109,6 +109,19 @@
     <string name="scan_failed">L’analyse a échoué</string>
 
     <!-- Explorateur -->
+    <string name="downloads_button">Vider les téléchargements</string>
+    <string name="downloads_title">Vider le dossier Téléchargements</string>
+    <string name="downloads_choose_text">Supprimer les fichiers du dossier « Download » (sous-dossiers compris) plus anciens que :</string>
+    <string name="downloads_days_label">Ancienneté minimale</string>
+    <string name="downloads_days_suffix">jours</string>
+    <string name="downloads_days_invalid">Entre %1$d et %2$d jours</string>
+    <string name="downloads_cutoff">Fichiers modifiés avant le %1$s</string>
+    <string name="downloads_search">Rechercher</string>
+    <string name="downloads_searching">Recherche des fichiers…</string>
+    <string name="downloads_none_title">Rien à supprimer</string>
+    <string name="downloads_change_days">Modifier l’ancienneté</string>
+    <string name="downloads_note_trash">Les fichiers iront dans la corbeille d’Apexus Cleaner (restaurables). Pour les photos et vidéos, Android demandera aussi une confirmation.</string>
+    <string name="downloads_note_permanent">Suppression définitive (corbeille désactivée). Pour les photos et vidéos, Android demandera aussi une confirmation.</string>
     <string name="explorer_tab_folders">Dossiers</string>
     <string name="explorer_tab_treemap">Carte</string>
     <string name="explorer_tab_top_files">Top 100</string>
@@ -479,5 +492,15 @@
         <item quantity="one">%1$d application sans cache ignorée</item>
         <item quantity="many">%1$d applications sans cache ignorées</item>
         <item quantity="other">%1$d applications sans cache ignorées</item>
+    </plurals>
+    <plurals name="downloads_preview_title">
+        <item quantity="one">Supprimer %1$d fichier (%2$s) ?</item>
+        <item quantity="many">Supprimer %1$d fichiers (%2$s) ?</item>
+        <item quantity="other">Supprimer %1$d fichiers (%2$s) ?</item>
+    </plurals>
+    <plurals name="downloads_none_text">
+        <item quantity="one">Aucun fichier du dossier Téléchargements n’a plus de %1$d jour.</item>
+        <item quantity="many">Aucun fichier du dossier Téléchargements n’a plus de %1$d jours.</item>
+        <item quantity="other">Aucun fichier du dossier Téléchargements n’a plus de %1$d jours.</item>
     </plurals>
 </resources>

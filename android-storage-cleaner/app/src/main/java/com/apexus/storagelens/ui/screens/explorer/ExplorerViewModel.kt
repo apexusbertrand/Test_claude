@@ -6,22 +6,26 @@ import androidx.lifecycle.viewModelScope
 import com.apexus.storagelens.data.delete.DeletionManager
 import com.apexus.storagelens.data.delete.DeletionState
 import com.apexus.storagelens.data.delete.DeletionTarget
+import com.apexus.storagelens.data.downloads.DownloadsRepository
 import com.apexus.storagelens.data.prefs.AppSettings
 import com.apexus.storagelens.data.prefs.SettingsRepository
 import com.apexus.storagelens.data.scan.ScanManager
 import com.apexus.storagelens.data.storage.ProtectionProvider
 import com.apexus.storagelens.domain.cleanup.ProtectedPaths
+import com.apexus.storagelens.domain.deletion.MediaRouting
+import com.apexus.storagelens.domain.downloads.DownloadFile
+import com.apexus.storagelens.domain.downloads.DownloadsCleanup
 import com.apexus.storagelens.domain.model.FileEntry
 import com.apexus.storagelens.domain.model.FileNode
 import com.apexus.storagelens.domain.model.FileType
 import com.apexus.storagelens.domain.model.RiskLevel
 import com.apexus.storagelens.domain.model.ScanResult
-import com.apexus.storagelens.domain.deletion.MediaRouting
 import com.apexus.storagelens.ui.components.DeletionFlow
 import com.apexus.storagelens.ui.components.PendingDeletion
-import com.apexus.storagelens.ui.components.PendingSystemConfirmation
 import com.apexus.storagelens.ui.components.PendingItem
+import com.apexus.storagelens.ui.components.PendingSystemConfirmation
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -29,9 +33,23 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 enum class ExplorerTab { LIST, TREEMAP, TOP_FILES }
+
+/** Étapes du nettoyage du dossier Téléchargements. */
+sealed interface DownloadsCleanupUi {
+    val days: Int
+
+    /** Choix de l'ancienneté minimale des fichiers à supprimer. */
+    data class Choosing(override val days: Int) : DownloadsCleanupUi
+
+    data class Loading(override val days: Int) : DownloadsCleanupUi
+
+    /** Aperçu des fichiers concernés, avant confirmation. */
+    data class Preview(override val days: Int, val cutoffMillis: Long, val files: List<DownloadFile>) : DownloadsCleanupUi {
+        val totalBytes: Long get() = files.sumOf { it.size }
+    }
+}
 
 enum class SortMode { SIZE, COUNT, DATE, NAME }
 
@@ -58,6 +76,7 @@ data class ExplorerUiState(
     val settings: AppSettings = AppSettings(),
     val pendingDeletion: PendingDeletion? = null,
     val protectedPaths: ProtectedPaths? = null,
+    val downloadsCleanup: DownloadsCleanupUi? = null,
 ) {
     val currentNode: FileNode?
         get() = result?.root?.let { root -> currentPath?.let { root.find(it) } ?: root }
@@ -115,6 +134,7 @@ class ExplorerViewModel @Inject constructor(
     private val deletionManager: DeletionManager,
     private val protectionProvider: ProtectionProvider,
     private val settingsRepository: SettingsRepository,
+    private val downloads: DownloadsRepository,
 ) : ViewModel() {
 
     private val local = MutableStateFlow(
@@ -237,6 +257,50 @@ class ExplorerViewModel @Inject constructor(
             )
         }
         deletionFlow.start(targets) { local.update { it.copy(selection = emptyMap()) } }
+    }
+
+    // --- Nettoyage du dossier Téléchargements ---
+
+    fun openDownloadsCleanup() = local.update {
+        it.copy(downloadsCleanup = DownloadsCleanupUi.Choosing(it.downloadsCleanup?.days ?: DownloadsCleanup.DEFAULT_DAYS))
+    }
+
+    fun editDownloadsDays() = local.update { s ->
+        s.copy(downloadsCleanup = s.downloadsCleanup?.let { DownloadsCleanupUi.Choosing(it.days) })
+    }
+
+    fun dismissDownloadsCleanup() = local.update { it.copy(downloadsCleanup = null) }
+
+    fun searchDownloads(days: Int) {
+        val clamped = DownloadsCleanup.clampDays(days)
+        local.update { it.copy(downloadsCleanup = DownloadsCleanupUi.Loading(clamped)) }
+        viewModelScope.launch {
+            val guard = state.value.protectedPaths ?: protectionProvider.current()
+            val now = System.currentTimeMillis()
+            val files = DownloadsCleanup.olderThan(downloads.listFiles(), now, clamped).filter { guard.canDelete(it.path) }
+            local.update { s ->
+                // L'utilisateur a pu fermer la fenêtre pendant la recherche.
+                if (s.downloadsCleanup !is DownloadsCleanupUi.Loading) s
+                else s.copy(downloadsCleanup = DownloadsCleanupUi.Preview(clamped, DownloadsCleanup.cutoff(now, clamped), files))
+            }
+        }
+    }
+
+    fun confirmDownloadsCleanup() {
+        val preview = state.value.downloadsCleanup as? DownloadsCleanupUi.Preview ?: return
+        local.update { it.copy(downloadsCleanup = null) }
+        if (preview.files.isEmpty()) return
+        deletionFlow.start(
+            preview.files.map {
+                DeletionTarget(
+                    path = it.path,
+                    expectedSize = it.size,
+                    expectedLastModified = it.lastModified,
+                    isDirectory = false,
+                    allowTrash = true,
+                )
+            }
+        )
     }
 
     fun onSystemConfirmationShown() = deletionFlow.markShown()

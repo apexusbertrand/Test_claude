@@ -23,6 +23,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -49,6 +50,9 @@ fun EmptyState(
     modifier: Modifier = Modifier,
     actionLabel: String? = null,
     onAction: (() -> Unit)? = null,
+    secondaryActionLabel: String? = null,
+    onSecondaryAction: (() -> Unit)? = null,
+    secondaryActionIcon: ImageVector? = null,
 ) {
     Column(
         modifier.fillMaxSize().padding(32.dp),
@@ -63,6 +67,16 @@ fun EmptyState(
         if (actionLabel != null && onAction != null) {
             Spacer(Modifier.height(24.dp))
             Button(onClick = onAction) { Text(actionLabel) }
+        }
+        if (secondaryActionLabel != null && onSecondaryAction != null) {
+            Spacer(Modifier.height(12.dp))
+            OutlinedButton(onClick = onSecondaryAction) {
+                if (secondaryActionIcon != null) {
+                    Icon(secondaryActionIcon, contentDescription = null, modifier = Modifier.size(18.dp))
+                    Spacer(Modifier.size(8.dp))
+                }
+                Text(secondaryActionLabel)
+            }
         }
     }
 }

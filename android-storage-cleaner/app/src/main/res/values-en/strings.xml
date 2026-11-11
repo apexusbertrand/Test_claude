@@ -100,6 +100,19 @@
     <string name="scan_progress">%1$d files · %2$s</string>
     <string name="scan_failed">Scan failed</string>
 
+    <string name="downloads_button">Empty downloads</string>
+    <string name="downloads_title">Empty the Downloads folder</string>
+    <string name="downloads_choose_text">Delete files in the “Download” folder (subfolders included) older than:</string>
+    <string name="downloads_days_label">Minimum age</string>
+    <string name="downloads_days_suffix">days</string>
+    <string name="downloads_days_invalid">Between %1$d and %2$d days</string>
+    <string name="downloads_cutoff">Files modified before %1$s</string>
+    <string name="downloads_search">Search</string>
+    <string name="downloads_searching">Looking for files…</string>
+    <string name="downloads_none_title">Nothing to delete</string>
+    <string name="downloads_change_days">Change age</string>
+    <string name="downloads_note_trash">Files will go to the Apexus Cleaner trash (restorable). For photos and videos, Android will also ask for confirmation.</string>
+    <string name="downloads_note_permanent">Permanent deletion (trash disabled). For photos and videos, Android will also ask for confirmation.</string>
     <string name="explorer_tab_folders">Folders</string>
     <string name="explorer_tab_treemap">Map</string>
     <string name="explorer_tab_top_files">Top 100</string>
@@ -427,5 +440,13 @@
     <plurals name="apps_batch_skipped_no_cache">
         <item quantity="one">%1$d app without cache skipped</item>
         <item quantity="other">%1$d apps without cache skipped</item>
+    </plurals>
+    <plurals name="downloads_preview_title">
+        <item quantity="one">Delete %1$d file (%2$s)?</item>
+        <item quantity="other">Delete %1$d files (%2$s)?</item>
+    </plurals>
+    <plurals name="downloads_none_text">
+        <item quantity="one">No file in the Downloads folder is older than %1$d day.</item>
+        <item quantity="other">No file in the Downloads folder is older than %1$d days.</item>
     </plurals>
 </resources>
