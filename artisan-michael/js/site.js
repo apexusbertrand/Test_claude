@@ -146,15 +146,15 @@ function ficheVideo(v) {
     <div class="fiche-top"><span class="mono">Chantier en vidéo</span><span class="mono tag">Facebook</span></div>
     <div class="fiche-video">
       ${v.integrable === false
-        ? `<a class="play" href="${esc(v.url)}" target="_blank" rel="noopener" aria-label="Voir la vidéo sur Facebook : ${esc(v.titre)}">
+        ? `<a class="play${v.vignette ? ' has-vignette' : ''}" href="${esc(v.url)}"${v.vignette ? ` style="background-image:linear-gradient(180deg,rgba(47,65,19,.15) 0%,rgba(47,65,19,.35) 45%,rgba(47,65,19,.85) 100%),url('${esc(v.vignette)}')"` : ''} target="_blank" rel="noopener" aria-label="Voir la vidéo sur Facebook : ${esc(v.titre)}">
         <span class="play-ico" aria-hidden="true"></span>
         <span class="play-txt">Voir la vidéo</span>
-        <span class="play-note">S’ouvre sur Facebook</span>
+        <span class="play-note">Avant travaux · la suite s’ouvre sur Facebook</span>
       </a>`
-        : `<button type="button" class="play" data-embed="${esc(v.embed)}" aria-label="Lire la vidéo : ${esc(v.titre)}">
+        : `<button type="button" class="play${v.vignette ? ' has-vignette' : ''}" data-embed="${esc(v.embed)}"${v.vignette ? ` style="background-image:linear-gradient(180deg,rgba(47,65,19,.15) 0%,rgba(47,65,19,.35) 45%,rgba(47,65,19,.85) 100%),url('${esc(v.vignette)}')"` : ''} aria-label="Lire la vidéo : ${esc(v.titre)}">
         <span class="play-ico" aria-hidden="true"></span>
         <span class="play-txt">Lire la vidéo</span>
-        <span class="play-note">La vidéo est hébergée par Facebook</span>
+        <span class="play-note">Avant travaux · vidéo hébergée par Facebook</span>
       </button>`}
     </div>
     <div class="fiche-body">
