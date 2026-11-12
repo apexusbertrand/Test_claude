@@ -20,7 +20,35 @@
         i18n: { en: { title: CONFIG.nom, subtitle: 'Rénovation tous corps d’état et dépannage', footer: '', getStarted: 'Nouvelle conversation', inputPlaceholder: 'Votre question…', closeButtonTooltip: 'Fermer' } }
       });
       teaser();
+      fermeture();
     });
+  }
+
+  // Croix de fermeture dans l'en-tête du chat + bouton rond qui devient une croix quand le chat est ouvert.
+  // Le widget n8n se ferme en recliquant sur son bouton : la croix ne fait que ça.
+  function fermeture() {
+    const racine = document.getElementById('n8n-chat');
+    const attendre = (essais) => {
+      const toggle = racine && racine.querySelector('.chat-window-toggle');
+      if (!toggle) { if (essais > 0) setTimeout(() => attendre(essais - 1), 300); return; }
+      toggle.setAttribute('aria-label', 'Ouvrir le chat');
+      const maj = () => {
+        const fen = racine.querySelector('.chat-window');
+        const ouvert = !!(fen && fen.offsetParent !== null && getComputedStyle(fen).display !== 'none');
+        toggle.classList.toggle('is-open', ouvert);
+        toggle.setAttribute('aria-label', ouvert ? 'Fermer le chat' : 'Ouvrir le chat');
+        const entete = racine.querySelector('.chat-header');
+        if (ouvert && entete && !entete.querySelector('.chat-close')) {
+          entete.insertAdjacentHTML('beforeend', '<button type="button" class="chat-close" aria-label="Fermer le chat">×</button>');
+          entete.querySelector('.chat-close').addEventListener('click', () => toggle.click());
+        }
+      };
+      new MutationObserver(maj).observe(racine, { childList: true, subtree: true, attributes: true, attributeFilter: ['style', 'class'] });
+      toggle.addEventListener('click', () => setTimeout(maj, 50));
+      document.addEventListener('keydown', e => { if (e.key === 'Escape' && toggle.classList.contains('is-open')) toggle.click(); });
+      maj();
+    };
+    attendre(20);
   }
 
   // Bulle bien visible au-dessus du bouton du chat, pour signaler qu'un assistant répond aux questions.
