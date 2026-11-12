@@ -12,6 +12,7 @@ const CONFIG = {
   zone: 'Lille et 30 km autour',
   horaires: 'Lun – ven, 7 h 30 – 18 h',
   siret: '000 000 000 00000',
+  facebook: 'https://www.facebook.com/share/1Fsabbduiz/',   // page Facebook de Michael (lien de partage fourni le 12/11/2026)
   formWebhook: '',   // ex. https://apexus.app.n8n.cloud/webhook/contact-michael
   chatWebhook: '',   // ex. https://apexus.app.n8n.cloud/webhook/<id>/chat
   maquette: true
@@ -60,7 +61,8 @@ function layout() {
           <div><h4>Contact</h4><ul>
             <li><a href="${tel()}">${esc(CONFIG.telephone)}</a></li>
             <li><a href="mailto:${esc(CONFIG.email)}">${esc(CONFIG.email)}</a></li>
-            <li>${esc(CONFIG.adresse)}</li><li>${esc(CONFIG.horaires)}</li></ul></div>
+            <li>${esc(CONFIG.adresse)}</li><li>${esc(CONFIG.horaires)}</li>
+            ${CONFIG.facebook ? `<li><a class="fb-link" href="${CONFIG.facebook}" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true" class="fb-ico"><path fill="currentColor" d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12Z"/></svg> Suivre mes chantiers sur Facebook</a></li>` : ''}</ul></div>
           <div><h4>Le site</h4><ul>${NAV.map(([h, l]) => `<li><a href="${h}">${l}</a></li>`).join('')}<li><a href="mentions-legales.html">Mentions légales</a></li>${CONFIG.maquette ? '<li><a href="charte.html">Charte graphique</a></li>' : ''}</ul></div>
         </div>
         <div class="ftr-legal"><span>SIRET ${esc(CONFIG.siret)} · Assurance décennale [à compléter]</span><span>${CONFIG.maquette ? 'Maquette · informations fictives' : '© ' + new Date().getFullYear() + ' ' + esc(CONFIG.nom)}</span></div>
@@ -74,6 +76,7 @@ function layout() {
   document.querySelectorAll('[data-tel]').forEach(a => { a.href = tel(); a.textContent = CONFIG.telephone; });
   document.querySelectorAll('[data-email]').forEach(a => { a.href = 'mailto:' + CONFIG.email; a.textContent = CONFIG.email; });
   document.querySelectorAll('[data-cfg]').forEach(el => { el.textContent = CONFIG[el.dataset.cfg]; });
+  document.querySelectorAll('[data-facebook]').forEach(a => { if (CONFIG.facebook) a.href = CONFIG.facebook; else a.remove(); });
 
   const burger = document.querySelector('.burger'), nav = document.getElementById('nav');
   burger.addEventListener('click', () => {

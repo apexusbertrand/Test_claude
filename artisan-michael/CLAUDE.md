@@ -72,3 +72,12 @@ Fichier vectoriel du logo, statut RGE ou non (la signature parle d'économies d'
 Le workflow `.github/workflows/deploy-pages.yml` publie `guillaume-echanson` depuis `main` : ne pas le modifier sans accord. Pour montrer la maquette sans toucher à Pages, raw.githack sert les fichiers de la branche :
 https://raw.githack.com/apexusbertrand/Test_claude/SITE_MICHAEL/artisan-michael/index.html
 (nécessite un dépôt public.)
+
+## Facebook
+
+Page Facebook de Michael : https://www.facebook.com/share/1Fsabbduiz/ (lien de partage fourni le 12/11/2026). Elle fait foi sur le contenu. Le lien est dans `CONFIG.facebook` (`js/site.js`), affiché dans le pied de page, la page Contact, Qui suis-je, Chantiers, le chat (`content/faq.json`) et les données structurées de l'accueil (`sameAs`). Remplacer par l'adresse définitive de la page (facebook.com/nom-de-la-page) dès qu'on l'a.
+
+Lecture automatique impossible : Facebook renvoie une erreur sans contenu aux outils automatiques, même avec facebook.com autorisé dans le réseau de la session. Pour reprendre son contenu sur le site :
+
+1. Le plus complet : depuis la page, « Paramètres > Télécharger vos informations », format JSON, en cochant Publications et Photos et vidéos. Déposer le .zip dans la session : les textes, dates et photos s'importent dans `content/realisations.json` et `assets/realisations/`.
+2. Le plus rapide : enregistrer les photos chantier par chantier, avec le texte de chaque publication copié à côté.
