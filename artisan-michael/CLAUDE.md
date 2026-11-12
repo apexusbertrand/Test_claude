@@ -87,3 +87,7 @@ Les publications et photos ne sont pas lisibles sans compte Facebook (la version
 2. Le plus rapide : des captures d'écran des publications, ou les photos avec le texte de chaque publication.
 
 Réseau : www.facebook.com et m.facebook.com ont été ajoutés aux hôtes autorisés de l'environnement « DEV » le 12/11/2026.
+
+## Dépôt de publication
+
+Le site publié vit dans `apexusbertrand/logenerj-site` (branche `main`, racine), destiné à GitHub Pages sur www.logenerj.fr (fichier `CNAME`). Il contient une copie de ce dossier sans `CLAUDE.md`, `n8n/`, `tools/` ni `docs/`. Ce dossier-ci reste la source : après chaque modification, recopier dans `logenerj-site` et pousser. Le chat n8n continue de lire `content/*.json` dans ce dépôt-ci (branche `SITE_MICHAEL`). Réglages DNS OVH et Pages : `../prompts/ovh-github-pages-logenerj.md`.
