@@ -35,7 +35,7 @@
           <button>Vous faites quoi exactement ?</button><button>Un dépannage plomberie ?</button><button>Vous posez des portails ?</button><button>Vous faites la toiture ?</button><button>Vous intervenez où ?</button>
         </div>
         <form class="chat-in"><input type="text" placeholder="Votre question…" aria-label="Votre question" autocomplete="off"><button type="submit">Envoyer</button></form>
-        <div class="chat-demo">Démo maquette · réponses automatiques, rien n’est envoyé</div>
+        <div class="chat-demo">Démo maquette · rien n’est envoyé. En ligne, les conversations arriveront chez Michael par e-mail.</div>
       </section>`);
 
     const fab = document.querySelector('.chat-fab'), box = document.getElementById('chat');
