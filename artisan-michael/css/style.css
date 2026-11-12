@@ -273,7 +273,7 @@ h1,h2,h3,h4{font-family:var(--display);font-weight:600;text-transform:uppercase;
 .callband p a{color:var(--white);}
 
 /* ---------- Pied de page ---------- */
-.ftr{background:var(--paper-2);color:var(--ink-2);padding:12px 0 110px;font-size:.98rem;}
+.ftr{background:var(--paper-2);color:var(--ink-2);padding:12px 0 160px;font-size:.98rem;}
 .ftr-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:32px;align-items:start;padding-top:36px;}
 .ftr-logo{width:min(240px,70%);height:auto;margin-bottom:10px;}
 .ftr h4{font-size:.9rem;letter-spacing:.12em;color:var(--leaf);margin:0 0 12px;font-weight:500;}
@@ -282,7 +282,7 @@ h1,h2,h3,h4{font-family:var(--display);font-weight:600;text-transform:uppercase;
 .ftr a:hover{color:var(--forest);text-decoration:underline;text-decoration-color:var(--leaf);text-decoration-thickness:2px;}
 .ftr-legal{margin-top:36px;padding-top:18px;border-top:1px solid var(--paper-3);display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;font-family:var(--display);font-size:.78rem;letter-spacing:.06em;text-transform:uppercase;color:var(--mute);}
 @media (max-width:800px){.ftr-grid{grid-template-columns:1fr;}}
-@media (min-width:981px){.ftr{padding-bottom:48px;}}
+@media (min-width:981px){.ftr{padding-bottom:104px;}}
 
 /* ---------- Barre mobile ---------- */
 .mbar{display:none;}
@@ -461,3 +461,7 @@ fieldset.field{border:0;padding:0;margin:0;}
   .samples .sample:last-child:nth-child(3n+1) .sample-tex{height:auto;min-height:200px;width:33%;border-bottom:0;border-right:6px solid var(--white);}
 }
 .chip.chauffage{background:var(--sun);color:var(--forest-dark);}
+
+/* ---------- Crédit Apexus (pied de page) ---------- */
+.ftr-credit a{color:var(--forest);font-weight:600;text-decoration:underline;text-decoration-color:var(--leaf);text-decoration-thickness:2px;text-underline-offset:3px;transition:background .2s, text-decoration-color .2s;}
+.ftr-credit a:hover{background:linear-gradient(transparent 55%, rgba(255,205,1,.55) 55%);text-decoration-color:var(--sun);}
