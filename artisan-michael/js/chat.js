@@ -78,6 +78,9 @@
         if (memoriser) { try { sessionStorage.setItem('logenerj-teaser', 'ferme'); } catch (e) {} }
       };
       setTimeout(() => bulle.classList.add('show'), 1200);
+      // la bulle s'efface quand le bas du pied de page est visible, pour ne pas cacher les mentions
+      const bas = document.querySelector('.ftr-legal');
+      if (bas && 'IntersectionObserver' in window) new IntersectionObserver(es => es.forEach(e => bulle.classList.toggle('ct-hidden', e.isIntersecting))).observe(bas);
       bulle.querySelector('.chat-teaser-open').addEventListener('click', () => { toggle.click(); cacher(true); });
       bulle.querySelector('.chat-teaser-x').addEventListener('click', () => cacher(true));
       toggle.addEventListener('click', () => cacher(true));

@@ -592,3 +592,6 @@ fieldset.field{border:0;padding:0;margin:0;}
 #n8n-chat .chat-header p{font-size:.85rem !important;line-height:1.3 !important;margin:2px 0 0 !important;opacity:.9;}
 #n8n-chat .chat-close{top:50%;transform:translateY(-50%);}
 #n8n-chat .chat-close:hover{transform:translateY(-50%) rotate(90deg);}
+
+.ftr-credit{text-transform:none;letter-spacing:0;font-family:var(--body);font-size:.85rem;}
+.chat-teaser.ct-hidden{opacity:0 !important;pointer-events:none !important;}
