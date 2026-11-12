@@ -16,7 +16,7 @@
         showWelcomeScreen: false,
         defaultLanguage: 'en',
         metadata: { page: location.pathname, langue: navigator.language, referent: document.referrer || 'direct' },
-        initialMessages: [`Bonjour, je suis l’assistant de LOGE&NERJ. Rénovation tous corps d’état et dépannage autour de Somain : posez-moi votre question, ou laissez votre demande, je la transmets à ${CONFIG.prenom}.`],
+        initialMessages: [`Bonjour, je suis l’assistant de LOGE&NERJ. Rénovation tous corps d’état et dépannage autour de Somain. Posez-moi votre question, et laissez votre prénom, votre téléphone et votre commune : ${CONFIG.prenom} vous rappelle pour un devis gratuit.`],
         i18n: { en: { title: CONFIG.nom, subtitle: 'Rénovation tous corps d’état et dépannage', footer: '', getStarted: 'Nouvelle conversation', inputPlaceholder: 'Votre question…', closeButtonTooltip: 'Fermer' } }
       });
     });
