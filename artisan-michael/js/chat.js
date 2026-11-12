@@ -19,7 +19,42 @@
         initialMessages: [`Bonjour, je suis l’assistant de LOGE&NERJ. Rénovation tous corps d’état et dépannage autour de Somain. Posez-moi votre question, et laissez votre prénom, votre téléphone et votre commune : ${CONFIG.prenom} vous rappelle pour un devis gratuit.`],
         i18n: { en: { title: CONFIG.nom, subtitle: 'Rénovation tous corps d’état et dépannage', footer: '', getStarted: 'Nouvelle conversation', inputPlaceholder: 'Votre question…', closeButtonTooltip: 'Fermer' } }
       });
+      teaser();
     });
+  }
+
+  // Bulle bien visible au-dessus du bouton du chat, pour signaler qu'un assistant répond aux questions.
+  // Elle disparaît dès que le chat est ouvert ou si le visiteur la ferme (pour la durée de la visite).
+  function teaser() {
+    let ferme = false;
+    try { ferme = sessionStorage.getItem('logenerj-teaser') === 'ferme'; } catch (e) {}
+    const attendre = (essais) => {
+      const toggle = document.querySelector('#n8n-chat .chat-window-toggle');
+      if (!toggle) { if (essais > 0) setTimeout(() => attendre(essais - 1), 300); return; }
+      toggle.classList.add('chat-pulse');
+      if (ferme) return;
+      document.body.insertAdjacentHTML('beforeend', `
+        <div class="chat-teaser" role="dialog" aria-label="Assistant en ligne">
+          <button type="button" class="chat-teaser-open">
+            <span class="ct-kicker"><span class="ct-dot" aria-hidden="true"></span>Assistant en ligne</span>
+            <strong>Une question ? Posez-la ici</strong>
+            <span class="ct-txt">Travaux, zone, dépannage, devis : réponse immédiate, 7 j / 7.</span>
+          </button>
+          <button type="button" class="chat-teaser-x" aria-label="Masquer ce message">×</button>
+        </div>`);
+      const bulle = document.querySelector('.chat-teaser');
+      const cacher = (memoriser) => {
+        bulle.classList.remove('show');
+        setTimeout(() => bulle.remove(), 300);
+        toggle.classList.remove('chat-pulse');
+        if (memoriser) { try { sessionStorage.setItem('logenerj-teaser', 'ferme'); } catch (e) {} }
+      };
+      setTimeout(() => bulle.classList.add('show'), 1200);
+      bulle.querySelector('.chat-teaser-open').addEventListener('click', () => { toggle.click(); cacher(true); });
+      bulle.querySelector('.chat-teaser-x').addEventListener('click', () => cacher(true));
+      toggle.addEventListener('click', () => cacher(true));
+    };
+    attendre(20);
   }
 
   function demoChat() {
