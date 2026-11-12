@@ -45,3 +45,19 @@ Un mail par message serait illisible. On envoie donc :
 2. **Chaque soir à 18 h**, un récapitulatif de toutes les conversations de la journée (même sans coordonnées), pour que Michael voie ce que les visiteurs demandent. Chaque échange est enregistré au fil de l'eau dans une Data table n8n `chat_logenerj` (`sessionId`, `date`, `role`, `texte`, `page`) ; un Schedule Trigger la lit, regroupe par `sessionId` et envoie un seul mail. Pas de mail si aucune conversation dans la journée.
 
 Les deux mails partent du compte Gmail connecté à n8n, avec en « Répondre à » l'e-mail du visiteur quand il l'a donné.
+
+## Flux créés dans n8n (12/11/2026, brouillons non publiés)
+
+Tous dans le projet personnel n8n de Bertrand, mails envoyés depuis le compte Gmail apexus.claude (identifiant « Gmail Claude ») vers logenerj@artisanat1.fr.
+
+| Flux | Lien n8n | Adresse à mettre sur le site (après publication) |
+|---|---|---|
+| Site LOGE&NERJ — Formulaire de devis | https://apexus.app.n8n.cloud/workflow/1HJTUQS2qP1YJVza | `CONFIG.formWebhook = 'https://apexus.app.n8n.cloud/webhook/contact-logenerj'` |
+| Site LOGE&NERJ — Agent Chat | https://apexus.app.n8n.cloud/workflow/ZdkPAJRn0Q7c1AIz | `CONFIG.chatWebhook = 'https://apexus.app.n8n.cloud/webhook/9692846f-a737-47ce-beaa-cba903f86a47/chat'` |
+| Site LOGE&NERJ — Récapitulatif du chat (18 h, Europe/Paris) | https://apexus.app.n8n.cloud/workflow/9yrZl0vCmADwvRnV | — |
+
+Table n8n des échanges du chat : `chat_logenerj` (id aVOEKbonFFPgXU95).
+
+L'agent lit `content/competences.json` et `content/faq.json` sur raw.githubusercontent.com, branche `SITE_MICHAEL` : un push sur ces fichiers met le chat à jour (cache GitHub de 5 minutes). Si la branche change de nom ou est fusionnée, mettre à jour les deux URL dans les nœuds « Lire les compétences » et « Lire la FAQ ».
+
+Tests faits le 12/11/2026 : formulaire et récapitulatif avec données simulées (aucun mail envoyé) ; chat en réel sur une question sans demande concrète (réponse correcte, pas de mail envoyé, une ligne de test archivée dans `chat_logenerj` à la date du 12/11).
