@@ -8,11 +8,11 @@ const CONFIG = {
   metiers: 'Rénovation tous corps d’état et dépannage',
   telephone: '06 39 98 12 34',          // numéro fictif (plage réservée ARCEP à la fiction)
   email: 'contact@logenerj.example',
-  adresse: '12 rue de l’Exemple, 59000 Lille',
-  zone: 'Lille et 30 km autour',
+  adresse: 'Somain (59490), Nord · rue à compléter',   // ville d'après la page Facebook
+  zone: 'Somain et alentours',
   horaires: 'Lun – ven, 7 h 30 – 18 h',
   siret: '000 000 000 00000',
-  facebook: 'https://www.facebook.com/share/1Fsabbduiz/',   // page Facebook de Michael (lien de partage fourni le 12/11/2026)
+  facebook: 'https://www.facebook.com/p/Logenerj-61591852021732/',   // page Facebook « Loge&nerj » (adresse définitive, relevée le 12/11/2026)
   formWebhook: '',   // ex. https://apexus.app.n8n.cloud/webhook/contact-michael
   chatWebhook: '',   // ex. https://apexus.app.n8n.cloud/webhook/<id>/chat
   maquette: true
@@ -29,7 +29,7 @@ const NAV = [
   ['qui-suis-je.html', 'Qui suis-je'],
   ['contact.html', 'Contact']
 ];
-const METIERS = { carrelage: 'Carrelage', platrerie: 'Placo & isolation', couverture: 'Toiture', menuiserie: 'Menuiserie ext.', peinture: 'Peinture', depannage: 'Dépannage' };
+const METIERS = { carrelage: 'Carrelage', platrerie: 'Placo & isolation', couverture: 'Toiture', menuiserie: 'Menuiserie ext.', peinture: 'Peinture', depannage: 'Dépannage', chauffage: 'Pompe à chaleur' };
 const tel = () => 'tel:' + CONFIG.telephone.replace(/\s/g, '');
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 

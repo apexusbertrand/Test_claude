@@ -1,9 +1,9 @@
 {
-  "_note": "Base de connaissances du chat. En maquette, le chat de démo y cherche des mots-clés ; plus tard, le flux n8n lira ce fichier. Champ 'fait' : oui | non | sur devis. Mise à jour le 12/11/2026 d'après les compétences annoncées par Michael. Les réponses restent à relire avec lui. Champ optionnel 'priorite' (défaut 1) : multiplie le score d'une entrée dans le chat de démo.",
+  "_note": "Base de connaissances du chat. En maquette, le chat de démo y cherche des mots-clés ; plus tard, le flux n8n lira ce fichier. Champ 'fait' : oui | non | sur devis. Mise à jour le 12/11/2026 d'après les compétences annoncées par Michael. Les réponses restent à relire avec lui. Champ optionnel 'priorite' (défaut 1) : multiplie le score d'une entrée dans le chat de démo. 12/11/2026 : complété avec la fiche publique Facebook (Somain, société familiale, pompe à chaleur).",
   "faq": [
     {
       "question": "Vous faites quoi exactement ?",
-      "reponse": "Michael fait de la rénovation tous corps d'état : salle de bain et carrelage, placo et isolation, toiture, menuiserie extérieure (fenêtres, volets roulants, portails, clôtures), peinture, électricité et plomberie. Il fait aussi du dépannage. Un seul interlocuteur du sol au toit.",
+      "reponse": "LOGE&NERJ est une société familiale de rénovation de l'habitat, à Somain (Nord). Michael fait tous les corps d'état : salle de bain et carrelage, placo et isolation, toiture, fenêtres et volets, portails et clôtures, peinture, électricité, plomberie, pompe à chaleur. Il fait aussi du dépannage.",
       "metier": null,
       "fait": "oui",
       "mots_cles": [
@@ -21,7 +21,13 @@
         "rénover",
         "renover",
         "maison entière",
-        "tout refaire"
+        "tout refaire",
+        "société",
+        "societe",
+        "entreprise",
+        "qui êtes",
+        "qui etes",
+        "familiale"
       ]
     },
     {
@@ -65,8 +71,7 @@
         "combles",
         "grenier",
         "enduit",
-        "froid",
-        "chauffage"
+        "froid"
       ]
     },
     {
@@ -168,6 +173,26 @@
       ]
     },
     {
+      "question": "Vous installez des pompes à chaleur ?",
+      "reponse": "Oui, la pompe à chaleur fait partie des spécialités de LOGE&NERJ. Pour savoir quel modèle convient à votre maison (et s'il faut d'abord isoler), Michael passe voir et fait un devis.",
+      "metier": "chauffage",
+      "fait": "oui",
+      "mots_cles": [
+        "pompe à chaleur",
+        "pompe a chaleur",
+        "pac",
+        "chauffage",
+        "chaudière",
+        "chaudiere",
+        "radiateur",
+        "climatisation",
+        "clim",
+        "aérothermie",
+        "aerothermie",
+        "chauffer"
+      ]
+    },
+    {
       "question": "Vous faites la plomberie ?",
       "reponse": "Oui, Michael fait la plomberie, en rénovation comme en dépannage : fuite, robinet, évacuation bouchée, raccordement de salle de bain. En cas de fuite, appelez-le directement.",
       "metier": "depannage",
@@ -237,7 +262,7 @@
     },
     {
       "question": "Vous intervenez où ?",
-      "reponse": "Dans un rayon d'environ 30 km autour de Lille (zone à confirmer). Indiquez votre commune dans le formulaire, Michael vous répondra.",
+      "reponse": "LOGE&NERJ est basée à Somain, dans le Nord, et intervient autour (Douai, Denain, Valenciennes… zone exacte à confirmer). Indiquez votre commune dans le formulaire, Michael vous répondra.",
       "metier": null,
       "fait": "oui",
       "mots_cles": [
@@ -246,9 +271,6 @@
         "commune",
         "ville",
         "distance",
-        "lille",
-        "roubaix",
-        "tourcoing",
         "déplacement",
         "deplacement",
         "venir",
@@ -256,7 +278,25 @@
         "intervention",
         "quel secteur",
         "quelle zone",
-        "rayon"
+        "rayon",
+        "somain",
+        "douai",
+        "denain",
+        "valenciennes",
+        "aniche",
+        "orchies",
+        "marchiennes",
+        "nord",
+        "êtes où",
+        "etes ou",
+        "situé",
+        "situe",
+        "basé",
+        "basee",
+        "adresse",
+        "localisation",
+        "où êtes",
+        "ou etes"
       ]
     },
     {
@@ -323,7 +363,9 @@
         "rge",
         "cee",
         "crédit d'impôt",
-        "credit d'impot"
+        "credit d'impot",
+        "aide pompe",
+        "prime pompe"
       ]
     },
     {
@@ -344,7 +386,7 @@
     },
     {
       "question": "Vous avez une page Facebook ?",
-      "reponse": "Oui, Michael publie ses chantiers en cours sur sa page Facebook : <a href=\"https://www.facebook.com/share/1Fsabbduiz/\" target=\"_blank\" rel=\"noopener\">voir la page</a>.",
+      "reponse": "Oui, la page Facebook de LOGE&NERJ montre les chantiers en cours : <a href=\"https://www.facebook.com/p/Logenerj-61591852021732/\" target=\"_blank\" rel=\"noopener\">voir la page</a>.",
       "metier": null,
       "fait": "oui",
       "mots_cles": [

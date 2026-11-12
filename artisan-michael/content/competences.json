@@ -1,8 +1,9 @@
 {
-  "_note": "Source unique des métiers. Lue par le site (accueil, savoir-faire.html) et, plus tard, par le flux n8n du chat. Mise à jour le 12/11/2026 d'après les messages de Michael : tous corps d'état, toiture, isolation, menuiserie extérieure, peinture, placo, électricité, plomberie, volets roulants, portails, clôtures rigides, salle de bain, carrelage, dépannage fenêtre / électricité / plomberie. Les détails marqués « à confirmer » sont des déductions à valider avec lui.",
+  "_note": "Source unique des métiers. Lue par le site (accueil, savoir-faire.html) et, plus tard, par le flux n8n du chat. Mise à jour le 12/11/2026 d'après les messages de Michael : tous corps d'état, toiture, isolation, menuiserie extérieure, peinture, placo, électricité, plomberie, volets roulants, portails, clôtures rigides, salle de bain, carrelage, dépannage fenêtre / électricité / plomberie. Les détails marqués « à confirmer » sont des déductions à valider avec lui. Complété le 12/11/2026 avec la fiche publique de la page Facebook « Loge&nerj » (Somain, Nord) : « Société familiale spécialisée dans la rénovation de l'habitat : plomberie, peinture, électricité, toitures, fenêtres, isolation, pompe à… » (texte coupé par Facebook, « pompe à chaleur » à confirmer). Les publications ne sont pas lisibles sans compte Facebook.",
   "positionnement": {
-    "titre": "Rénovation tous corps d'état",
-    "texte": "Du sol au toit, un seul interlocuteur : Michael prend le chantier en entier ou intervient sur un seul poste, et il dépanne aussi."
+    "titre": "Société familiale de rénovation de l'habitat",
+    "texte": "LOGE&NERJ, à Somain (Nord) : du sol au toit, un seul interlocuteur. Rénovation complète ou un seul poste, et le dépannage en plus.",
+    "source": "Page Facebook Loge&nerj"
   },
   "metiers": [
     {
@@ -21,7 +22,12 @@
         "Étanchéité sous carrelage",
         "Grands formats, effet parquet, terrasses"
       ],
-      "materiaux": ["Grès cérame", "Faïence", "Grands formats", "Mosaïque"]
+      "materiaux": [
+        "Grès cérame",
+        "Faïence",
+        "Grands formats",
+        "Mosaïque"
+      ]
     },
     {
       "id": "platrerie",
@@ -39,7 +45,11 @@
         "Bandes, joints et enduits",
         "Isolation phonique (à confirmer)"
       ],
-      "materiaux": ["Plaques standard, hydro, phoniques", "Ossature métallique", "Laine minérale"]
+      "materiaux": [
+        "Plaques standard, hydro, phoniques",
+        "Ossature métallique",
+        "Laine minérale"
+      ]
     },
     {
       "id": "couverture",
@@ -57,7 +67,11 @@
         "Faîtage et zinguerie (à confirmer)",
         "Réfection de toiture (sur devis, à confirmer)"
       ],
-      "materiaux": ["Tuiles terre cuite", "Fenêtres de toit", "Écrans de sous-toiture"]
+      "materiaux": [
+        "Tuiles terre cuite",
+        "Fenêtres de toit",
+        "Écrans de sous-toiture"
+      ]
     },
     {
       "id": "menuiserie",
@@ -75,7 +89,11 @@
         "Portes d'entrée (à confirmer)",
         "Réglage et dépannage de fenêtres"
       ],
-      "materiaux": ["PVC", "Aluminium", "Panneaux rigides"]
+      "materiaux": [
+        "PVC",
+        "Aluminium",
+        "Panneaux rigides"
+      ]
     },
     {
       "id": "peinture",
@@ -92,7 +110,11 @@
         "Peinture après travaux de placo",
         "Façades (à confirmer)"
       ],
-      "materiaux": ["Peintures acryliques", "Enduits", "Sous-couches"]
+      "materiaux": [
+        "Peintures acryliques",
+        "Enduits",
+        "Sous-couches"
+      ]
     },
     {
       "id": "depannage",
@@ -107,6 +129,21 @@
         "Dépannage plomberie (fuites, robinetterie, évacuations)",
         "Dépannage de fenêtres et de volets roulants",
         "Électricité et plomberie pendant une rénovation"
+      ],
+      "materiaux": []
+    },
+    {
+      "id": "chauffage",
+      "ref": "07",
+      "nom": "Pompe à chaleur",
+      "statut": "Énergie",
+      "texture": "heat",
+      "accroche": "Isoler d'abord, puis chauffer mieux pour moins cher.",
+      "texte": "La page Facebook de LOGE&NERJ cite la pompe à chaleur parmi ses spécialités. Le détail des prestations est à confirmer avec Michael.",
+      "prestations": [
+        "Installation de pompe à chaleur (à confirmer)",
+        "Remplacement d'un ancien chauffage (à confirmer)",
+        "Conseil isolation + chauffage"
       ],
       "materiaux": []
     }

@@ -185,6 +185,7 @@ h1,h2,h3,h4{font-family:var(--display);font-weight:600;text-transform:uppercase;
 .tex-depannage{background:var(--forest-dark);position:relative;overflow:hidden;}
 .tex-depannage::before{content:"";position:absolute;left:calc(50% - 90px);top:50%;width:70px;height:110px;transform:translateY(-50%);background:var(--sun);clip-path:polygon(60% 0,8% 58%,44% 58%,30% 100%,92% 40%,56% 40%,78% 0);}
 .tex-depannage::after{content:"";position:absolute;left:calc(50% + 20px);top:50%;width:62px;height:62px;transform:translateY(-35%) rotate(45deg);background:var(--sky);border-radius:0 50% 50% 50%;}
+.tex-heat{background:radial-gradient(circle at 30% 120%,var(--sun) 0 28%,transparent 29%),repeating-radial-gradient(circle at 30% 120%,transparent 0 34px,rgba(255,255,255,.55) 34px 40px),linear-gradient(135deg,#FFE27A,var(--leaf));}
 .tex-brick{background-color:#A0583C;background-image:
   linear-gradient(#D9D3C4 3px, transparent 3px),
   linear-gradient(90deg,#D9D3C4 3px, transparent 3px),
@@ -453,3 +454,10 @@ fieldset.field{border:0;padding:0;margin:0;}
 .fb-btn{margin-top:4px;}
 .card-info .fb-btn{margin-top:0;}
 .fb-cta{margin-top:28px;font-size:1.1rem;}
+
+/* 7e métier : la dernière carte prend toute la largeur, texture à gauche */
+@media (min-width:901px){
+  .samples .sample:last-child:nth-child(3n+1){grid-column:1/-1;flex-direction:row;}
+  .samples .sample:last-child:nth-child(3n+1) .sample-tex{height:auto;min-height:200px;width:33%;border-bottom:0;border-right:6px solid var(--white);}
+}
+.chip.chauffage{background:var(--sun);color:var(--forest-dark);}

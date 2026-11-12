@@ -75,9 +75,13 @@ https://raw.githack.com/apexusbertrand/Test_claude/SITE_MICHAEL/artisan-michael/
 
 ## Facebook
 
-Page Facebook de Michael : https://www.facebook.com/share/1Fsabbduiz/ (lien de partage fourni le 12/11/2026). Elle fait foi sur le contenu. Le lien est dans `CONFIG.facebook` (`js/site.js`), affiché dans le pied de page, la page Contact, Qui suis-je, Chantiers, le chat (`content/faq.json`) et les données structurées de l'accueil (`sameAs`). Remplacer par l'adresse définitive de la page (facebook.com/nom-de-la-page) dès qu'on l'a.
+Page Facebook « Loge&nerj » : https://www.facebook.com/p/Logenerj-61591852021732/ (le lien de partage reçu, facebook.com/share/1Fsabbduiz, y redirige). Elle fait foi sur le contenu. Lien dans `CONFIG.facebook` (`js/site.js`), affiché dans le pied de page, la page Contact, Qui suis-je, Chantiers, le chat (`content/faq.json`) et les données structurées de l'accueil (`sameAs`).
 
-Lecture automatique impossible : Facebook renvoie une erreur sans contenu aux outils automatiques, même avec facebook.com autorisé dans le réseau de la session. Pour reprendre son contenu sur le site :
+Ce qu'on a pu lire le 12/11/2026 (fiche publique, sans compte) : « Loge&nerj, Somain, Nord. Société familiale spécialisée dans la rénovation de l'habitat : plomberie, peinture, électricité, toitures, fenêtres, isolation, pompe à… » (texte coupé par Facebook ; « pompe à chaleur » ajouté au site, à confirmer). Le site a été mis à jour en conséquence : Somain (59490) au lieu de Lille, société familiale, carte « Pompe à chaleur » (métier 07), zone d'intervention autour de Somain (communes à confirmer).
 
-1. Le plus complet : depuis la page, « Paramètres > Télécharger vos informations », format JSON, en cochant Publications et Photos et vidéos. Déposer le .zip dans la session : les textes, dates et photos s'importent dans `content/realisations.json` et `assets/realisations/`.
-2. Le plus rapide : enregistrer les photos chantier par chantier, avec le texte de chaque publication copié à côté.
+Les publications et photos ne sont pas lisibles sans compte Facebook (la version mobile renvoie vers la connexion). Pour les reprendre sur le site :
+
+1. Le plus complet : depuis la page, « Paramètres > Télécharger vos informations », format JSON, en cochant Publications et Photos et vidéos. Déposer le .zip dans la session : textes, dates et photos s'importent dans `content/realisations.json` et `assets/realisations/`, et le chat est enrichi d'après les vrais chantiers.
+2. Le plus rapide : des captures d'écran des publications, ou les photos avec le texte de chaque publication.
+
+Réseau : www.facebook.com et m.facebook.com ont été ajoutés aux hôtes autorisés de l'environnement « DEV » le 12/11/2026.
