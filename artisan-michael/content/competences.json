@@ -1,64 +1,119 @@
 {
-  "_note": "Source unique des métiers. Lue par le site (savoir-faire.html, accueil) et, plus tard, par le flux n8n du chat. Textes provisoires à valider avec Michael.",
+  "_note": "Source unique des métiers. Lue par le site (accueil, savoir-faire.html) et, plus tard, par le flux n8n du chat. Mise à jour le 12/11/2026 d'après les messages de Michael : tous corps d'état, toiture, isolation, menuiserie extérieure, peinture, placo, électricité, plomberie, volets roulants, portails, clôtures rigides, salle de bain, carrelage, dépannage fenêtre / électricité / plomberie. Les détails marqués « à confirmer » sont des déductions à valider avec lui.",
+  "positionnement": {
+    "titre": "Rénovation tous corps d'état",
+    "texte": "Du sol au toit, un seul interlocuteur : Michael prend le chantier en entier ou intervient sur un seul poste, et il dépanne aussi."
+  },
   "metiers": [
     {
       "id": "carrelage",
       "ref": "01",
-      "nom": "Carrelage",
-      "statut": "Activité principale",
+      "nom": "Salle de bain & carrelage",
+      "statut": "Cœur de métier",
       "texture": "tile",
       "accroche": "Des joints droits, des coupes propres, des pièces d'eau qui restent étanches.",
-      "texte": "Sols et murs, intérieur et extérieur. Je prépare le support avant de poser quoi que ce soit : c'est là que se joue la tenue dans le temps.",
+      "texte": "Salle de bain complète ou simple carrelage de sol : je prépare le support avant de poser quoi que ce soit, c'est là que se joue la tenue dans le temps.",
       "prestations": [
+        "Salles de bain complètes, clés en main",
+        "Douches à l'italienne",
         "Carrelage de sol, toutes pièces",
         "Faïence murale, crédences de cuisine",
-        "Salles de bain complètes, douches à l'italienne",
-        "Étanchéité sous carrelage (SPEC)",
-        "Grands formats et effet parquet",
-        "Plinthes, seuils, terrasses"
+        "Étanchéité sous carrelage",
+        "Grands formats, effet parquet, terrasses"
       ],
-      "materiaux": ["Grès cérame", "Faïence", "Grands formats 60×120", "Mosaïque", "Pierre naturelle (à confirmer)"]
+      "materiaux": ["Grès cérame", "Faïence", "Grands formats", "Mosaïque"]
     },
     {
       "id": "platrerie",
       "ref": "02",
-      "nom": "Plâtrerie",
-      "statut": "Activité principale",
+      "nom": "Placo & isolation",
+      "statut": "Cœur de métier",
       "texture": "plaster",
-      "accroche": "Cloisons, doublages, plafonds : la pièce prend forme, et elle est isolée.",
-      "texte": "Ossature métallique, isolant, plaques, bandes et enduits. Je m'occupe de tout ce qu'il y a entre la brique et votre peinture.",
+      "accroche": "Une maison mieux isolée, c'est une facture de chauffage qui baisse.",
+      "texte": "Ossature, isolant, plaques, bandes et enduits. Je m'occupe de tout ce qu'il y a entre la brique et votre peinture, murs, plafonds et combles.",
       "prestations": [
-        "Cloisons en plaques de plâtre",
-        "Doublage isolant des murs",
-        "Isolation et habillage des rampants de combles",
-        "Faux plafonds, plafonds suspendus",
-        "Bandes, joints et enduits de finition",
-        "Aménagement de combles"
+        "Isolation des murs par l'intérieur",
+        "Isolation et aménagement de combles",
+        "Cloisons et doublages en plaques de plâtre",
+        "Faux plafonds",
+        "Bandes, joints et enduits",
+        "Isolation phonique (à confirmer)"
       ],
-      "materiaux": ["Plaques de plâtre (standard, hydro, phonique)", "Ossature métallique", "Laine minérale", "Enduits"]
+      "materiaux": ["Plaques standard, hydro, phoniques", "Ossature métallique", "Laine minérale"]
     },
     {
       "id": "couverture",
       "ref": "03",
-      "nom": "Couverture",
-      "statut": "Petits chantiers",
+      "nom": "Toiture",
+      "statut": "Toit & combles",
       "texture": "roof",
-      "accroche": "Fenêtres de toit et petites réparations, pour que le toit reste un toit.",
-      "texte": "Je ne refais pas des toitures entières. Je prends les interventions ciblées, souvent liées à un aménagement intérieur.",
+      "accroche": "Un toit sain et bien isolé, de la tuile cassée à la fenêtre de toit.",
+      "texte": "Réparations, entretien et travaux de toiture, souvent en lien avec l'isolation des combles.",
       "prestations": [
         "Pose de fenêtres de toit",
-        "Remplacement de tuiles cassées",
-        "Reprise de faîtage (à confirmer)",
-        "Petite zinguerie (à confirmer)"
+        "Réparation et remplacement de tuiles",
+        "Recherche et réparation de fuites",
+        "Isolation de toiture",
+        "Faîtage et zinguerie (à confirmer)",
+        "Réfection de toiture (sur devis, à confirmer)"
       ],
-      "materiaux": ["Fenêtres de toit", "Tuiles terre cuite", "Zinc (à confirmer)"]
+      "materiaux": ["Tuiles terre cuite", "Fenêtres de toit", "Écrans de sous-toiture"]
+    },
+    {
+      "id": "menuiserie",
+      "ref": "04",
+      "nom": "Menuiserie extérieure",
+      "statut": "Extérieur",
+      "texture": "joinery",
+      "accroche": "Fenêtres, volets, portail, clôture : la maison bien fermée.",
+      "texte": "Pose et remplacement des menuiseries et des fermetures, et aménagement des extérieurs.",
+      "prestations": [
+        "Fenêtres et portes-fenêtres",
+        "Volets roulants",
+        "Portails",
+        "Clôtures rigides",
+        "Portes d'entrée (à confirmer)",
+        "Réglage et dépannage de fenêtres"
+      ],
+      "materiaux": ["PVC", "Aluminium", "Panneaux rigides"]
+    },
+    {
+      "id": "peinture",
+      "ref": "05",
+      "nom": "Peinture",
+      "statut": "Finitions",
+      "texture": "roller",
+      "accroche": "La dernière couche, celle qu'on voit tous les jours.",
+      "texte": "Préparation des supports, enduits de rebouchage et peinture : murs, plafonds et boiseries.",
+      "prestations": [
+        "Murs et plafonds",
+        "Préparation et rebouchage",
+        "Boiseries et portes",
+        "Peinture après travaux de placo",
+        "Façades (à confirmer)"
+      ],
+      "materiaux": ["Peintures acryliques", "Enduits", "Sous-couches"]
+    },
+    {
+      "id": "depannage",
+      "ref": "06",
+      "nom": "Dépannage",
+      "statut": "Nouveau",
+      "texture": "depannage",
+      "accroche": "Une panne, une fuite, une fenêtre qui ferme mal : un coup de fil.",
+      "texte": "Électricité, plomberie et fenêtres : Michael intervient aussi en dépannage, en plus des travaux d'électricité et de plomberie liés à une rénovation.",
+      "prestations": [
+        "Dépannage électrique (prises, interrupteurs, éclairage, tableau)",
+        "Dépannage plomberie (fuites, robinetterie, évacuations)",
+        "Dépannage de fenêtres et de volets roulants",
+        "Électricité et plomberie pendant une rénovation"
+      ],
+      "materiaux": []
     }
   ],
   "ne_fait_pas": [
-    "Réfection complète de toiture",
-    "Gros œuvre et maçonnerie porteuse",
-    "Électricité et plomberie (je travaille avec des artisans de confiance)",
-    "Charpente neuve"
+    "Gros œuvre : fondations, murs porteurs, extensions (à confirmer)",
+    "Charpente neuve (à confirmer)"
   ],
-  "_ne_fait_pas_note": "Liste bouchon pour la maquette, à valider avec Michael."
+  "_ne_fait_pas_note": "Michael dit faire « tout corps d'état ». Ces deux exclusions sont des hypothèses à valider avec lui ; si tout est faisable, vider la liste et la section disparaît du site."
 }

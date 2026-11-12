@@ -1,46 +1,58 @@
 {
-  "_note": "Base de connaissances du chat. En maquette, le chat de démo y cherche des mots-clés. Plus tard, le flux n8n lira ce fichier. Champ 'fait' : oui | non | sur devis. Réponses bouchon à valider avec Michael.",
+  "_note": "Base de connaissances du chat. En maquette, le chat de démo y cherche des mots-clés ; plus tard, le flux n8n lira ce fichier. Champ 'fait' : oui | non | sur devis. Mise à jour le 12/11/2026 d'après les compétences annoncées par Michael. Les réponses restent à relire avec lui. Champ optionnel 'priorite' (défaut 1) : multiplie le score d'une entrée dans le chat de démo.",
   "faq": [
     {
-      "question": "Vous faites la couverture ?",
-      "reponse": "Oui, mais seulement les petits chantiers : pose de fenêtres de toit, remplacement de tuiles, petites réparations. Pour une toiture complète, Michael vous orientera vers un couvreur.",
-      "metier": "couverture",
+      "question": "Vous faites quoi exactement ?",
+      "reponse": "Michael fait de la rénovation tous corps d'état : salle de bain et carrelage, placo et isolation, toiture, menuiserie extérieure (fenêtres, volets roulants, portails, clôtures), peinture, électricité et plomberie. Il fait aussi du dépannage. Un seul interlocuteur du sol au toit.",
+      "metier": null,
       "fait": "oui",
       "mots_cles": [
-        "couverture",
-        "toit",
-        "toiture",
-        "tuile",
-        "tuiles",
-        "velux",
-        "fenêtre de toit",
-        "fuite"
+        "quoi",
+        "faites quoi",
+        "métier",
+        "metier",
+        "services",
+        "prestations",
+        "compétences",
+        "tout corps",
+        "tous corps",
+        "rénovation complète",
+        "renovation complete",
+        "rénover",
+        "renover",
+        "maison entière",
+        "tout refaire"
       ]
     },
     {
-      "question": "Vous posez du carrelage ?",
-      "reponse": "Oui, c'est son métier principal : sols, faïence, salles de bain, douches à l'italienne, grands formats. Il prépare toujours le support avant la pose.",
+      "question": "Vous faites la salle de bain et le carrelage ?",
+      "reponse": "Oui, c'est son cœur de métier : salle de bain complète, douche à l'italienne, carrelage de sol, faïence, crédence, grands formats et terrasses.",
       "metier": "carrelage",
       "fait": "oui",
       "mots_cles": [
         "carrelage",
+        "carreleur",
         "carreau",
         "faïence",
         "faience",
-        "sol",
         "douche",
         "italienne",
         "salle de bain",
-        "crédence"
+        "salle d'eau",
+        "crédence",
+        "credence",
+        "baignoire",
+        "terrasse"
       ]
     },
     {
       "question": "Vous faites le placo et l'isolation ?",
-      "reponse": "Oui : cloisons, doublages isolants, plafonds, rampants de combles, bandes et enduits. Michael aménage aussi des combles de A à Z côté plâtrerie.",
+      "reponse": "Oui : isolation des murs et des combles, cloisons, doublages, faux plafonds, bandes et enduits. Une maison mieux isolée, c'est moins de chauffage.",
       "metier": "platrerie",
       "fait": "oui",
       "mots_cles": [
         "placo",
+        "plaquiste",
         "plâtre",
         "platre",
         "plaque",
@@ -48,46 +60,187 @@
         "doublage",
         "isolation",
         "isoler",
+        "isolant",
         "plafond",
         "combles",
         "grenier",
-        "enduit"
+        "enduit",
+        "froid",
+        "chauffage"
       ]
     },
     {
-      "question": "Vous faites l'électricité ou la plomberie ?",
-      "reponse": "Non, ce n'est pas son métier. Michael travaille avec des artisans de confiance et peut vous mettre en relation.",
-      "metier": null,
-      "fait": "non",
+      "question": "Vous faites la toiture ?",
+      "reponse": "Oui : fenêtres de toit, tuiles cassées, fuites, isolation de toiture. Pour une réfection complète, Michael étudie le chantier et fait un devis.",
+      "metier": "couverture",
+      "fait": "oui",
+      "mots_cles": [
+        "toiture",
+        "toit",
+        "couverture",
+        "couvreur",
+        "tuile",
+        "tuiles",
+        "velux",
+        "fenêtre de toit",
+        "gouttière",
+        "gouttiere",
+        "faîtage",
+        "zinguerie"
+      ]
+    },
+    {
+      "question": "Vous posez des fenêtres, des volets roulants ?",
+      "reponse": "Oui, Michael pose et remplace les fenêtres, portes-fenêtres et volets roulants. Il dépanne aussi une fenêtre qui ferme mal ou un volet bloqué.",
+      "metier": "menuiserie",
+      "fait": "oui",
+      "mots_cles": [
+        "fenêtre",
+        "fenetre",
+        "fenêtres",
+        "menuiserie",
+        "porte-fenêtre",
+        "volet",
+        "volets",
+        "volet roulant",
+        "baie",
+        "vitrage",
+        "double vitrage",
+        "pvc",
+        "alu"
+      ]
+    },
+    {
+      "question": "Vous posez des portails et des clôtures ?",
+      "reponse": "Oui : portails et clôtures rigides. Michael vient voir le terrain, prend les mesures et vous fait un devis.",
+      "metier": "menuiserie",
+      "fait": "oui",
+      "mots_cles": [
+        "portail",
+        "portillon",
+        "clôture",
+        "cloture",
+        "grillage",
+        "panneau rigide",
+        "jardin",
+        "extérieur",
+        "exterieur"
+      ]
+    },
+    {
+      "question": "Vous faites la peinture ?",
+      "reponse": "Oui : préparation des supports, rebouchage et peinture des murs, plafonds et boiseries, souvent pour finir un chantier de placo.",
+      "metier": "peinture",
+      "fait": "oui",
+      "mots_cles": [
+        "peinture",
+        "peindre",
+        "peintre",
+        "repeindre",
+        "mur",
+        "murs",
+        "plafond",
+        "papier peint",
+        "boiserie"
+      ]
+    },
+    {
+      "question": "Vous faites l'électricité ?",
+      "reponse": "Oui, Michael fait l'électricité, en rénovation comme en dépannage : prises, interrupteurs, éclairage, tableau. Pour une panne, appelez-le directement.",
+      "metier": "depannage",
+      "fait": "oui",
       "mots_cles": [
         "électricité",
         "electricite",
         "électricien",
-        "plomberie",
-        "plombier",
-        "chauffage",
-        "prise"
+        "electricien",
+        "électrique",
+        "electrique",
+        "prise",
+        "interrupteur",
+        "lumière",
+        "lumiere",
+        "éclairage",
+        "tableau",
+        "disjoncteur",
+        "panne",
+        "court-circuit"
       ]
     },
     {
-      "question": "Vous refaites des toitures complètes ?",
-      "reponse": "Non. Michael prend les interventions ciblées sur le toit, pas la réfection complète.",
-      "metier": "couverture",
-      "fait": "non",
+      "question": "Vous faites la plomberie ?",
+      "reponse": "Oui, Michael fait la plomberie, en rénovation comme en dépannage : fuite, robinet, évacuation bouchée, raccordement de salle de bain. En cas de fuite, appelez-le directement.",
+      "metier": "depannage",
+      "fait": "oui",
       "mots_cles": [
-        "refaire toiture",
-        "toiture complète",
-        "toute la toiture",
-        "charpente neuve"
+        "plomberie",
+        "plombier",
+        "fuite",
+        "robinet",
+        "robinetterie",
+        "évacuation",
+        "evacuation",
+        "bouché",
+        "bouche",
+        "canalisation",
+        "wc",
+        "toilettes",
+        "chasse d'eau",
+        "ballon",
+        "chauffe-eau",
+        "eau"
+      ]
+    },
+    {
+      "question": "Vous faites du dépannage ?",
+      "reponse": "Oui : électricité, plomberie, fenêtres et volets roulants. Pour un dépannage, le plus rapide est d'appeler Michael directement.",
+      "metier": "depannage",
+      "fait": "oui",
+      "mots_cles": [
+        "dépannage",
+        "depannage",
+        "dépanner",
+        "depanner",
+        "urgence",
+        "urgent",
+        "réparer",
+        "reparer",
+        "réparation",
+        "cassé",
+        "casse",
+        "bloqué",
+        "bloque",
+        "marche plus",
+        "ne fonctionne"
+      ],
+      "priorite": 1.5
+    },
+    {
+      "question": "Vous faites le gros œuvre ou la charpente ?",
+      "reponse": "Pour les fondations, les murs porteurs, les extensions ou une charpente neuve, il faut voir avec Michael : décrivez votre projet dans le formulaire, il vous dira ce qu'il peut prendre.",
+      "metier": null,
+      "fait": "sur devis",
+      "mots_cles": [
+        "gros oeuvre",
+        "gros œuvre",
+        "maçonnerie",
+        "maconnerie",
+        "fondation",
+        "mur porteur",
+        "extension",
+        "agrandissement",
+        "charpente",
+        "dalle",
+        "béton",
+        "beton"
       ]
     },
     {
       "question": "Vous intervenez où ?",
-      "reponse": "Dans un rayon d'environ 30 km autour de Lille (zone à confirmer). Indiquez votre commune dans le formulaire, il vous répondra.",
+      "reponse": "Dans un rayon d'environ 30 km autour de Lille (zone à confirmer). Indiquez votre commune dans le formulaire, Michael vous répondra.",
       "metier": null,
       "fait": "oui",
       "mots_cles": [
-        "où",
         "zone",
         "secteur",
         "commune",
@@ -96,7 +249,14 @@
         "lille",
         "roubaix",
         "tourcoing",
-        "déplacement"
+        "déplacement",
+        "deplacement",
+        "venir",
+        "intervenez",
+        "intervention",
+        "quel secteur",
+        "quelle zone",
+        "rayon"
       ]
     },
     {
@@ -125,8 +285,15 @@
         "m2",
         "m²",
         "cher",
-        "budget"
-      ]
+        "budget",
+        "quel prix",
+        "prix du",
+        "prix pour",
+        "combien pour",
+        "combien coûte",
+        "combien coute"
+      ],
+      "priorite": 3
     },
     {
       "question": "Vous êtes assuré ?",
@@ -138,12 +305,30 @@
         "décennale",
         "decennale",
         "assuré",
+        "assure",
         "garantie"
       ]
     },
     {
+      "question": "Je peux avoir des aides pour l'isolation ?",
+      "reponse": "Les aides (MaPrimeRénov', CEE) dépendent notamment de la certification RGE de l'artisan. Ce point est à confirmer avec Michael : posez-lui la question au moment du devis.",
+      "metier": "platrerie",
+      "fait": "sur devis",
+      "mots_cles": [
+        "aide",
+        "aides",
+        "subvention",
+        "maprimerenov",
+        "prime",
+        "rge",
+        "cee",
+        "crédit d'impôt",
+        "credit d'impot"
+      ]
+    },
+    {
       "question": "Quels sont vos délais ?",
-      "reponse": "Ça dépend de la saison et de la taille du chantier. Michael vous donne une date de démarrage avec le devis.",
+      "reponse": "Ça dépend de la saison et de la taille du chantier. Michael vous donne une date de démarrage avec le devis. Pour un dépannage, appelez-le directement.",
       "metier": null,
       "fait": "sur devis",
       "mots_cles": [
@@ -153,8 +338,8 @@
         "disponible",
         "dispo",
         "rapidement",
-        "urgent",
-        "date"
+        "date",
+        "attente"
       ]
     }
   ]

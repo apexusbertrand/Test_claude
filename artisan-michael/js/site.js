@@ -5,7 +5,7 @@ const CONFIG = {
   nom: 'LOGE&NERJ',
   prenom: 'Michael',
   sousTitre: 'Rénover, isoler, économiser',   // signature du logo officiel
-  metiers: 'Carrelage · Plâtrerie · Couverture',
+  metiers: 'Rénovation tous corps d’état et dépannage',
   telephone: '06 39 98 12 34',          // numéro fictif (plage réservée ARCEP à la fiction)
   email: 'contact@logenerj.example',
   adresse: '12 rue de l’Exemple, 59000 Lille',
@@ -28,7 +28,7 @@ const NAV = [
   ['qui-suis-je.html', 'Qui suis-je'],
   ['contact.html', 'Contact']
 ];
-const METIERS = { carrelage: 'Carrelage', platrerie: 'Plâtrerie', couverture: 'Couverture' };
+const METIERS = { carrelage: 'Carrelage', platrerie: 'Placo & isolation', couverture: 'Toiture', menuiserie: 'Menuiserie ext.', peinture: 'Peinture', depannage: 'Dépannage' };
 const tel = () => 'tel:' + CONFIG.telephone.replace(/\s/g, '');
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
@@ -161,7 +161,7 @@ async function renderSamples(el) {
     <a class="sample rv" href="savoir-faire.html#${m.id}">
       <div class="sample-tex tex-${m.texture}"><span class="mono">Réf. ${m.ref}</span></div>
       <div class="sample-body">
-        <span class="status${m.statut === 'Petits chantiers' ? ' minor' : ''}">${esc(m.statut)}</span>
+        <span class="status${m.statut === 'Nouveau' ? ' new' : ''}">${esc(m.statut)}</span>
         <h3>${esc(m.nom)}</h3>
         <p>${esc(m.accroche)}</p>
         <span class="go">Voir le détail <span>→</span></span>
@@ -184,6 +184,7 @@ async function renderSavoirFaire(el, nopeEl) {
       </div>
     </section>`).join('');
   nopeEl.innerHTML = ne_fait_pas.map(x => `<li>${esc(x)}</li>`).join('');
+  if (!ne_fait_pas.length) nopeEl.closest('section').hidden = true;   // liste vide : la section disparaît
   reveal(document);
   if (location.hash) document.querySelector(location.hash)?.scrollIntoView();
 }

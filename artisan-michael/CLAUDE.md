@@ -1,6 +1,6 @@
-# Site de LOGE&NERJ, l'entreprise de Michael (carrelage, plâtrerie, couverture)
+# Site de LOGE&NERJ, l'entreprise de Michael (rénovation tous corps d'état et dépannage)
 
-Maquette de site vitrine pour Michael, artisan indépendant multi-métiers : carrelage et plâtrerie en activité principale, couverture pour les petits chantiers. Brief complet : `../prompts/site-artisan-batiment.md`. Branche de travail : `SITE_MICHAEL`.
+Maquette de site vitrine pour Michael, artisan indépendant en rénovation tous corps d'état (mise à jour du 12/11/2026, d'après ses messages) : salle de bain et carrelage, placo et isolation, toiture, menuiserie extérieure (fenêtres, volets roulants, portails, clôtures rigides), peinture, électricité, plomberie, et dépannage électricité / plomberie / fenêtres. Brief de départ (antérieur, plus étroit) : `../prompts/site-artisan-batiment.md`. Branche de travail : `SITE_MICHAEL`.
 
 Nom de société : LOGE&NERJ (donné par Bertrand le 10/11/2026), signature « Rénover, isoler, économiser ». Dans le HTML, l'écrire `LOGE&amp;NERJ`. Domaine visé : logenerj.fr (disponibilité et marque INPI non vérifiées : réseau de la session bloqué).
 
@@ -21,7 +21,7 @@ HTML, CSS et JS natifs, sans build. Polices Google Fonts : Bricolage Grotesque (
 ## Pages
 
 - `index.html` : accueil (titre « Du brut au fini », comparateur avant/après, métiers, coupe de mur, 2 derniers chantiers, méthode, bandeau d'appel)
-- `savoir-faire.html` : les 3 métiers et « Ce que je ne fais pas », générés depuis `content/competences.json`
+- `savoir-faire.html` : les 6 métiers et la section « À voir ensemble » (ce qui reste à confirmer, masquée si la liste `ne_fait_pas` est vide), générés depuis `content/competences.json`
 - `realisations.html` : liste filtrable des chantiers
 - `chantier.html?c=<slug>` : une page par chantier, générée depuis `content/realisations.json`
 - `qui-suis-je.html` : présentation, emplacement du portrait, règles de chantier
@@ -61,7 +61,7 @@ Chantier n°1 (`combles-briques`) : vraies photos fournies par Bertrand. La comm
 
 Chantier n°2 (`salle-de-bain-exemple`) : entièrement fictif, visuels SVG d'illustration. `"fictif": true` affiche l'étiquette « Exemple » et un avertissement. À supprimer dès qu'un vrai deuxième chantier arrive.
 
-Les engagements de `qui-suis-je.html`, la liste « Ce que je ne fais pas », les réponses de la FAQ et le délai de rappel sont des propositions à valider.
+Les engagements de `qui-suis-je.html`, les détails marqués « à confirmer » dans `content/competences.json`, la liste `ne_fait_pas` (gros œuvre, charpente neuve), les réponses de la FAQ et le délai de rappel sont des propositions à valider.
 
 ## À obtenir de Michael
 
