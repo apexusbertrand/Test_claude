@@ -4,7 +4,9 @@ Maquette de site vitrine pour Michael, artisan indépendant en rénovation tous 
 
 Nom de société : LOGE&NERJ (donné par Bertrand le 10/11/2026), signature « Rénover, isoler, économiser ». Dans le HTML, l'écrire `LOGE&amp;NERJ`. Domaine visé : logenerj.fr (disponibilité et marque INPI non vérifiées : réseau de la session bloqué).
 
-Statut : maquette de présentation. Coordonnées, e-mail (`contact@logenerj.example`), SIRET, adresse, zone et le chantier n°2 sont fictifs. Le bandeau jaune en haut des pages et la mention du pied de page le disent. Tout est en `noindex` (meta + `robots.txt`).
+E-mail officiel de Michael : logenerj@artisanat1.fr (reçu le 13/11/2026, dans `CONFIG.email`). C'est aussi l'adresse où le flux n8n du formulaire doit envoyer les demandes.
+
+Statut : maquette de présentation. Téléphone, SIRET, adresse, zone et le chantier n°2 sont fictifs. Le bandeau jaune en haut des pages et la mention du pied de page le disent. Tout est en `noindex` (meta + `robots.txt`).
 
 ## Lancer en local
 

@@ -7,7 +7,7 @@ const CONFIG = {
   sousTitre: 'Rénover, isoler, économiser',   // signature du logo officiel
   metiers: 'Rénovation tous corps d’état et dépannage',
   telephone: '06 39 98 12 34',          // numéro fictif (plage réservée ARCEP à la fiction)
-  email: 'contact@logenerj.example',
+  email: 'logenerj@artisanat1.fr',
   adresse: 'Somain (59490), Nord · rue à compléter',   // ville d'après la page Facebook
   zone: 'Somain et alentours',
   horaires: 'Lun – ven, 7 h 30 – 18 h',
@@ -41,7 +41,7 @@ function layout() {
   document.body.insertAdjacentHTML('afterbegin', `
     <div class="tape" aria-hidden="true"><div class="tape-fill"></div><span class="tape-count">000 cm</span></div>
     <header class="hdr">
-      ${CONFIG.maquette ? '<div class="mock-flag">Maquette de présentation · coordonnées et chantier n°2 fictifs</div>' : ''}
+      ${CONFIG.maquette ? '<div class="mock-flag">Maquette de présentation · téléphone, adresse et chantier n°2 fictifs</div>' : ''}
       <div class="wrap hdr-in">
         ${brand}
         <nav class="nav" id="nav" aria-label="Menu principal">

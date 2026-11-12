@@ -22,7 +22,7 @@ Webhook POST (JSON), réponse `{"message": "..."}` affichée au client.
 }
 ```
 
-Nœuds : Webhook → (filtre : `consentement` vrai, `telephone` non vide) → Gmail vers Michael (objet : `Devis · {{commune}} · {{travaux}}`) → Gmail d'accusé de réception au client si `email` renseigné → Respond to Webhook. Penser à autoriser l'origine du site (CORS) sur le webhook.
+Nœuds : Webhook → (filtre : `consentement` vrai, `telephone` non vide) → Gmail vers Michael (logenerj@artisanat1.fr) (objet : `Devis · {{commune}} · {{travaux}}`) → Gmail d'accusé de réception au client si `email` renseigné → Respond to Webhook. Penser à autoriser l'origine du site (CORS) sur le webhook.
 
 ## 2. Chat → agent IA
 
