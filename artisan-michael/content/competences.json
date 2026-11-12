@@ -1,5 +1,5 @@
 {
-  "_note": "Source unique des métiers. Lue par le site (accueil, savoir-faire.html) et, plus tard, par le flux n8n du chat. Mise à jour le 12/11/2026 d'après les messages de Michael : tous corps d'état, toiture, isolation, menuiserie extérieure, peinture, placo, électricité, plomberie, volets roulants, portails, clôtures rigides, salle de bain, carrelage, dépannage fenêtre / électricité / plomberie. Les détails marqués « à confirmer » sont des déductions à valider avec lui. Complété le 12/11/2026 avec la fiche publique de la page Facebook « Loge&nerj » (Somain, Nord) : « Société familiale spécialisée dans la rénovation de l'habitat : plomberie, peinture, électricité, toitures, fenêtres, isolation, pompe à… » (texte coupé par Facebook, « pompe à chaleur » à confirmer). Les publications ne sont pas lisibles sans compte Facebook.",
+  "_note": "Source unique des métiers. Lue par le site (accueil, savoir-faire.html) et, plus tard, par le flux n8n du chat. Mise à jour le 12/11/2026 d'après les messages de Michael : tous corps d'état, toiture, isolation, menuiserie extérieure, peinture, placo, électricité, plomberie, volets roulants, portails, clôtures rigides, salle de bain, carrelage, dépannage fenêtre / électricité / plomberie. Les détails marqués « à confirmer » sont des déductions à valider avec lui. Complété le 12/11/2026 avec la fiche publique de la page Facebook « Loge&nerj » (Somain, Nord) : « Société familiale spécialisée dans la rénovation de l'habitat : plomberie, peinture, électricité, toitures, fenêtres, isolation, pompe à… » (texte coupé par Facebook, « pompe à chaleur » à confirmer). Les publications ne sont pas lisibles sans compte Facebook. 13/11/2026 : version définitive du site, prestations non confirmées retirées.",
   "positionnement": {
     "titre": "Société familiale de rénovation de l'habitat",
     "texte": "LOGE&NERJ, à Somain (Nord) : du sol au toit, un seul interlocuteur. Rénovation complète ou un seul poste, et le dépannage en plus.",
@@ -42,8 +42,7 @@
         "Isolation et aménagement de combles",
         "Cloisons et doublages en plaques de plâtre",
         "Faux plafonds",
-        "Bandes, joints et enduits",
-        "Isolation phonique (à confirmer)"
+        "Bandes, joints et enduits"
       ],
       "materiaux": [
         "Plaques standard, hydro, phoniques",
@@ -64,8 +63,7 @@
         "Réparation et remplacement de tuiles",
         "Recherche et réparation de fuites",
         "Isolation de toiture",
-        "Faîtage et zinguerie (à confirmer)",
-        "Réfection de toiture (sur devis, à confirmer)"
+        "Réfection de toiture, sur devis"
       ],
       "materiaux": [
         "Tuiles terre cuite",
@@ -86,7 +84,6 @@
         "Volets roulants",
         "Portails",
         "Clôtures rigides",
-        "Portes d'entrée (à confirmer)",
         "Réglage et dépannage de fenêtres"
       ],
       "materiaux": [
@@ -107,8 +104,7 @@
         "Murs et plafonds",
         "Préparation et rebouchage",
         "Boiseries et portes",
-        "Peinture après travaux de placo",
-        "Façades (à confirmer)"
+        "Peinture après travaux de placo"
       ],
       "materiaux": [
         "Peintures acryliques",
@@ -120,7 +116,7 @@
       "id": "depannage",
       "ref": "06",
       "nom": "Dépannage",
-      "statut": "Nouveau",
+      "statut": "Dépannage",
       "texture": "depannage",
       "accroche": "Une panne, une fuite, une fenêtre qui ferme mal : un coup de fil.",
       "texte": "Électricité, plomberie et fenêtres : Michael intervient aussi en dépannage, en plus des travaux d'électricité et de plomberie liés à une rénovation.",
@@ -139,18 +135,14 @@
       "statut": "Énergie",
       "texture": "heat",
       "accroche": "Isoler d'abord, puis chauffer mieux pour moins cher.",
-      "texte": "La page Facebook de LOGE&NERJ cite la pompe à chaleur parmi ses spécialités. Le détail des prestations est à confirmer avec Michael.",
+      "texte": "Une maison bien isolée se chauffe mieux et pour moins cher. Michael installe des pompes à chaleur et vous conseille sur l'ordre des travaux.",
       "prestations": [
-        "Installation de pompe à chaleur (à confirmer)",
-        "Remplacement d'un ancien chauffage (à confirmer)",
-        "Conseil isolation + chauffage"
+        "Installation de pompe à chaleur",
+        "Conseil isolation et chauffage"
       ],
       "materiaux": []
     }
   ],
-  "ne_fait_pas": [
-    "Gros œuvre : fondations, murs porteurs, extensions (à confirmer)",
-    "Charpente neuve (à confirmer)"
-  ],
-  "_ne_fait_pas_note": "Michael dit faire « tout corps d'état ». Ces deux exclusions sont des hypothèses à valider avec lui ; si tout est faisable, vider la liste et la section disparaît du site."
+  "ne_fait_pas": [],
+  "_ne_fait_pas_note": "Liste vide : la section « À voir ensemble » est masquée. Michael dit faire « tout corps d'état »."
 }

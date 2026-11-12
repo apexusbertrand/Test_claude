@@ -1,21 +1,21 @@
 /* LOGE&NERJ — script commun.
    Tout ce qui est coordonnées et URL de webhooks est dans CONFIG.
-   Valeurs bouchon pour la maquette : à remplacer par les vraies. */
+   Un champ vide (téléphone, horaires, SIRET…) n'est simplement pas affiché sur le site. */
 const CONFIG = {
   nom: 'LOGE&NERJ',
   prenom: 'Michael',
   sousTitre: 'Rénover, isoler, économiser',   // signature du logo officiel
   metiers: 'Rénovation tous corps d’état et dépannage',
-  telephone: '06 39 98 12 34',          // numéro fictif (plage réservée ARCEP à la fiction)
+  telephone: '',          // vrai numéro de Michael à renseigner (format « 06 12 34 56 78 ») ; vide = pas de téléphone affiché
   email: 'logenerj@artisanat1.fr',
-  adresse: 'Somain (59490), Nord · rue à compléter',   // ville d'après la page Facebook
+  adresse: 'Somain (59490), Nord',   // ville d'après la page Facebook ; rue à ajouter quand on l'aura
   zone: 'Somain et alentours',
-  horaires: 'Lun – ven, 7 h 30 – 18 h',
-  siret: '000 000 000 00000',
+  horaires: '',          // à renseigner ; vide = non affiché
+  siret: '',             // obligatoire (mentions légales) : à renseigner dès que possible
   facebook: 'https://www.facebook.com/p/Logenerj-61591852021732/',   // page Facebook « Loge&nerj » (adresse définitive, relevée le 12/11/2026)
-  formWebhook: '',   // ex. https://apexus.app.n8n.cloud/webhook/contact-michael
-  chatWebhook: '',   // ex. https://apexus.app.n8n.cloud/webhook/<id>/chat
-  maquette: true
+  formWebhook: 'https://apexus.app.n8n.cloud/webhook/contact-logenerj',   // flux n8n « Site LOGE&NERJ — Formulaire de devis »
+  chatWebhook: 'https://apexus.app.n8n.cloud/webhook/9692846f-a737-47ce-beaa-cba903f86a47/chat',   // flux n8n « Site LOGE&NERJ — Agent Chat »
+  maquette: false
 };
 window.CONFIG = CONFIG;
 
@@ -59,23 +59,24 @@ function layout() {
         <div class="ftr-grid">
           <div><a href="index.html"><img class="ftr-logo" src="assets/brand/logo-transparent-900.webp" alt="LOGE&amp;NERJ, rénover, isoler, économiser" width="900" height="817" loading="lazy"></a><p>${esc(CONFIG.metiers)}. Artisan indépendant : je pose, j’isole, je répare, et je laisse le chantier propre.</p></div>
           <div><h4>Contact</h4><ul>
-            <li><a href="${tel()}">${esc(CONFIG.telephone)}</a></li>
+            ${CONFIG.telephone ? `<li><a href="${tel()}">${esc(CONFIG.telephone)}</a></li>` : ''}
             <li><a href="mailto:${esc(CONFIG.email)}">${esc(CONFIG.email)}</a></li>
-            <li>${esc(CONFIG.adresse)}</li><li>${esc(CONFIG.horaires)}</li>
+            <li>${esc(CONFIG.adresse)}</li>${CONFIG.horaires ? `<li>${esc(CONFIG.horaires)}</li>` : ''}
             ${CONFIG.facebook ? `<li><a class="fb-link" href="${CONFIG.facebook}" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true" class="fb-ico"><path fill="currentColor" d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12Z"/></svg> Suivre mes chantiers sur Facebook</a></li>` : ''}</ul></div>
           <div><h4>Le site</h4><ul>${NAV.map(([h, l]) => `<li><a href="${h}">${l}</a></li>`).join('')}<li><a href="mentions-legales.html">Mentions légales</a></li>${CONFIG.maquette ? '<li><a href="charte.html">Charte graphique</a></li>' : ''}</ul></div>
         </div>
-        <div class="ftr-legal"><span>SIRET ${esc(CONFIG.siret)} · Assurance décennale [à compléter]</span><span>${CONFIG.maquette ? 'Maquette · informations fictives' : '© ' + new Date().getFullYear() + ' ' + esc(CONFIG.nom)}</span><span class="ftr-credit">Site créé par <a href="https://apexus.fr" target="_blank" rel="noopener">Apexus</a></span></div>
+        <div class="ftr-legal">${CONFIG.siret ? `<span>SIRET ${esc(CONFIG.siret)}</span>` : ''}<span>${CONFIG.maquette ? 'Maquette · informations fictives' : '© ' + new Date().getFullYear() + ' ' + esc(CONFIG.nom)}</span><span class="ftr-credit">Site créé par <a href="https://apexus.fr" target="_blank" rel="noopener">Apexus</a></span></div>
       </div>
     </footer>
     <nav class="mbar" aria-label="Contact rapide">
-      <a href="${tel()}">Appeler</a>
+      ${CONFIG.telephone ? `<a href="${tel()}">Appeler</a>` : `<a href="mailto:${esc(CONFIG.email)}">E-mail</a>`}
       <a href="contact.html">Devis gratuit</a>
     </nav>`);
 
-  document.querySelectorAll('[data-tel]').forEach(a => { a.href = tel(); a.textContent = CONFIG.telephone; });
+  document.querySelectorAll('[data-tel]').forEach(a => { if (CONFIG.telephone) { a.href = tel(); a.textContent = CONFIG.telephone; } else (a.closest('[data-tel-block]') || a).remove(); });
+  document.querySelectorAll('[data-tel-block]').forEach(el => { if (!CONFIG.telephone) el.remove(); });
   document.querySelectorAll('[data-email]').forEach(a => { a.href = 'mailto:' + CONFIG.email; a.textContent = CONFIG.email; });
-  document.querySelectorAll('[data-cfg]').forEach(el => { el.textContent = CONFIG[el.dataset.cfg]; });
+  document.querySelectorAll('[data-cfg]').forEach(el => { if (CONFIG[el.dataset.cfg]) el.textContent = CONFIG[el.dataset.cfg]; else (el.closest('[data-cfg-block]') || el).remove(); });
   document.querySelectorAll('[data-facebook]').forEach(a => { if (CONFIG.facebook) a.href = CONFIG.facebook; else a.remove(); });
 
   const burger = document.querySelector('.burger'), nav = document.getElementById('nav');
@@ -129,7 +130,7 @@ const chips = ids => `<div class="chips">${ids.map(m => `<span class="chip ${m}"
 
 function fiche(r, i) {
   return `<a class="fiche rv" href="chantier.html?c=${encodeURIComponent(r.slug)}" data-metiers="${r.metiers.join(' ')}">
-    <div class="fiche-top"><span class="mono">Chantier n°${String(i + 1).padStart(3, '0')}</span>${r.fictif ? '<span class="mono tag">Exemple</span>' : `<span class="mono">${esc(r.date_affichee)}</span>`}</div>
+    <div class="fiche-top"><span class="mono">Chantier n°${String(i + 1).padStart(3, '0')}</span>${r.fictif ? '<span class="mono tag">Exemple</span>' : r.date_affichee ? `<span class="mono">${esc(r.date_affichee)}</span>` : ''}</div>
     <div class="fiche-img"><img src="${imgPath(r.slug, r.couverture)}" alt="" loading="lazy"></div>
     <div class="fiche-body">
       <h3>${esc(r.titre)}</h3>
@@ -214,7 +215,7 @@ async function renderChantier(el) {
     <div class="wrap">
       <div class="panneau">
         <div class="panneau-l">
-          <span class="mono">Chantier n°${String(idx + 1).padStart(3, '0')} · ${esc(r.date_affichee)}</span>
+          <span class="mono">Chantier n°${String(idx + 1).padStart(3, '0')}${r.date_affichee ? ' · ' + esc(r.date_affichee) : ''}</span>
           <h1>${esc(r.titre)}</h1>
           <p>${esc(r.resume)}</p>
           ${r.fictif ? '<div class="fictif-note"><strong>Chantier d’exemple.</strong> Textes et visuels inventés pour la maquette, ils seront remplacés par un vrai chantier.</div>' : ''}
@@ -223,7 +224,7 @@ async function renderChantier(el) {
           <dl class="fields">
             <dt>Nature</dt><dd>${esc(r.titre)}</dd>
             <dt>Lieu</dt><dd>${esc(r.commune)}</dd>
-            <dt>Durée</dt><dd>${esc(r.duree)}</dd>
+            ${r.duree ? `<dt>Durée</dt><dd>${esc(r.duree)}</dd>` : ''}
             <dt>Métiers</dt><dd>${chips(r.metiers)}</dd>
             <dt>Entreprise</dt><dd>${esc(CONFIG.nom)}</dd>
           </dl>
@@ -290,7 +291,7 @@ function contactForm(form) {
       form.reset();
     } catch {
       status.className = 'status-msg err';
-      status.textContent = `Ça n’est pas parti. Appelez-moi au ${CONFIG.telephone} ou écrivez à ${CONFIG.email}.`;
+      status.textContent = CONFIG.telephone ? `Ça n’est pas parti. Appelez-moi au ${CONFIG.telephone} ou écrivez à ${CONFIG.email}.` : `Ça n’est pas parti. Écrivez-moi directement à ${CONFIG.email}.`;
     } finally { btn.disabled = false; }
   });
 }

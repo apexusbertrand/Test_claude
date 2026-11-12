@@ -6,7 +6,7 @@ Nom de société : LOGE&NERJ (donné par Bertrand le 10/11/2026), signature « R
 
 E-mail officiel de Michael : logenerj@artisanat1.fr (reçu le 13/11/2026, dans `CONFIG.email`). C'est aussi l'adresse où le flux n8n du formulaire doit envoyer les demandes.
 
-Statut : maquette de présentation. Téléphone, SIRET, adresse, zone et le chantier n°2 sont fictifs. Le bandeau jaune en haut des pages et la mention du pied de page le disent. Tout est en `noindex` (meta + `robots.txt`).
+Statut (13/11/2026) : version définitive en ligne sur www.logenerj.fr, sans mention « maquette ». Faute d'informations réelles, le téléphone, les horaires, la rue et le SIRET ne sont pas affichés (champs vides dans `CONFIG` de `js/site.js` : il suffit de les remplir pour qu'ils apparaissent partout). Le chantier fictif n°2 et les prestations « à confirmer » ont été retirés. Le formulaire et le chat sont branchés sur les flux n8n publiés (voir `n8n/README.md`). Le site est indexable (`robots.txt`, `sitemap.xml`).
 
 ## Lancer en local
 

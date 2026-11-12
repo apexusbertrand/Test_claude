@@ -1,5 +1,5 @@
 {
-  "_note": "Base de connaissances du chat. En maquette, le chat de démo y cherche des mots-clés ; plus tard, le flux n8n lira ce fichier. Champ 'fait' : oui | non | sur devis. Mise à jour le 12/11/2026 d'après les compétences annoncées par Michael. Les réponses restent à relire avec lui. Champ optionnel 'priorite' (défaut 1) : multiplie le score d'une entrée dans le chat de démo. 12/11/2026 : complété avec la fiche publique Facebook (Somain, société familiale, pompe à chaleur).",
+  "_note": "Base de connaissances du chat. En maquette, le chat de démo y cherche des mots-clés ; plus tard, le flux n8n lira ce fichier. Champ 'fait' : oui | non | sur devis. Mise à jour le 12/11/2026 d'après les compétences annoncées par Michael. Les réponses restent à relire avec lui. Champ optionnel 'priorite' (défaut 1) : multiplie le score d'une entrée dans le chat de démo. 12/11/2026 : complété avec la fiche publique Facebook (Somain, société familiale, pompe à chaleur). 13/11/2026 : version définitive, sans téléphone publié (dépannage = formulaire, rappel par Michael).",
   "faq": [
     {
       "question": "Vous faites quoi exactement ?",
@@ -151,7 +151,7 @@
     },
     {
       "question": "Vous faites l'électricité ?",
-      "reponse": "Oui, Michael fait l'électricité, en rénovation comme en dépannage : prises, interrupteurs, éclairage, tableau. Pour une panne, appelez-le directement.",
+      "reponse": "Oui, Michael fait l'électricité, en rénovation comme en dépannage : prises, interrupteurs, éclairage, tableau. Pour une panne, laissez vos coordonnées dans le formulaire de contact en indiquant « dépannage », il vous rappelle.",
       "metier": "depannage",
       "fait": "oui",
       "mots_cles": [
@@ -174,7 +174,7 @@
     },
     {
       "question": "Vous installez des pompes à chaleur ?",
-      "reponse": "Oui, la pompe à chaleur fait partie des spécialités de LOGE&NERJ. Pour savoir quel modèle convient à votre maison (et s'il faut d'abord isoler), Michael passe voir et fait un devis.",
+      "reponse": "Oui, LOGE&NERJ installe des pompes à chaleur. Pour savoir quel modèle convient à votre maison (et s'il faut d'abord isoler), Michael passe voir et fait un devis.",
       "metier": "chauffage",
       "fait": "oui",
       "mots_cles": [
@@ -194,7 +194,7 @@
     },
     {
       "question": "Vous faites la plomberie ?",
-      "reponse": "Oui, Michael fait la plomberie, en rénovation comme en dépannage : fuite, robinet, évacuation bouchée, raccordement de salle de bain. En cas de fuite, appelez-le directement.",
+      "reponse": "Oui, Michael fait la plomberie, en rénovation comme en dépannage : fuite, robinet, évacuation bouchée, raccordement de salle de bain. Pour une fuite, laissez vos coordonnées dans le formulaire en indiquant « dépannage », il vous rappelle.",
       "metier": "depannage",
       "fait": "oui",
       "mots_cles": [
@@ -218,7 +218,7 @@
     },
     {
       "question": "Vous faites du dépannage ?",
-      "reponse": "Oui : électricité, plomberie, fenêtres et volets roulants. Pour un dépannage, le plus rapide est d'appeler Michael directement.",
+      "reponse": "Oui : électricité, plomberie, fenêtres et volets roulants. Laissez votre prénom, votre téléphone et votre commune dans le formulaire de contact en cochant « Dépannage » : Michael vous rappelle.",
       "metier": "depannage",
       "fait": "oui",
       "mots_cles": [
@@ -262,7 +262,7 @@
     },
     {
       "question": "Vous intervenez où ?",
-      "reponse": "LOGE&NERJ est basée à Somain, dans le Nord, et intervient autour (Douai, Denain, Valenciennes… zone exacte à confirmer). Indiquez votre commune dans le formulaire, Michael vous répondra.",
+      "reponse": "LOGE&NERJ est basée à Somain, dans le Nord, et intervient autour. Indiquez votre commune dans le formulaire, Michael vous répondra.",
       "metier": null,
       "fait": "oui",
       "mots_cles": [
@@ -280,12 +280,6 @@
         "quelle zone",
         "rayon",
         "somain",
-        "douai",
-        "denain",
-        "valenciennes",
-        "aniche",
-        "orchies",
-        "marchiennes",
         "nord",
         "êtes où",
         "etes ou",
@@ -296,7 +290,10 @@
         "adresse",
         "localisation",
         "où êtes",
-        "ou etes"
+        "ou etes",
+        "douai",
+        "denain",
+        "valenciennes"
       ]
     },
     {
@@ -337,7 +334,7 @@
     },
     {
       "question": "Vous êtes assuré ?",
-      "reponse": "Oui, Michael est couvert par une assurance décennale. L'attestation est jointe à chaque devis.",
+      "reponse": "Demandez l'attestation d'assurance professionnelle à Michael au moment du devis : elle doit y être jointe.",
       "metier": null,
       "fait": "oui",
       "mots_cles": [
@@ -351,7 +348,7 @@
     },
     {
       "question": "Je peux avoir des aides pour l'isolation ?",
-      "reponse": "Les aides (MaPrimeRénov', CEE) dépendent notamment de la certification RGE de l'artisan. Ce point est à confirmer avec Michael : posez-lui la question au moment du devis.",
+      "reponse": "Les aides (MaPrimeRénov', CEE) dépendent notamment de la certification RGE de l'artisan. Posez la question à Michael au moment du devis.",
       "metier": "platrerie",
       "fait": "sur devis",
       "mots_cles": [
@@ -370,7 +367,7 @@
     },
     {
       "question": "Quels sont vos délais ?",
-      "reponse": "Ça dépend de la saison et de la taille du chantier. Michael vous donne une date de démarrage avec le devis. Pour un dépannage, appelez-le directement.",
+      "reponse": "Ça dépend de la saison et de la taille du chantier. Michael vous donne une date de démarrage avec le devis. Pour un dépannage, précisez-le dans votre demande.",
       "metier": null,
       "fait": "sur devis",
       "mots_cles": [

@@ -16,7 +16,7 @@
         showWelcomeScreen: false,
         defaultLanguage: 'en',
         metadata: { page: location.pathname, langue: navigator.language, referent: document.referrer || 'direct' },
-        initialMessages: [`Bonjour, je suis l’assistant de ${CONFIG.prenom}. Rénovation tous corps d’état et dépannage : demandez-moi ce qu’il fait.`],
+        initialMessages: [`Bonjour, je suis l’assistant de LOGE&NERJ. Rénovation tous corps d’état et dépannage autour de Somain : posez-moi votre question, ou laissez votre demande, je la transmets à ${CONFIG.prenom}.`],
         i18n: { en: { title: CONFIG.nom, subtitle: 'Rénovation tous corps d’état et dépannage', footer: '', getStarted: 'Nouvelle conversation', inputPlaceholder: 'Votre question…', closeButtonTooltip: 'Fermer' } }
       });
     });
@@ -35,7 +35,7 @@
           <button>Vous faites quoi exactement ?</button><button>Un dépannage plomberie ?</button><button>Vous posez des portails ?</button><button>Vous faites la toiture ?</button><button>Vous intervenez où ?</button>
         </div>
         <form class="chat-in"><input type="text" placeholder="Votre question…" aria-label="Votre question" autocomplete="off"><button type="submit">Envoyer</button></form>
-        <div class="chat-demo">Démo maquette · rien n’est envoyé. En ligne, les conversations arriveront chez Michael par e-mail.</div>
+        <div class="chat-demo">Réponses automatiques · pour une demande, utilisez le formulaire de contact</div>
       </section>`);
 
     const fab = document.querySelector('.chat-fab'), box = document.getElementById('chat');
@@ -61,9 +61,9 @@
         }, 0);
         if (s > score) { score = s; best = f; }
       });
-      const telLink = `<a href="tel:${CONFIG.telephone.replace(/\s/g, '')}">Appeler ${CONFIG.prenom} →</a>`;
+      const telLink = CONFIG.telephone ? `<a href="tel:${CONFIG.telephone.replace(/\s/g, '')}">Appeler ${CONFIG.prenom} →</a>` : '<a href="contact.html">Être rappelé →</a>';
       if (best) return best.reponse + ' ' + (best.metier === 'depannage' ? telLink : best.fait !== 'non' ? '<a href="contact.html">Demander un devis →</a>' : '');
-      return `Bonne question, je n’ai pas encore la réponse. Le plus simple : appelez ${CONFIG.prenom} au <a href="tel:${CONFIG.telephone.replace(/\s/g, '')}">${CONFIG.telephone}</a> ou passez par le <a href="contact.html">formulaire</a>.`;
+      return `Bonne question, je n’ai pas encore la réponse. Le plus simple : passez par le <a href="contact.html">formulaire</a> ou écrivez à <a href="mailto:${CONFIG.email}">${CONFIG.email}</a>.`;
     }
 
     function ask(q) {

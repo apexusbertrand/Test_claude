@@ -352,7 +352,7 @@ h1,h2,h3,h4{font-family:var(--display);font-weight:600;text-transform:uppercase;
 .about-photo{border-radius:var(--r);overflow:hidden;position:relative;}
 .about-photo img{width:100%;aspect-ratio:16/10;object-fit:cover;}
 .about-photo figcaption{position:absolute;left:14px;bottom:14px;background:var(--white);color:var(--forest);padding:4px 12px;border-radius:999px;}
-.portrait-slot{aspect-ratio:4/5;border:3px dashed var(--leaf);border-radius:var(--r);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;background:var(--paper-2);text-align:center;padding:20px;color:var(--forest);}
+.portrait-slot{aspect-ratio:4/5;border:2px solid var(--paper-3);border-radius:var(--r);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;background:var(--paper-2);text-align:center;padding:20px;color:var(--forest);}
 .portrait-slot img{width:120px;opacity:.9;}
 .portrait-slot strong{font-family:var(--display);font-weight:600;text-transform:uppercase;font-size:1.3rem;}
 .about-text p{font-size:1.15rem;}
@@ -465,3 +465,52 @@ fieldset.field{border:0;padding:0;margin:0;}
 /* ---------- Crédit Apexus (pied de page) ---------- */
 .ftr-credit a{color:var(--forest);font-weight:600;text-decoration:underline;text-decoration-color:var(--leaf);text-decoration-thickness:2px;text-underline-offset:3px;transition:background .2s, text-decoration-color .2s;}
 .ftr-credit a:hover{background:linear-gradient(transparent 55%, rgba(255,205,1,.55) 55%);text-decoration-color:var(--sun);}
+
+/* ---------- Widget de chat n8n (version en ligne), aux couleurs LOGE&NERJ ----------
+   Les variables sont posées sur #n8n-chat (et non :root) : la feuille du widget, chargée après celle-ci, redéfinit :root. */
+#n8n-chat, #n8n-chat .n8n-chat{
+  --chat--color-primary:var(--forest);
+  --chat--color-primary-shade-50:var(--field);
+  --chat--color-primary-shade-100:var(--forest-dark);
+  --chat--color-secondary:var(--leaf);
+  --chat--color-secondary-shade-50:var(--field);
+  --chat--toggle--background:var(--white);
+  --chat--toggle--hover--background:var(--paper-2);
+  --chat--toggle--active--background:var(--paper-2);
+  --chat--toggle--color:var(--forest);
+  --chat--toggle--size:64px;
+  --chat--window--width:380px;
+  --chat--window--height:600px;
+  --chat--border-radius:18px;
+  --chat--header--background:var(--forest);
+  --chat--header--color:var(--white);
+  --chat--body--background:var(--paper);
+  --chat--message--bot--background:var(--white);
+  --chat--message--bot--color:var(--ink);
+  --chat--message--bot--border:1px solid var(--paper-3);
+  --chat--message--user--background:var(--leaf);
+  --chat--message--user--color:var(--white);
+  --chat--input--border:1px solid var(--paper-3);
+  --chat--input--send--button--background:var(--sun);
+  --chat--input--send--button--background-hover:#FFD93D;
+  --chat--input--send--button--color:var(--forest-dark);
+  --chat--input--send--button--color-hover:var(--forest-dark);
+  --chat--font-family:var(--body);
+}
+#n8n-chat .chat-window-toggle,
+#n8n-chat [class*="toggle"]{
+  background-image:url("../assets/brand/embleme-160.webp") !important;
+  background-repeat:no-repeat !important;
+  background-position:center !important;
+  background-size:70% auto !important;
+  border:2px solid var(--leaf) !important;
+  box-shadow:0 8px 24px rgba(31,44,14,.18) !important;
+}
+#n8n-chat .chat-window-toggle svg,
+#n8n-chat [class*="toggle"] svg{display:none !important;}
+#n8n-chat .chat-header h1,#n8n-chat .chat-header h2{font-family:var(--display) !important;text-transform:uppercase;letter-spacing:.04em;}
+@media (max-width:980px){
+  #n8n-chat .chat-window-wrapper{bottom:76px !important;right:12px !important;}
+}
+.callband .phone[data-email]{font-size:clamp(1.5rem,5vw,4rem);overflow-wrap:anywhere;}
+#n8n-chat .chat-input button svg,#n8n-chat [class*="send"] svg{fill:var(--forest-dark) !important;color:var(--forest-dark) !important;}
