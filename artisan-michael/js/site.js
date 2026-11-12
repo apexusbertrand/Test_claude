@@ -11,7 +11,8 @@ const CONFIG = {
   adresse: 'Somain (59490), Nord',   // ville d'après la page Facebook ; rue à ajouter quand on l'aura
   zone: 'Somain et alentours',
   horaires: '',          // à renseigner ; vide = non affiché
-  siret: '',             // obligatoire (mentions légales) : à renseigner dès que possible
+  siret: '990 526 881 00018',   // SIRET du siège (annuaire officiel des entreprises, 13/11/2026)
+  tva: 'FR11 990 526 881',       // n° de TVA intracommunautaire (clé calculée à partir du SIREN)
   facebook: 'https://www.facebook.com/p/Logenerj-61591852021732/',
   facebookAlbum: 'https://www.facebook.com/media/set/?set=a.122098578171395067&type=3',   // album photo de la page Facebook   // page Facebook « Loge&nerj » (adresse définitive, relevée le 12/11/2026)
   formWebhook: 'https://apexus.app.n8n.cloud/webhook/contact-logenerj',   // flux n8n « Site LOGE&NERJ — Formulaire de devis »
@@ -66,7 +67,7 @@ function layout() {
             ${CONFIG.facebook ? `<li><a class="fb-link" href="${CONFIG.facebook}" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true" class="fb-ico"><path fill="currentColor" d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12Z"/></svg> Suivre mes chantiers sur Facebook</a></li>` : ''}</ul></div>
           <div><h4>Le site</h4><ul>${NAV.map(([h, l]) => `<li><a href="${h}">${l}</a></li>`).join('')}<li><a href="mentions-legales.html">Mentions légales</a></li>${CONFIG.maquette ? '<li><a href="charte.html">Charte graphique</a></li>' : ''}</ul></div>
         </div>
-        <div class="ftr-legal">${CONFIG.siret ? `<span>SIRET ${esc(CONFIG.siret)}</span>` : ''}<span>${CONFIG.maquette ? 'Maquette · informations fictives' : '© ' + new Date().getFullYear() + ' ' + esc(CONFIG.nom)}</span><span class="ftr-credit">Envie d’un site soigné, personnalisé et interactif pour votre activité ? Site créé par <a href="https://apexus.fr" target="_blank" rel="noopener">apexus.fr</a></span></div>
+        <div class="ftr-legal">${CONFIG.siret ? `<span>SIRET ${esc(CONFIG.siret)}${CONFIG.tva ? ' · TVA ' + esc(CONFIG.tva) : ''}</span>` : ''}<span>${CONFIG.maquette ? 'Maquette · informations fictives' : '© ' + new Date().getFullYear() + ' ' + esc(CONFIG.nom)}</span><span class="ftr-credit">Envie d’un site soigné, personnalisé et interactif pour votre activité ? Site créé par <a href="https://apexus.fr" target="_blank" rel="noopener">apexus.fr</a></span></div>
       </div>
     </footer>
     <nav class="mbar" aria-label="Contact rapide">
