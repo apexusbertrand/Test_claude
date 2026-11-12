@@ -6,13 +6,14 @@ const CONFIG = {
   prenom: 'Michael',
   sousTitre: 'Rénover, isoler, économiser',   // signature du logo officiel
   metiers: 'Rénovation tous corps d’état et dépannage',
-  telephone: '',          // vrai numéro de Michael à renseigner (format « 06 12 34 56 78 ») ; vide = pas de téléphone affiché
+  telephone: '07 49 94 52 79',   // numéro public de la page Facebook (13/11/2026) ; vide = pas de téléphone affiché
   email: 'logenerj@artisanat1.fr',
   adresse: 'Somain (59490), Nord',   // ville d'après la page Facebook ; rue à ajouter quand on l'aura
   zone: 'Somain et alentours',
   horaires: '',          // à renseigner ; vide = non affiché
   siret: '',             // obligatoire (mentions légales) : à renseigner dès que possible
-  facebook: 'https://www.facebook.com/p/Logenerj-61591852021732/',   // page Facebook « Loge&nerj » (adresse définitive, relevée le 12/11/2026)
+  facebook: 'https://www.facebook.com/p/Logenerj-61591852021732/',
+  facebookAlbum: 'https://www.facebook.com/media/set/?set=a.122098578171395067&type=3',   // album photo de la page Facebook   // page Facebook « Loge&nerj » (adresse définitive, relevée le 12/11/2026)
   formWebhook: 'https://apexus.app.n8n.cloud/webhook/contact-logenerj',   // flux n8n « Site LOGE&NERJ — Formulaire de devis »
   chatWebhook: 'https://apexus.app.n8n.cloud/webhook/9692846f-a737-47ce-beaa-cba903f86a47/chat',   // flux n8n « Site LOGE&NERJ — Agent Chat »
   maquette: false
@@ -139,11 +140,46 @@ function fiche(r, i) {
     </div></a>`;
 }
 
+// Réalisation publiée en vidéo sur Facebook : la vidéo ne se charge qu'au clic (pas de cookie Facebook avant)
+function ficheVideo(v) {
+  return `<article class="fiche video rv" data-metiers="${v.metiers.join(' ')}">
+    <div class="fiche-top"><span class="mono">Chantier en vidéo</span><span class="mono tag">Facebook</span></div>
+    <div class="fiche-video">
+      ${v.integrable === false
+        ? `<a class="play" href="${esc(v.url)}" target="_blank" rel="noopener" aria-label="Voir la vidéo sur Facebook : ${esc(v.titre)}">
+        <span class="play-ico" aria-hidden="true"></span>
+        <span class="play-txt">Voir la vidéo</span>
+        <span class="play-note">S’ouvre sur Facebook</span>
+      </a>`
+        : `<button type="button" class="play" data-embed="${esc(v.embed)}" aria-label="Lire la vidéo : ${esc(v.titre)}">
+        <span class="play-ico" aria-hidden="true"></span>
+        <span class="play-txt">Lire la vidéo</span>
+        <span class="play-note">La vidéo est hébergée par Facebook</span>
+      </button>`}
+    </div>
+    <div class="fiche-body">
+      <h3>${esc(v.titre)}</h3>
+      <p class="fiche-txt">${esc(v.resume)}</p>
+      ${chips(v.metiers)}
+      <a class="lnk" href="${esc(v.url)}" target="_blank" rel="noopener">Voir sur Facebook →</a>
+    </div></article>`;
+}
+
 async function renderFiches(el, { limit, filters } = {}) {
   try {
-    const { realisations } = await getJSON('content/realisations.json');
-    const list = limit ? realisations.slice(0, limit) : realisations;
-    el.innerHTML = list.map(fiche).join('');
+    const { realisations, videos = [] } = await getJSON('content/realisations.json');
+    const cards = [];
+    realisations.forEach((r, i) => cards.push(fiche(r, i)));
+    videos.forEach(v => cards.push(ficheVideo(v)));
+    if (!limit && CONFIG.facebookAlbum) cards.push(`<a class="fiche album rv" href="${CONFIG.facebookAlbum}" target="_blank" rel="noopener" data-metiers="carrelage platrerie couverture">
+      <div class="fiche-top"><span class="mono">Album photo</span><span class="mono tag">Facebook</span></div>
+      <div class="fiche-album" aria-hidden="true"><img src="assets/realisations/combles-briques/04-isolation-doublage.webp" alt=""><img src="assets/realisations/combles-briques/02-fenetre-de-toit.webp" alt=""><img src="assets/realisations/combles-briques/05-piece-livree.webp" alt=""></div>
+      <div class="fiche-body"><h3>Toutes les photos de chantiers</h3><p class="fiche-txt">L’album complet de LOGE&amp;NERJ, mis à jour au fil des chantiers, sur la page Facebook.</p><span class="lnk">Ouvrir l’album sur Facebook →</span></div></a>`);
+    el.innerHTML = (limit ? cards.slice(0, limit) : cards).join('');
+    el.addEventListener('click', e => {
+      const b = e.target.closest('button.play'); if (!b) return;
+      b.outerHTML = `<iframe src="${b.dataset.embed}" width="267" height="476" style="border:none;overflow:hidden" scrolling="no" allowfullscreen allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share" title="Vidéo Facebook LOGE&amp;NERJ"></iframe>`;
+    });
     reveal(el);
     if (filters) {
       filters.addEventListener('click', e => {
@@ -257,9 +293,36 @@ async function renderChantier(el) {
   reveal(el);
 }
 
+const PJ_MAX = 3, PJ_MAX_OCTETS = 9 * 1024 * 1024;
+const PJ_TYPES = /^(image\/(jpeg|png|webp|heic|heif)|application\/pdf)$/;
+const taille = o => o > 1048576 ? (o / 1048576).toFixed(1).replace('.', ',') + ' Mo' : Math.max(1, Math.round(o / 1024)) + ' Ko';
+
 function contactForm(form) {
   const status = form.querySelector('.status-msg'), btn = form.querySelector('button[type=submit]');
   const started = Date.now();
+  const pjInput = form.querySelector('#f-pj'), pjList = form.querySelector('.pj-list');
+  let fichiers = [];
+  const afficherPj = msg => {
+    pjList.innerHTML = fichiers.map((f, i) => `<li><span>${esc(f.name)} · ${taille(f.size)}</span><button type="button" data-i="${i}" aria-label="Retirer ${esc(f.name)}">×</button></li>`).join('')
+      + (msg ? `<li class="pj-err">${esc(msg)}</li>` : '');
+  };
+  if (pjInput) {
+    pjInput.addEventListener('change', () => {
+      let msg = '';
+      [...pjInput.files].forEach(f => {
+        if (!PJ_TYPES.test(f.type) && !/\.(jpe?g|png|webp|heic|heif|pdf)$/i.test(f.name)) { msg = `« ${f.name} » n’est pas une photo ni un PDF.`; return; }
+        if (fichiers.length >= PJ_MAX) { msg = `${PJ_MAX} fichiers maximum.`; return; }
+        if (fichiers.reduce((t, x) => t + x.size, 0) + f.size > PJ_MAX_OCTETS) { msg = `« ${f.name} » dépasse la limite de 9 Mo au total.`; return; }
+        fichiers.push(f);
+      });
+      pjInput.value = '';
+      afficherPj(msg);
+    });
+    pjList.addEventListener('click', e => {
+      const b = e.target.closest('button[data-i]'); if (!b) return;
+      fichiers.splice(+b.dataset.i, 1); afficherPj();
+    });
+  }
   form.addEventListener('submit', async e => {
     e.preventDefault();
     if (!form.checkValidity()) { form.reportValidity(); return; }
@@ -274,7 +337,7 @@ function contactForm(form) {
       description: form.description.value.trim(), consentement: form.consent.checked,
       date: new Date().toISOString()
     };
-    btn.disabled = true; status.className = 'status-msg'; status.textContent = 'Envoi en cours…';
+    btn.disabled = true; status.className = 'status-msg'; status.textContent = fichiers.length ? 'Envoi en cours (avec vos fichiers, cela peut prendre quelques secondes)…' : 'Envoi en cours…';
     try {
       if (!CONFIG.formWebhook) {
         await new Promise(r => setTimeout(r, 700));
@@ -282,13 +345,17 @@ function contactForm(form) {
         status.className = 'status-msg ok';
         status.textContent = `Maquette : rien n’a été envoyé. En ligne, ${CONFIG.prenom} recevra cette demande par mail.`;
       } else {
-        const res = await fetch(CONFIG.formWebhook, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
+        // envoi en multipart : champs texte + pièces jointes (pj0, pj1, pj2), transmises au mail puis non conservées
+        const fd = new FormData();
+        Object.entries(data).forEach(([k, v]) => fd.append(k, Array.isArray(v) ? v.join(',') : String(v)));
+        fichiers.forEach((f, i) => fd.append('pj' + i, f, f.name));
+        const res = await fetch(CONFIG.formWebhook, { method: 'POST', body: fd });
         if (!res.ok) throw new Error(res.status);
         const json = await res.json().catch(() => ({}));
         status.className = 'status-msg ok';
         status.textContent = json.message || `Merci ${data.prenom}, c’est bien reçu. Je vous rappelle rapidement.`;
       }
-      form.reset();
+      form.reset(); fichiers = []; if (pjList) afficherPj();
     } catch {
       status.className = 'status-msg err';
       status.textContent = CONFIG.telephone ? `Ça n’est pas parti. Appelez-moi au ${CONFIG.telephone} ou écrivez à ${CONFIG.email}.` : `Ça n’est pas parti. Écrivez-moi directement à ${CONFIG.email}.`;

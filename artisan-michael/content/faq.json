@@ -1,5 +1,5 @@
 {
-  "_note": "Base de connaissances du chat. En maquette, le chat de démo y cherche des mots-clés ; plus tard, le flux n8n lira ce fichier. Champ 'fait' : oui | non | sur devis. Mise à jour le 12/11/2026 d'après les compétences annoncées par Michael. Les réponses restent à relire avec lui. Champ optionnel 'priorite' (défaut 1) : multiplie le score d'une entrée dans le chat de démo. 12/11/2026 : complété avec la fiche publique Facebook (Somain, société familiale, pompe à chaleur). 13/11/2026 : version définitive, sans téléphone publié (dépannage = formulaire, rappel par Michael).",
+  "_note": "Base de connaissances du chat. En maquette, le chat de démo y cherche des mots-clés ; plus tard, le flux n8n lira ce fichier. Champ 'fait' : oui | non | sur devis. Mise à jour le 12/11/2026 d'après les compétences annoncées par Michael. Les réponses restent à relire avec lui. Champ optionnel 'priorite' (défaut 1) : multiplie le score d'une entrée dans le chat de démo. 12/11/2026 : complété avec la fiche publique Facebook (Somain, société familiale, pompe à chaleur). 13/11/2026 : version définitive, sans téléphone publié (dépannage = formulaire, rappel par Michael). 13/11/2026 : téléphone public 07 49 94 52 79 ajouté.",
   "faq": [
     {
       "question": "Vous faites quoi exactement ?",
@@ -151,7 +151,7 @@
     },
     {
       "question": "Vous faites l'électricité ?",
-      "reponse": "Oui, Michael fait l'électricité, en rénovation comme en dépannage : prises, interrupteurs, éclairage, tableau. Pour une panne, laissez vos coordonnées dans le formulaire de contact en indiquant « dépannage », il vous rappelle.",
+      "reponse": "Oui, Michael fait l'électricité, en rénovation comme en dépannage : prises, interrupteurs, éclairage, tableau. Pour une panne, appelez-le au 07 49 94 52 79 ou laissez vos coordonnées dans le formulaire.",
       "metier": "depannage",
       "fait": "oui",
       "mots_cles": [
@@ -194,7 +194,7 @@
     },
     {
       "question": "Vous faites la plomberie ?",
-      "reponse": "Oui, Michael fait la plomberie, en rénovation comme en dépannage : fuite, robinet, évacuation bouchée, raccordement de salle de bain. Pour une fuite, laissez vos coordonnées dans le formulaire en indiquant « dépannage », il vous rappelle.",
+      "reponse": "Oui, Michael fait la plomberie, en rénovation comme en dépannage : fuite, robinet, évacuation bouchée, raccordement de salle de bain. Pour une fuite, appelez-le au 07 49 94 52 79.",
       "metier": "depannage",
       "fait": "oui",
       "mots_cles": [
@@ -218,7 +218,7 @@
     },
     {
       "question": "Vous faites du dépannage ?",
-      "reponse": "Oui : électricité, plomberie, fenêtres et volets roulants. Laissez votre prénom, votre téléphone et votre commune dans le formulaire de contact en cochant « Dépannage » : Michael vous rappelle.",
+      "reponse": "Oui : électricité, plomberie, fenêtres et volets roulants. Le plus rapide : appelez Michael au 07 49 94 52 79, ou laissez vos coordonnées dans le formulaire en cochant « Dépannage ».",
       "metier": "depannage",
       "fait": "oui",
       "mots_cles": [
@@ -367,7 +367,7 @@
     },
     {
       "question": "Quels sont vos délais ?",
-      "reponse": "Ça dépend de la saison et de la taille du chantier. Michael vous donne une date de démarrage avec le devis. Pour un dépannage, précisez-le dans votre demande.",
+      "reponse": "Ça dépend de la saison et de la taille du chantier. Michael vous donne une date de démarrage avec le devis. Pour un dépannage, appelez-le au 07 49 94 52 79.",
       "metier": null,
       "fait": "sur devis",
       "mots_cles": [
@@ -391,12 +391,52 @@
         "fb",
         "réseaux",
         "reseaux",
-        "photos",
-        "réalisations",
-        "realisations",
-        "exemples",
         "chantiers en cours",
         "voir vos travaux"
+      ]
+    },
+    {
+      "question": "Vous avez des exemples de salle de bain ou de WC ?",
+      "reponse": "Oui : sur la page Chantiers, deux vidéos montrent une salle de bain refaite de A à Z (démolition, électricité, plomberie, natte d'étanchéité, VMC, carrelage et meuble Porcelanosa) et la rénovation d'un WC, et un lien mène à l'album photo complet sur Facebook. <a href=\"realisations.html\">Voir les chantiers →</a>",
+      "metier": "carrelage",
+      "fait": "oui",
+      "priorite": 1.2,
+      "mots_cles": [
+        "exemple",
+        "exemples",
+        "réalisation",
+        "realisation",
+        "réalisations",
+        "realisations",
+        "vidéo",
+        "video",
+        "vidéos",
+        "videos",
+        "photos",
+        "avant après",
+        "wc",
+        "toilettes",
+        "porcelanosa",
+        "déjà fait",
+        "deja fait"
+      ]
+    },
+    {
+      "question": "Quel est votre numéro de téléphone ?",
+      "reponse": "Vous pouvez joindre Michael au 07 49 94 52 79, ou lui écrire à logenerj@artisanat1.fr.",
+      "metier": null,
+      "fait": "oui",
+      "priorite": 1.5,
+      "mots_cles": [
+        "téléphone",
+        "telephone",
+        "numéro",
+        "numero",
+        "appeler",
+        "joindre",
+        "tel",
+        "portable",
+        "contact"
       ]
     }
   ]

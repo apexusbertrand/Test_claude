@@ -1,5 +1,5 @@
 {
-  "_note": "Une entrée = un chantier réel. Ajouter un chantier : copier une entrée, changer le slug, déposer les photos dans assets/realisations/<slug>/. Voir tools/ajout-realisation.md. Champs vides (date_affichee, duree) = non affichés.",
+  "_note": "Une entrée = un chantier réel. Ajouter un chantier : copier une entrée, changer le slug, déposer les photos dans assets/realisations/<slug>/. Voir tools/ajout-realisation.md. Champs vides (date_affichee, duree) = non affichés. « videos » : réalisations publiées en vidéo sur la page Facebook (titre et texte repris de la publication). La vidéo ne se charge qu'au clic du visiteur (pas de cookie Facebook avant). « integrable » : false quand Facebook refuse l'intégration (vidéo avec musique sous droits) ; la carte renvoie alors vers Facebook.",
   "realisations": [
     {
       "slug": "combles-briques",
@@ -55,6 +55,33 @@
           "texte": "Bandes, enduits, finitions : murs et rampants lisses, une pièce lumineuse là où il n'y avait qu'un grenier."
         }
       ]
+    }
+  ],
+  "videos": [
+    {
+      "id": "2136673813888851",
+      "titre": "Une salle de bain refaite de A à Z",
+      "metiers": [
+        "carrelage",
+        "platrerie",
+        "depannage"
+      ],
+      "resume": "Démolition de la douche, des murs et du sol, évacuation des carreaux de plâtre et de la baignoire. Réfection de l'électricité, du tout-à-l'égout et de la plomberie. Dalle béton au sol, plaques de plâtre hydrofuges, natte d'étanchéité, VMC, carrelage et meuble Porcelanosa.",
+      "url": "https://www.facebook.com/watch/?v=2136673813888851",
+      "embed": "https://www.facebook.com/plugins/video.php?height=476&href=https%3A%2F%2Fwww.facebook.com%2Freel%2F2136673813888851%2F&show_text=false&width=267&t=0",
+      "integrable": false
+    },
+    {
+      "id": "1552642926617311",
+      "titre": "Rénovation d'un WC",
+      "metiers": [
+        "carrelage",
+        "depannage"
+      ],
+      "resume": "Des toilettes entièrement rénovées, à voir en vidéo.",
+      "url": "https://www.facebook.com/watch/?v=1552642926617311",
+      "embed": "https://www.facebook.com/plugins/video.php?height=476&href=https%3A%2F%2Fwww.facebook.com%2Freel%2F1552642926617311%2F&show_text=false&width=267&t=0",
+      "integrable": true
     }
   ]
 }

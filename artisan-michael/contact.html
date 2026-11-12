@@ -19,7 +19,7 @@
   <section class="page-hero"><div class="wrap">
     <span class="mono">Contact</span>
     <h1>Parlons de votre chantier.</h1>
-    <p>Quelques lignes suffisent. Je vous rappelle pour fixer une visite, le devis est gratuit. Pour un dépannage, cochez « Dépannage » : Michael vous rappelle.</p>
+    <p>Quelques lignes suffisent. Je vous rappelle pour fixer une visite, le devis est gratuit. Pour un dépannage, appelez directement le 07 49 94 52 79, ou cochez « Dépannage » : Michael vous rappelle.</p>
   </div></section>
   <section class="sec" style="padding-top:48px"><div class="wrap contact-grid">
     <form class="form" id="devis" novalidate>
@@ -54,10 +54,15 @@
       <div class="field"><label for="f-delai">Délai souhaité</label>
         <select id="f-delai" name="delai"><option value="">Choisir…</option><option>Urgent</option><option>Sous 1 mois</option><option>1 à 3 mois</option><option>Pas pressé</option></select></div>
       <div class="field"><label for="f-desc">Votre projet *</label><textarea id="f-desc" name="description" maxlength="2000" required placeholder="Pièce, état actuel, ce que vous voulez obtenir…"></textarea></div>
-      <!-- Photos du client : désactivé pour l'instant.
-           Pour l'activer : ajouter <input type="file" name="photos" accept="image/*" multiple>,
-           envoyer en multipart/form-data (FormData) au lieu de JSON, limiter à 5 fichiers / 10 Mo côté navigateur,
-           et configurer le webhook n8n pour recevoir des fichiers binaires. -->
+      <div class="field">
+        <label for="f-pj">Photos ou plans (facultatif)</label>
+        <label class="dropzone" for="f-pj">
+          <input id="f-pj" name="pj" type="file" accept="image/jpeg,image/png,image/webp,image/heic,image/heif,application/pdf" multiple>
+          <span class="dz-txt"><b>Ajouter des photos ou un PDF</b> · 3 fichiers maximum, 9 Mo au total</span>
+        </label>
+        <ul class="pj-list" aria-live="polite"></ul>
+        <p class="pj-note">Les fichiers sont joints au mail envoyé à Michael, puis ne sont pas conservés sur le site.</p>
+      </div>
       <div class="hp" aria-hidden="true"><label>Site web <input name="website" tabindex="-1" autocomplete="off"></label></div>
       <label class="consent"><input type="checkbox" name="consent" required> J’accepte que mes informations soient utilisées pour être recontacté au sujet de ma demande. <a href="mentions-legales.html#confidentialite">Confidentialité</a></label>
       <button class="btn sun" type="submit">Envoyer ma demande <span class="arr">→</span></button>
