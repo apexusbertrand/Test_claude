@@ -1,8 +1,8 @@
 # Nataliia Résine : cahier des charges du site web
 
-Version 0.5, 18 novembre 2026. Document de cadrage, rien n'est encore développé.
+Version 0.6, 18 novembre 2026. Document de cadrage, rien n'est encore développé.
 
-Historique : 0.1 première version à partir de la maquette. 0.2 intègre les réponses de la cliente aux questions 1 à 18 et les données légales (Insee, RNE au 17/11/2026). 0.3 intègre les réponses 19 à 21 (administration). 0.4 intègre les réponses 29 à 32 (domaine, e-mail, Wix, délai) et ajoute un planning daté. 0.5 intègre les réponses 22 à 28 (produits, simulateur, dossiers prospects, RGPD) : nouvelle architecture avec un service de données privé (chapitre 6).
+Historique : 0.1 première version à partir de la maquette. 0.2 intègre les réponses de la cliente aux questions 1 à 18 et les données légales (Insee, RNE au 17/11/2026). 0.3 intègre les réponses 19 à 21 (administration). 0.4 intègre les réponses 29 à 32 (domaine, e-mail, Wix, délai) et ajoute un planning daté. 0.5 intègre les réponses 22 à 28 (produits, simulateur, dossiers prospects, RGPD) : nouvelle architecture avec un service de données privé (chapitre 6). 0.6 : validation des points A12 à A15 et de l'architecture recommandée (P1).
 
 Sources utilisées, et uniquement elles :
 
@@ -161,7 +161,7 @@ Déploiement : GitHub Actions vers GitHub Pages, à chaque modification, y compr
 - Les alertes de nouvelles demandes arrivent sur nataliiaresine@gmail.com (réponse 27).
 - Configuration SPF, DKIM et DMARC du domaine pour que les e-mails envoyés par le site ne tombent pas en spam.
 
-## 6. Architecture générale (proposition)
+## 6. Architecture générale (validée)
 
 Les réponses 18 et 28 imposent deux choses que GitHub Pages ne sait pas faire seul :
 
@@ -184,7 +184,7 @@ Pourquoi ce choix plutôt que Decap CMS (proposé en version 0.4) : Decap ne gè
 
 Contrepartie : les écrans d'administration sont développés sur mesure (pas d'interface toute faite), donc plus de travail sur le lot 2, et un service tiers de plus à suivre. L'offre gratuite de Supabase suffit au volume prévu (2 à 5 réalisations par mois, quelques demandes par semaine). Point à surveiller : un projet gratuit inactif plusieurs jours est mis en pause par Supabase. Un passage à l'offre payante (environ 25 dollars par mois) peut devenir nécessaire.
 
-Alternative possible si on veut garder Decap CMS pour les contenus publics : Decap + DecapBridge pour les réalisations et produits, Supabase seulement pour les dossiers prospects. Plus rapide à livrer sur la partie contenus, mais deux connexions distinctes pour la cliente. Choix à arrêter par le prestataire (voir `QUESTIONS_CLIENT.md`, P1).
+Alternative écartée : Decap + DecapBridge pour les contenus et Supabase seulement pour les dossiers prospects. Plus rapide sur la partie contenus, mais deux connexions distinctes pour la cliente. Décision P1 : administration sur mesure sur Supabase, une seule connexion.
 
 ## 7. Lot 2 : administration autonome
 
@@ -229,7 +229,7 @@ Pas de prix (réponse 23).
 
 Un granulat n'apparaît dans le simulateur que s'il a une texture. Sans texture, il reste visible sur la page Produits mais n'est pas proposé à la simulation. L'administration l'indique clairement à la cliente au moment de l'enregistrement.
 
-À la livraison, le site contient 2 produits d'exemple, marqués « Exemple », avec une texture de démonstration, pour que le simulateur fonctionne dès le premier jour. La cliente les supprime quand elle a saisi ses vrais granulats (réponse 22).
+À la livraison, le site contient 2 produits d'exemple, un granulat clair et un granulat foncé, marqués « Exemple », avec une texture de démonstration (validé, A15), pour que le simulateur fonctionne dès le premier jour. La cliente les supprime quand elle a saisi ses vrais granulats (réponse 22).
 
 ### 7.4 Exigences
 
@@ -280,7 +280,7 @@ Contenu (réponse 26) :
 | Champ | Obligatoire |
 |---|---|
 | Nom | oui |
-| Téléphone | oui (proposition, à confirmer) |
+| Téléphone | oui |
 | E-mail | oui |
 | Ville | oui |
 | Surface approximative (m²) | non |
@@ -297,7 +297,7 @@ Contenu (réponse 26) :
 
 Un dossier par demande (réponse 28). Si la même adresse e-mail revient, la nouvelle demande est rattachée au même prospect.
 
-Contenu d'un dossier : coordonnées, ville, type et surface, délai, message, photos d'origine, rendus, granulat(s) choisi(s), date de la demande. On propose en plus un statut de suivi (nouveau, contacté, devis envoyé, signé, sans suite) et un champ de notes pour la cliente. À valider.
+Contenu d'un dossier : coordonnées, ville, type et surface, délai, message, photos d'origine, rendus, granulat(s) choisi(s), date de la demande. Chaque dossier a aussi un statut de suivi (nouveau, contacté, devis envoyé, signé, sans suite) et un champ de notes pour la cliente (validé, A13).
 
 Dans l'administration : liste triable par date et statut, fiche détaillée, téléchargement des photos, suppression d'un dossier.
 
@@ -309,7 +309,7 @@ La conservation des photos et des simulations est acceptée par la cliente, avec
 - Consentement par case à cocher, non précochée.
 - Stockage privé, hébergé en Union européenne. Les photos ne sont jamais accessibles par une adresse publique : l'administration les affiche par des liens temporaires.
 - Accès limité aux comptes de l'administration.
-- Durée de conservation : proposition de 3 ans après le dernier contact pour un prospect sans suite (durée recommandée par la CNIL pour la prospection), puis suppression automatique. Pour un client signé, le dossier relève de la gestion commerciale, durée à fixer avec elle.
+- Durée de conservation : 3 ans après le dernier contact pour un prospect sans suite (durée recommandée par la CNIL pour la prospection, validée par la cliente, A14), puis suppression automatique. Pour un client signé, le dossier relève de la gestion commerciale, durée à fixer avec elle.
 - Droits du visiteur : accès, rectification, suppression. La cliente peut exporter ou supprimer un dossier en un clic depuis l'administration.
 - Contrat de sous-traitance (DPA) avec Supabase et le service d'e-mails, inscription du traitement dans un registre simple (modèle fourni).
 - Les photos peuvent montrer une maison, une plaque d'immatriculation, des personnes : on le signale au visiteur et on lui conseille de cadrer sur la surface à traiter.
@@ -338,7 +338,7 @@ Le rendu ne vaut que par la qualité de la texture. Pour chaque granulat, la cli
 
 | Semaine | Dates | Travail | Attendu de la cliente |
 |---|---|---|---|
-| 47 | 18 au 22 nov. | Validation du cahier des charges, choix d'architecture (P1), choix du nom de domaine | Réponses aux questions ouvertes |
+| 47 | 18 au 22 nov. | Validation du cahier des charges, choix du nom de domaine | Réponses aux questions ouvertes |
 | 48 | 23 au 29 nov. | Lot 1 : structure, pages, textes. Mise en place de Supabase (comptes, base, stockage) | Relecture des textes |
 | 49 | 30 nov. au 6 déc. | Lot 1 : préversion GitHub Pages. Lot 2 : connexion, écran Réalisations, publication | Premières photos de chantier, retours sur la préversion |
 | 50 | 7 au 13 déc. | Lot 2 : écran Produits, 2 produits d'exemple, autres écrans. Lot 3a : simulateur | Test de l'administration |

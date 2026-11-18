@@ -26,21 +26,15 @@ A10. Adresse e-mail sur le domaine : vraie boîte (consultée à part) ou redire
 
 A11. Échéance du 31 décembre : concerne-t-elle les trois lots ou seulement le site et l'administration ? Le planning prévoit les lots 1, 2 et 3a pour le 22 décembre, le lot 3b ensuite.
 
-## B. Nouvelles questions suite aux réponses 22 à 28
+## B. Points validés après les réponses 22 à 28
 
-A12. Demande du visiteur : le téléphone est-il obligatoire, ou l'e-mail suffit-il ?
-
-A13. Dossiers prospects : souhaite-t-elle un statut de suivi (nouveau, contacté, devis envoyé, signé, sans suite) et un champ de notes ? Proposition de notre part.
-
-A14. Durée de conservation des dossiers : on propose 3 ans après le dernier contact pour un prospect sans suite, puis suppression automatique. D'accord ?
-
-A15. Les 2 produits d'exemple : un granulat clair et un granulat foncé, avec une texture de démonstration, marqués « Exemple ». D'accord ?
-
-## P. Décision côté prestataire
-
-P1. Architecture de l'administration (chapitre 6 du cahier des charges) :
-- option recommandée : administration sur mesure sur Supabase, une seule connexion pour tout (contenus et dossiers prospects) ;
-- alternative : Decap CMS + DecapBridge pour les contenus, Supabase pour les dossiers prospects, deux connexions.
+| N° | Sujet | Décision |
+|---|---|---|
+| A12 | Téléphone dans la demande | Obligatoire |
+| A13 | Suivi des dossiers | Statut (nouveau, contacté, devis envoyé, signé, sans suite) et notes |
+| A14 | Conservation | 3 ans après le dernier contact, puis suppression automatique |
+| A15 | Produits d'exemple | Un granulat clair et un granulat foncé, marqués « Exemple » |
+| P1 | Architecture | Administration sur mesure sur Supabase, une seule connexion |
 
 ## C. Réponses reçues (questions 1 à 32)
 
