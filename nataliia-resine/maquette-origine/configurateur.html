@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="Créez gratuitement une première idée de votre projet extérieur avec Nataliia Résine."><title>Créez votre projet | Nataliia Résine</title><link rel="stylesheet" href="styles.css"><script id="wix-site-script" src="https://manage.wix.com/_api/headless-business-setup/v1/headless-business/site-script.js" data-client-id="293b273b-abf3-499e-8233-629f236a4ece" async></script></head>
+<body>
+<header class="site-header"><a class="brand brand-image" href="index.html" aria-label="Nataliia Résine - Accueil"><img class="brand-logo" src="https://static.wixstatic.com/media/45803d_b2d26e6c747c4693ab107cd914c42a76~mv2.jpg" alt="Logo Nataliia Résine"></a><a class="menu-toggle" href="index.html" aria-label="Retour à l’accueil" title="Accueil"><span></span><span></span><span></span></a></header>
+<main class="inner configurator"><p class="eyebrow">VOTRE EXTÉRIEUR, VOTRE STYLE</p><h1>Créez votre propre projet</h1><p class="intro">Téléchargez une photo de votre terrasse, de votre allée ou de votre escalier, puis choisissez une couleur pour imaginer votre futur revêtement.</p>
+<section class="configurator-panel">
+<h2>1. Téléchargez votre photo</h2><div class="upload-zone" id="uploadZone"><div class="upload-prompt"><strong>Ajoutez une photo de votre extérieur</strong><p class="config-note">Choisissez une image depuis votre téléphone ou votre ordinateur.</p></div><img id="photoPreview" alt="Aperçu de votre extérieur"><input id="photoInput" type="file" accept="image/*" aria-label="Télécharger une photo"></div>
+<h2 style="margin-top:34px">2. Choisissez votre couleur</h2><p class="config-note">Sélectionnez une teinte pour votre première idée de projet.</p>
+<div class="palette" id="palette">
+<button class="color-choice" type="button" data-color="#e9dcc5" data-name="Ivoire" aria-pressed="true"><span class="swatch" style="background:#e9dcc5"></span>Ivoire</button>
+<button class="color-choice" type="button" data-color="#d4c2a3" data-name="Beige sable" aria-pressed="false"><span class="swatch" style="background:#d4c2a3"></span>Beige sable</button>
+<button class="color-choice" type="button" data-color="#b9a58a" data-name="Pierre" aria-pressed="false"><span class="swatch" style="background:#b9a58a"></span>Pierre</button>
+<button class="color-choice" type="button" data-color="#8a8175" data-name="Gris" aria-pressed="false"><span class="swatch" style="background:#8a8175"></span>Gris</button>
+<button class="color-choice" type="button" data-color="#55504a" data-name="Gris foncé" aria-pressed="false"><span class="swatch" style="background:#55504a"></span>Gris foncé</button>
+<button class="color-choice" type="button" data-color="#292725" data-name="Noir" aria-pressed="false"><span class="swatch" style="background:#292725"></span>Noir</button>
+</div>
+<div class="selected-color">Couleur choisie : <strong id="selectedName">Ivoire</strong><span id="selectedSwatch" style="background:#e9dcc5"></span></div>
+<p class="config-note">Cette première version sert à préparer votre idée et à transmettre votre choix. Les couleurs sont provisoires : nous les remplacerons par votre véritable palette de granulats. Pour le moment, la couleur choisie ne recolore pas encore automatiquement la surface de la photo.</p>
+<h2 style="margin-top:34px">3. Envoyez votre idée</h2><p class="config-note">Décrivez brièvement votre projet. Votre messagerie s’ouvrira avec les informations préremplies ; vous pourrez y joindre votre photo.</p>
+<label for="projectDescription">Votre projet (facultatif)</label><br><textarea id="projectDescription" rows="3" style="width:100%;max-width:100%;margin-top:8px;padding:12px;border:1px solid var(--line);font:inherit;background:#fffefa" placeholder="Terrasse, allée, escalier… Dimensions ou détails utiles"></textarea>
+<button class="project-submit" id="sendProject" type="button">Envoyer mon projet</button>
+</section></main>
+<footer><a class="brand" href="index.html"><span class="brand-mark">NR</span><span>Nataliia <b>Résine</b></span></a><span>© Nataliia Résine</span><a href="contact.html">Nous contacter ↗</a></footer>
+<script>
+const input=document.getElementById('photoInput'),zone=document.getElementById('uploadZone'),preview=document.getElementById('photoPreview');let photoName='';
+input.addEventListener('change',()=>{const file=input.files&&input.files[0];if(!file)return;photoName=file.name;const reader=new FileReader();reader.onload=()=>{preview.src=reader.result;zone.classList.add('has-photo');};reader.readAsDataURL(file);});
+let chosenName='Ivoire';
+document.querySelectorAll('.color-choice').forEach(button=>button.addEventListener('click',()=>{document.querySelectorAll('.color-choice').forEach(item=>item.setAttribute('aria-pressed','false'));button.setAttribute('aria-pressed','true');chosenName=button.dataset.name;document.getElementById('selectedName').textContent=chosenName;document.getElementById('selectedSwatch').style.background=button.dataset.color;}));
+document.getElementById('sendProject').addEventListener('click',()=>{const description=document.getElementById('projectDescription').value.trim();const body='Bonjour Nataliia,%0D%0A%0D%0AVoici mon idée de projet.%0D%0ACouleur choisie : '+encodeURIComponent(chosenName)+'%0D%0APhoto : '+encodeURIComponent(photoName||'Je joindrai ma photo')+'%0D%0ADétails : '+encodeURIComponent(description||'Non précisés')+'%0D%0A%0D%0AMerci.';window.location.href='mailto:nataliiaresine@gmail.com?subject='+encodeURIComponent('Mon projet - Nataliia Résine')+'&body='+body;});
+</script></body></html>
