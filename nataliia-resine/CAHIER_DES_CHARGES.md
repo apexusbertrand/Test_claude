@@ -1,21 +1,21 @@
 # Nataliia Résine : cahier des charges du site web
 
-Version 0.4, 18 novembre 2026. Document de cadrage, rien n'est encore développé.
+Version 0.5, 18 novembre 2026. Document de cadrage, rien n'est encore développé.
 
-Historique : 0.1 première version à partir de la maquette. 0.2 intègre les réponses de la cliente aux questions 1 à 18 et les données légales (Insee, RNE au 17/11/2026). 0.3 intègre les réponses 19 à 21 (administration). 0.4 intègre les réponses 29 à 32 (domaine, e-mail, Wix, délai) et ajoute un planning daté.
+Historique : 0.1 première version à partir de la maquette. 0.2 intègre les réponses de la cliente aux questions 1 à 18 et les données légales (Insee, RNE au 17/11/2026). 0.3 intègre les réponses 19 à 21 (administration). 0.4 intègre les réponses 29 à 32 (domaine, e-mail, Wix, délai) et ajoute un planning daté. 0.5 intègre les réponses 22 à 28 (produits, simulateur, dossiers prospects, RGPD) : nouvelle architecture avec un service de données privé (chapitre 6).
 
 Sources utilisées, et uniquement elles :
 
 - la maquette réalisée par la cliente avec une IA, en ligne sur https://headless-rkelfehhkdy-shevcukn-1408.wix-site-host.com/index.html (5 pages, copie archivée dans `maquette-origine/`) ;
 - le message de la cliente (demande de site, accès administration, idée de simulation sur photo) ;
-- ses réponses aux questions 1 à 21 et 29 à 32 de `QUESTIONS_CLIENT.md` ;
+- ses réponses aux questions 1 à 32 de `QUESTIONS_CLIENT.md` ;
 - la fiche entreprise (Insee, RNE).
 
 Tout le reste est soit une proposition technique de notre part (signalée comme telle), soit une question encore ouverte dans `QUESTIONS_CLIENT.md`.
 
 ## 1. Contexte et objectifs
 
-La cliente pose des revêtements extérieurs en moquette de pierre (granulats de marbre et résine) : terrasses, allées, escaliers d'entrée, abords de piscine, et d'autres surfaces (voir 4.1). Elle ne vend pas de produits aux particuliers : la page Produits présente les matériaux qu'elle utilise.
+La cliente pose des revêtements extérieurs en moquette de pierre (granulats de marbre et résine) : terrasses, allées, escaliers d'entrée, abords de piscine, et d'autres surfaces (voir 5.1). Elle ne vend pas de produits aux particuliers : la page Produits présente les matériaux qu'elle utilise.
 
 Elle a construit une maquette avec une IA et veut un vrai site, qu'elle puisse faire évoluer seule depuis son site, sans passer par GitHub.
 
@@ -24,7 +24,8 @@ Objectifs exprimés dans son message :
 1. Reprendre la maquette et la compléter (certaines rubriques sont vides de son propre aveu).
 2. Pouvoir ajouter et supprimer elle-même des photos de réalisations, des échantillons de granulats et des références de produits.
 3. Permettre au visiteur de charger une photo de sa terrasse ou de son allée, de choisir un granulat et de voir le rendu sur sa propre photo.
-4. Recevoir notre avis de professionnel sur ce qui est utile ou non.
+4. Conserver chaque demande de prospect (coordonnées, photos, simulations) dans un dossier, dans le respect du RGPD (réponse 28).
+5. Recevoir notre avis de professionnel sur ce qui est utile ou non.
 
 Hébergement : sur GitHub Pages (comme le site Guillaume l'Échanson déjà présent dans ce dépôt), d'abord à l'adresse GitHub, puis derrière un nom de domaine à choisir ensemble, géré comme les domaines Apexus (apexus.fr) ou Belmaris.
 
@@ -57,8 +58,8 @@ Conséquences pour le site :
 | Lot | Contenu | Dépend de |
 |---|---|---|
 | 1 | Site vitrine (reprise et complément de la maquette) | contenus de la cliente, textes rédigés par nous |
-| 2 | Administration autonome, accessible depuis son site (photos, réalisations, avis, granulats, produits) | lot 1 (structure des contenus) |
-| 3 | Simulateur de rendu avant/après sur la photo du visiteur | lot 1, et le catalogue de granulats du lot 2 |
+| 2 | Administration autonome, accessible depuis son site (réalisations, produits, avis, demandes des prospects) | lot 1 (structure des contenus) |
+| 3 | Simulateur de rendu avant/après sur la photo du visiteur, envoi de la demande, dossier prospect | lot 1, catalogue de produits et écran Demandes du lot 2 |
 
 Les lots 2 et 3 peuvent démarrer en parallèle une fois le modèle de contenu du lot 1 figé.
 
@@ -107,9 +108,9 @@ La maquette ne contient aucun lien vers des réseaux sociaux (Instagram, Faceboo
 | Réalisations | message cliente + réponse 9 | Galerie filtrable par type de prestation. Chaque réalisation a sa page (voir 5.2) |
 | Avis clients | réponse 15 | Témoignages publiés avec l'accord des clients, gérés dans l'administration |
 | Produits | maquette + réponses 13, 14 et 19 | Présentation des matériaux utilisés : granulats, profils de finition. Chaque produit : photo, descriptif, lien vers le fournisseur si elle le souhaite. Pas de prix, pas de vente, pas de panier. Bouton « Demander des informations ». Références ajoutées par la cliente dans l'administration |
-| Nuancier des granulats | message cliente | Une fiche par granulat : photo de l'échantillon, nom. Vide au lancement si la cliente n'a pas encore ses références, alimenté ensuite par l'administration. Sert aussi au simulateur (lot 3) |
+| Fiche produit | réponses 22 et 23 | Une page par produit : photos, descriptif, lien, PDF (tout facultatif, voir 7.3). Pour un granulat, bouton « Simuler sur ma photo » s'il a une texture. 2 produits d'exemple au lancement |
 | Contact | maquette + réponses 5 et 6 | Téléphone, WhatsApp, e-mail. Zone d'intervention : Somain, Valenciennes, Lille, Arras, Douai et alentours. Pas d'adresse, pas d'horaires |
-| Créez votre projet | maquette | Remplacé par le simulateur du lot 3. En attendant, version actuelle conservée |
+| Créez votre projet | maquette | Remplacé par le simulateur du lot 3 (chapitre 8) |
 | Mentions légales | obligation légale | Données du chapitre 2, hébergeur, propriété des contenus |
 | Politique de confidentialité | RGPD | Indispensable dès que le visiteur envoie une photo ou ses coordonnées |
 
@@ -142,7 +143,7 @@ Règles : aucun chiffre non vérifié (durée de vie, prix au mètre carré, dé
 
 ### 5.5 Proposition technique
 
-Site statique généré à partir de fichiers de contenu (Markdown/JSON), avec un générateur léger type Eleventy ou Astro. Les contenus que la cliente modifie (réalisations, avis, granulats, produits, textes) sont des fichiers séparés du code, ce qui permet à l'administration du lot 2 de les modifier sans toucher aux pages.
+Site statique généré à partir de fichiers de contenu (Markdown/JSON), avec un générateur léger type Eleventy ou Astro. Les contenus que la cliente modifie (réalisations, avis, produits, textes) sont stockés à part du code (chapitre 6). À chaque publication, le site est reconstruit à partir de ces contenus.
 
 Déploiement : GitHub Actions vers GitHub Pages, à chaque modification, y compris celles faites par la cliente depuis l'administration.
 
@@ -157,128 +158,207 @@ Déploiement : GitHub Actions vers GitHub Pages, à chaque modification, y compr
 - La cliente n'a pas de nom de domaine. On le choisit ensemble, on vérifie sa disponibilité et on l'achète chez le même registraire que les domaines Apexus et Belmaris, pour tout gérer au même endroit.
 - Le site reste hébergé sur GitHub Pages. Le domaine pointe vers lui (enregistrements DNS, fichier `CNAME`, HTTPS activé dans GitHub Pages).
 - Adresse e-mail sur le domaine (contact@…) : probablement souhaitée. GitHub Pages n'héberge pas d'e-mail, il faut une offre de messagerie à part (souvent incluse ou peu chère chez le registraire, sinon Zoho Mail, Infomaniak, Google Workspace). Possibilité de rediriger simplement contact@… vers l'adresse Gmail actuelle si elle veut garder sa boîte.
-- Les demandes du site (formulaire, simulateur) arrivent sur nataliiaresine@gmail.com tant que l'adresse sur le domaine n'existe pas, puis sur la nouvelle.
+- Les alertes de nouvelles demandes arrivent sur nataliiaresine@gmail.com (réponse 27).
 - Configuration SPF, DKIM et DMARC du domaine pour que les e-mails envoyés par le site ne tombent pas en spam.
 
-## 6. Lot 2 : administration autonome
+## 6. Architecture générale (proposition)
 
-### 6.1 Besoin
+Les réponses 18 et 28 imposent deux choses que GitHub Pages ne sait pas faire seul :
 
-La cliente veut ajouter elle-même photos, réalisations, avis et références de produits. Elle travaillera depuis son téléphone et depuis son ordinateur (réponse 17). Elle n'a pas de compte GitHub et ne veut pas en avoir : l'administration se fait directement depuis son site (réponse 18), par exemple à l'adresse `/admin`, avec un identifiant et un mot de passe.
+- une administration sur son site, avec identifiant et mot de passe, sans compte GitHub ;
+- la conservation privée des demandes des prospects (coordonnées, photos, simulations), une fiche par prospect, conforme au RGPD.
 
-### 6.2 Ce que la cliente peut faire seule
+Ces données privées ne doivent jamais aller dans le dépôt GitHub : un site GitHub Pages et son dépôt sont publics ou facilement exposés. Il faut donc un service à part pour l'authentification, la base de données et le stockage privé des photos.
 
-Priorités de la cliente (réponse 19) : d'abord les réalisations de chantier, ensuite les produits. Ces deux écrans sont livrés en premier et soignés en priorité (ergonomie mobile, envoi de photos). Les autres contenus suivent dans le même lot.
+Proposition :
 
-| Contenu | Actions |
+| Brique | Rôle | Outil proposé |
+|---|---|---|
+| Site public | Pages, réalisations, produits, simulateur | Site statique (Eleventy ou Astro) sur GitHub Pages, puis nom de domaine |
+| Administration | Écrans `/admin` sur son site : réalisations, produits, avis, textes, demandes | Interface développée par nous, servie par le site lui-même |
+| Authentification, base, stockage | Comptes administrateurs, contenus, fichiers, dossiers prospects | Supabase, région Union européenne (Francfort), offre gratuite au démarrage |
+| Publication | Reconstruire le site public quand la cliente publie un contenu | GitHub Actions déclenché par l'administration |
+| E-mails | Alerte « nouvelle demande » vers nataliiaresine@gmail.com | Service d'envoi transactionnel (Brevo, Resend) ou fonction Supabase |
+
+Pourquoi ce choix plutôt que Decap CMS (proposé en version 0.4) : Decap ne gère que les contenus publics stockés dans GitHub. Il ne sait pas afficher des dossiers prospects privés. On aurait eu deux outils et deux connexions. Avec Supabase, une seule connexion donne accès à tout, plusieurs utilisateurs sont gérés nativement (réponse 21), les photos ne sont plus limitées par le 1 Go de GitHub Pages, et les données restent hébergées en Europe.
+
+Contrepartie : les écrans d'administration sont développés sur mesure (pas d'interface toute faite), donc plus de travail sur le lot 2, et un service tiers de plus à suivre. L'offre gratuite de Supabase suffit au volume prévu (2 à 5 réalisations par mois, quelques demandes par semaine). Point à surveiller : un projet gratuit inactif plusieurs jours est mis en pause par Supabase. Un passage à l'offre payante (environ 25 dollars par mois) peut devenir nécessaire.
+
+Alternative possible si on veut garder Decap CMS pour les contenus publics : Decap + DecapBridge pour les réalisations et produits, Supabase seulement pour les dossiers prospects. Plus rapide à livrer sur la partie contenus, mais deux connexions distinctes pour la cliente. Choix à arrêter par le prestataire (voir `QUESTIONS_CLIENT.md`, P1).
+
+## 7. Lot 2 : administration autonome
+
+### 7.1 Besoin
+
+La cliente veut ajouter elle-même photos, réalisations, avis et produits. Elle travaille depuis son téléphone et depuis son ordinateur (réponse 17). Pas de compte GitHub : l'administration est sur son site, à l'adresse `/admin`, avec un identifiant et un mot de passe (réponse 18). Elle y consulte aussi les demandes de ses prospects (réponse 28).
+
+### 7.2 Écrans
+
+Priorités de la cliente (réponse 19) : d'abord les réalisations, ensuite les produits. On y ajoute les demandes des prospects, nécessaires dès la mise en ligne du simulateur.
+
+| Écran | Actions |
 |---|---|
 | Réalisations (priorité 1) | créer, modifier, supprimer, réordonner ; 3 à 4 photos après, 2 photos avant ; type de prestation ; produits utilisés, choisis dans la liste des produits |
+| Produits (priorité 2) | créer, modifier, supprimer ; voir 7.3 |
+| Demandes (dossiers prospects) | liste des demandes, fiche détaillée, suivi, suppression ; voir 8.5 |
 | Avis clients | ajouter, modifier, masquer, supprimer ; nom ou initiales, ville, texte, date |
-| Granulats (nuancier) | créer, modifier, supprimer ; photo de l'échantillon ; nom ; texture utilisée par le simulateur |
-| Produits (priorité 2) | créer, modifier, supprimer une référence ; photo, nom, descriptif, lien fournisseur facultatif |
 | Prestations | modifier texte et photo de chaque prestation, en ajouter ou en retirer |
 | Coordonnées et zone | modifier téléphone, e-mail, villes desservies |
 | Accueil | remplacer l'image principale et la phrase d'accroche |
 | Logo | remplacer le fichier quand le nouveau logo sera prêt |
+| Utilisateurs | un seul compte au lancement, ajout d'autres comptes plus tard |
 
 Hors périmètre de l'administration (reste à notre charge) : charte graphique, mise en page, création d'un nouveau type de page.
 
-### 6.3 Exigences
+### 7.3 Fiche produit
 
-- Accès par e-mail et mot de passe, sur la page `/admin` de son site, aucun compte GitHub côté cliente.
-- Un seul compte au lancement. La solution doit permettre d'ajouter d'autres utilisateurs plus tard sans changer d'outil (réponse 21), chacun avec son propre identifiant pour savoir qui a modifié quoi.
+D'après les réponses 19, 22, 23 et 24 :
+
+| Champ | Obligatoire | Commentaire |
+|---|---|---|
+| Nom | oui | |
+| Catégorie | oui | granulat, profil de finition, autre |
+| Descriptif | non | |
+| Photos | non | une ou plusieurs |
+| Lien | non | fournisseur ou fiche produit (voir A8) |
+| Document PDF | non | fiche technique par exemple |
+| Texture pour le simulateur | non | granulats uniquement. Photo de l'échantillon prise à plat (voir 8.6) |
+| Taille du grain (mm) | non | granulats uniquement. Sert à mettre la texture à la bonne échelle dans le simulateur |
+
+Pas de prix (réponse 23).
+
+Un granulat n'apparaît dans le simulateur que s'il a une texture. Sans texture, il reste visible sur la page Produits mais n'est pas proposé à la simulation. L'administration l'indique clairement à la cliente au moment de l'enregistrement.
+
+À la livraison, le site contient 2 produits d'exemple, marqués « Exemple », avec une texture de démonstration, pour que le simulateur fonctionne dès le premier jour. La cliente les supprime quand elle a saisi ses vrais granulats (réponse 22).
+
+### 7.4 Exigences
+
+- Accès par e-mail et mot de passe sur `/admin`, mot de passe oublié géré sans nous.
 - Interface en français, utilisable au doigt sur téléphone.
-- Envoi de photos directement depuis le téléphone (appareil photo ou galerie), avec redimensionnement et compression automatiques en conservant une qualité plein écran (2560 px de large).
+- Envoi de photos depuis le téléphone (appareil photo ou galerie), redimensionnement et compression automatiques en conservant une qualité plein écran (2560 px de large).
 - Aperçu avant publication, publication en un clic, visible en ligne en quelques minutes.
-- Historique : toute modification est réversible.
+- Historique des contenus publiés : possibilité de revenir en arrière.
 - Champs obligatoires contrôlés (pas de réalisation sans photo, texte alternatif proposé par défaut).
-- Mot de passe oublié géré sans nous.
+- Un seul compte au lancement, ajout d'autres comptes sans changer d'outil (réponse 21). Chaque utilisateur a son identifiant, les modifications sont tracées.
 - Un guide d'utilisation de 2 ou 3 pages, avec captures, et une séance de prise en main.
 
-### 6.4 Proposition technique
+### 7.5 Volume
 
-Contrainte : le site reste statique sur GitHub Pages, mais la cliente ne doit jamais voir GitHub. Il faut donc une couche d'authentification entre elle et le dépôt. C'est notre compte (ou un compte technique) qui écrit dans le dépôt, pas le sien.
+2 à 5 réalisations par mois (réponse 20), 6 photos chacune, soit 15 à 20 Mo par mois de photos compressées. Les photos sont stockées dans Supabase et non dans le dépôt GitHub : la limite de 1 Go de GitHub Pages ne s'applique plus. L'offre gratuite de Supabase (1 Go de fichiers) tient 4 à 5 ans à ce rythme, en comptant les dossiers prospects ; au-delà, l'offre payante.
 
-Option recommandée : Decap CMS installé sur le site à l'adresse `/admin`, avec DecapBridge pour la connexion par e-mail et mot de passe. Les contenus restent des fichiers dans le dépôt, Git garde l'historique, rien à héberger. On invite la cliente par e-mail, elle crée son mot de passe, c'est tout. Point à vérifier avant engagement : conditions et pérennité de l'offre gratuite de DecapBridge.
+## 8. Lot 3 : simulateur de rendu avant/après
 
-Alternative 1 : même Decap CMS, mais avec notre propre petit service de connexion (fonction Cloudflare Workers, gratuite à ce volume) qui vérifie l'identifiant de la cliente et écrit dans GitHub via une application GitHub. Plus de travail initial, aucune dépendance à un service tiers. Moins adaptée au passage à plusieurs utilisateurs : la gestion des comptes (invitation, mot de passe oublié, retrait d'accès) serait à développer.
+### 8.1 Besoin
 
-Alternative 2 : un CMS hébergé (Sanity par exemple), dont l'interface s'intègre à `/admin` sur son site. Les photos sont stockées et redimensionnées par le CMS, ce qui lève la limite de taille de GitHub Pages. Contrepartie : un service tiers de plus, gratuit à ce volume mais payant au-delà.
+Message de la cliente : le futur client charge une photo de sa terrasse ou de son allée, choisit un granulat et voit le résultat sur sa propre photo. Réponses 24 à 28 : la simulation utilise un vrai granulat du catalogue (couleur et grain), un seul granulat par simulation, 1 ou 2 photos par demande, et chaque demande crée un dossier prospect conservé.
 
-Volume : avec 6 photos par réalisation, compressées en WebP (400 à 700 Ko chacune), une réalisation pèse 3 à 4 Mo. GitHub Pages recommande moins de 1 Go par site, soit environ 200 réalisations. Au rythme annoncé (2 à 5 par mois, donc 24 à 60 par an), la limite arrive au bout de 3 à 8 ans. Prévoir dès le départ un rangement des photos qui permette de les déplacer plus tard vers un service d'images (Cloudinary, Cloudflare Images) sans retoucher les fiches.
+### 8.2 Parcours visiteur
 
-Critère de choix ajouté par la réponse 21 : la gestion de plusieurs utilisateurs doit être native. C'est le cas de DecapBridge (invitations par e-mail) et de Sanity, ce qui conforte la recommandation.
-
-## 7. Lot 3 : simulateur de rendu avant/après
-
-### 7.1 Besoin
-
-Message de la cliente : le futur client charge une photo de sa terrasse ou de son allée, choisit un échantillon de granulats et voit un aperçu du résultat sur sa propre photo. La maquette contient déjà une première version (page « Créez votre projet ») qui ne recolore pas la photo.
-
-### 7.2 Parcours visiteur
-
-1. Charger une photo (appareil photo du téléphone ou fichier).
+1. Charger une photo (appareil photo du téléphone ou fichier). Une deuxième photo est possible, pas plus.
 2. Délimiter la surface à recouvrir (terrasse, allée, marches).
-3. Choisir un granulat dans le nuancier (les vrais granulats saisis dans l'administration, et en attendant les 6 couleurs provisoires de la maquette).
-4. Voir le rendu, comparer avant/après avec un curseur que l'on fait glisser sur l'image.
+3. Choisir un granulat parmi ceux du catalogue qui ont une texture. Un seul granulat pour toute la surface, pas de mélange ni de bordure (réponse 25).
+4. Voir le rendu avec la couleur et le grain du granulat choisi, comparer avant/après avec un curseur.
 5. Changer de granulat et comparer.
-6. Télécharger l'image avant/après.
-7. Envoyer son projet à Nataliia : photo d'origine, rendu, granulat choisi, description, coordonnées.
+6. Recommencer pour la deuxième photo si besoin.
+7. Télécharger les images avant/après.
+8. Envoyer sa demande (voir 8.4).
 
-### 7.3 Exigences fonctionnelles
+Les 6 couleurs provisoires de la maquette (Ivoire, Beige sable, Pierre, Gris, Gris foncé, Noir) disparaissent : une simulation se fait toujours avec une référence de granulat (réponse 24).
+
+### 8.3 Exigences fonctionnelles
 
 - Délimitation de la zone : le visiteur pose des points autour de la surface (polygone), corrige au doigt ou à la souris, peut gommer les objets posés dessus (pot de fleurs, meuble).
 - Perspective : la texture suit la perspective du sol. Le visiteur indique 4 points du sol (un rectangle vu en perspective), on en déduit l'inclinaison.
-- Réalisme : la texture garde les ombres et la lumière de la photo d'origine, la taille du grain reste cohérente avec la distance.
+- Réalisme : la texture du granulat est répétée sans raccord visible, à l'échelle de sa taille de grain, et garde les ombres et la lumière de la photo d'origine.
 - Curseur avant/après, plein écran sur téléphone.
-- Envoi du projet avec la photo jointe automatiquement (et non plus via `mailto:`).
-- Mention claire sous le rendu : aperçu indicatif, le rendu réel dépend du support et de la pose.
+- Mention sous le rendu : aperçu indicatif, le rendu réel dépend du support et de la pose.
 
-### 7.4 Exigences techniques
+### 8.4 Demande envoyée par le visiteur
 
-- Traitement dans le navigateur du visiteur : la photo ne quitte pas son appareil tant qu'il n'a pas cliqué sur « Envoyer ».
-- Fonctionne sur les téléphones récents (iPhone Safari et Android Chrome), photos jusqu'à 12 mégapixels (réduites pour le calcul).
-- Envoi du projet : GitHub Pages ne sait pas recevoir de formulaire. Il faut un service d'envoi (Formspree, Web3Forms, ou la fonction Cloudflare Workers de l'alternative 1 du lot 2) qui transmet la photo par e-mail à la cliente.
-- Le nuancier vient des fiches granulats du lot 2 : chaque fiche porte une texture « simulateur » (photo prise à plat, bien éclairée, raccordable en mosaïque).
+Contenu (réponse 26) :
 
-### 7.5 Découpage proposé
+| Champ | Obligatoire |
+|---|---|
+| Nom | oui |
+| Téléphone | oui (proposition, à confirmer) |
+| E-mail | oui |
+| Ville | oui |
+| Surface approximative (m²) | non |
+| Type de surface (terrasse, allée, escalier, piscine, autre) | oui |
+| Délai souhaité | non |
+| Message libre | non |
+| Photos d'origine | 1 ou 2, obligatoires |
+| Rendus simulés, avec le granulat choisi pour chacun | générés automatiquement |
+| Consentement au traitement des données | case à cocher obligatoire, non précochée |
+
+À l'envoi : création du dossier prospect, e-mail d'alerte à nataliiaresine@gmail.com (réponse 27) avec le résumé de la demande et un lien vers le dossier dans l'administration. E-mail de confirmation au visiteur avec ses rendus.
+
+### 8.5 Dossiers prospects
+
+Un dossier par demande (réponse 28). Si la même adresse e-mail revient, la nouvelle demande est rattachée au même prospect.
+
+Contenu d'un dossier : coordonnées, ville, type et surface, délai, message, photos d'origine, rendus, granulat(s) choisi(s), date de la demande. On propose en plus un statut de suivi (nouveau, contacté, devis envoyé, signé, sans suite) et un champ de notes pour la cliente. À valider.
+
+Dans l'administration : liste triable par date et statut, fiche détaillée, téléchargement des photos, suppression d'un dossier.
+
+### 8.6 RGPD
+
+La conservation des photos et des simulations est acceptée par la cliente, avec une gestion RGPD adéquate (réponse 28). Ce que ça implique concrètement :
+
+- Information du visiteur avant l'envoi : qui traite les données (Nataliia SHEVCHUK EI), pourquoi (répondre à la demande, établir un devis), combien de temps, ses droits, comment les exercer. Détail dans la politique de confidentialité.
+- Consentement par case à cocher, non précochée.
+- Stockage privé, hébergé en Union européenne. Les photos ne sont jamais accessibles par une adresse publique : l'administration les affiche par des liens temporaires.
+- Accès limité aux comptes de l'administration.
+- Durée de conservation : proposition de 3 ans après le dernier contact pour un prospect sans suite (durée recommandée par la CNIL pour la prospection), puis suppression automatique. Pour un client signé, le dossier relève de la gestion commerciale, durée à fixer avec elle.
+- Droits du visiteur : accès, rectification, suppression. La cliente peut exporter ou supprimer un dossier en un clic depuis l'administration.
+- Contrat de sous-traitance (DPA) avec Supabase et le service d'e-mails, inscription du traitement dans un registre simple (modèle fourni).
+- Les photos peuvent montrer une maison, une plaque d'immatriculation, des personnes : on le signale au visiteur et on lui conseille de cadrer sur la surface à traiter.
+
+### 8.7 Exigences techniques
+
+- La simulation se calcule dans le navigateur du visiteur. Rien n'est envoyé avant le clic sur « Envoyer ».
+- Fonctionne sur les téléphones récents (iPhone Safari et Android Chrome), photos jusqu'à 12 mégapixels (réduites pour le calcul, compressées avant envoi).
+- Protection anti-spam du formulaire (captcha discret type Cloudflare Turnstile, limite de taille et de nombre de fichiers).
+
+### 8.8 Découpage proposé
 
 | Étape | Contenu | Commentaire |
 |---|---|---|
-| 3a | Zone dessinée à la main, perspective par 4 points, texture, curseur avant/après, téléchargement, envoi | Version fiable, livrée en premier |
-| 3b | Détection automatique du sol par IA dans le navigateur (modèle de segmentation type SAM) : le visiteur touche la terrasse et la zone se sélectionne seule | Plus confortable, mais lourd à charger sur mobile et pas fiable à 100 % : l'outil manuel reste là pour corriger |
-| Option | Rendu par IA générative (image refaite par un modèle) | Payant à chaque rendu, photo envoyée à un service tiers, résultat parfois éloigné du vrai granulat. Déconseillé pour l'instant |
+| 3a | Zone dessinée à la main, perspective par 4 points, texture du granulat, curseur avant/après, 2 photos max, envoi, dossier prospect, RGPD | Livré pour la mise en ligne |
+| 3b | Détection automatique du sol par IA dans le navigateur (modèle de segmentation type SAM) | Après la mise en ligne. L'outil manuel reste là pour corriger |
+| Option | Rendu par IA générative | Payant à chaque rendu, résultat parfois éloigné du vrai granulat. Déconseillé pour l'instant |
 
-### 7.6 Prérequis côté cliente
+### 8.9 Texture d'un granulat
 
-Le simulateur ne vaut que par la qualité des textures. Pour chaque granulat : une photo d'un échantillon posé à plat, prise à la verticale, en lumière du jour sans ombre portée, avec une règle ou une pièce pour l'échelle. Idéalement aussi 2 ou 3 photos avant/après de vrais chantiers pour vérifier que le simulateur ressemble au résultat réel.
+Le rendu ne vaut que par la qualité de la texture. Pour chaque granulat, la cliente charge dans l'administration une photo d'échantillon posé à plat, prise à la verticale, en lumière du jour sans ombre portée, sur une surface d'au moins 30 x 30 cm, et indique la taille du grain. Une fiche de prise de vue d'une page lui est fournie avec le guide.
 
-Tant que les références de granulats ne sont pas connues (réponse 13), le simulateur fonctionne avec les 6 couleurs provisoires de la maquette, en aplat texturé générique.
+## 9. Planning
 
-## 8. Planning
-
-Échéance demandée : 31 décembre 2026. Il reste 6 semaines, dont la période de Noël, où la cliente sera moins disponible pour relire et tester. On vise donc une mise en ligne le 22 décembre, la dernière semaine sert de marge.
+Échéance demandée : 31 décembre 2026. Mise en ligne visée le 22 décembre, la dernière semaine sert de marge (période de Noël).
 
 | Semaine | Dates | Travail | Attendu de la cliente |
 |---|---|---|---|
-| 47 | 18 au 22 nov. | Validation du cahier des charges, choix du nom de domaine | Réponses aux questions ouvertes (A1 à A8, 22 à 28) |
-| 48 | 23 au 29 nov. | Lot 1 : structure du site, pages, textes rédigés | Relecture des textes |
-| 49 | 30 nov. au 6 déc. | Lot 1 : préversion GitHub Pages, recette. Lot 2 : écran Réalisations | Premières photos de chantier, retours sur la préversion |
-| 50 | 7 au 13 déc. | Lot 2 : écran Produits, puis le reste. Lot 3a : début du simulateur | Premières références produits, test de l'administration |
-| 51 | 14 au 20 déc. | Lot 3a : simulateur, envoi des demandes. Prise en main de l'administration, guide | Photos d'échantillons de granulats si disponibles, séance de prise en main |
-| 52 | 21 au 27 déc. | Achat du domaine (fait plus tôt si possible), DNS, HTTPS, e-mail, retrait du `noindex`, mise en ligne le 22 | Validation finale |
+| 47 | 18 au 22 nov. | Validation du cahier des charges, choix d'architecture (P1), choix du nom de domaine | Réponses aux questions ouvertes |
+| 48 | 23 au 29 nov. | Lot 1 : structure, pages, textes. Mise en place de Supabase (comptes, base, stockage) | Relecture des textes |
+| 49 | 30 nov. au 6 déc. | Lot 1 : préversion GitHub Pages. Lot 2 : connexion, écran Réalisations, publication | Premières photos de chantier, retours sur la préversion |
+| 50 | 7 au 13 déc. | Lot 2 : écran Produits, 2 produits d'exemple, autres écrans. Lot 3a : simulateur | Test de l'administration |
+| 51 | 14 au 20 déc. | Lot 3a : envoi, dossiers prospects, e-mails, RGPD. Prise en main, guide | Premier vrai granulat avec texture si possible |
+| 52 | 21 au 27 déc. | Domaine, DNS, HTTPS, e-mail, retrait du `noindex`, mise en ligne le 22 | Validation finale |
 | 53 | 28 au 31 déc. | Marge, corrections, dépublication de la maquette Wix | |
 
-Ce qui est en ligne au 31 décembre : lot 1 complet, lot 2 complet, lot 3a (simulateur avec zone dessinée à la main).
+En ligne au 31 décembre : lots 1, 2 et 3a.
 
-Ce qui vient après le 31 décembre : lot 3b (détection automatique du sol), nouveau logo, nouvelle image d'accueil, textures des vrais granulats dans le simulateur si elles ne sont pas prêtes, mention de la décennale, comptes supplémentaires dans l'administration.
+Après le 31 décembre : lot 3b, nouveau logo, nouvelle image d'accueil, mention de la décennale, comptes supplémentaires.
 
-Risque principal : les contenus. Le site peut ouvrir avec peu de réalisations et un nuancier vide, mais pas sans textes validés ni sans les réponses aux questions bloquantes (nom commercial, mentions légales, nom de domaine). Si le 3a prend du retard, la page « Créez votre projet » actuelle reste en place et le simulateur arrive en janvier, sans bloquer le reste.
+Risques :
 
-## 9. Nos recommandations à la cliente
+- Le lot 2 sur mesure et les dossiers prospects ajoutent du travail par rapport à la version 0.4. Le planning est serré. Si on prend du retard, on met en ligne le 22 avec les écrans Réalisations, Produits et Demandes, et les écrans secondaires (avis, prestations, accueil, logo) arrivent en janvier ; d'ici là, on fait ces modifications pour elle.
+- Les contenus : textes validés, nom commercial confirmé et nom de domaine sont bloquants pour la mise en ligne.
+
+## 10. Nos recommandations à la cliente
 
 - Page Réalisations avec avant/après : c'est ce qui vend le plus dans ce métier. Retenu.
-- Nuancier visuel des granulats plutôt que du texte : retenu, il servira au simulateur.
+- Fiches granulats avec texture : retenu, elles servent au simulateur.
 - Vrai menu sur toutes les pages : retenu.
 - Image d'accueil IA : gardée au lancement, à remplacer par une vraie photo de chantier dès que possible. Un visiteur qui découvre que la photo n'est pas réelle perd confiance.
 - Logo : garder l'actuel au lancement. Au moment de refaire le logo vectoriel, harmoniser avec le nom commercial « Nataliia Résine » (le logo actuel affiche « NATALIIA SHEVCHUK » et « NS », le pied de page du site « NR »).
@@ -286,10 +366,11 @@ Risque principal : les contenus. Le site peut ouvrir avec peu de réalisations e
 - Assurance décennale : à souscrire avant les premiers chantiers si ce n'est pas déjà prévu, puis à afficher sur le site. Vérifier au passage le code NAF avec l'assureur.
 - Fiche Google Business : à créer si elle n'existe pas. Gratuite, c'est ce qui ressort en premier dans une recherche locale (« moquette de pierre Douai »).
 - Dépôt GitHub dédié à son site, séparé de ce dépôt de test partagé avec d'autres projets.
+- Ne jamais stocker les données des prospects dans GitHub : base et stockage privés en Europe (chapitre 6).
 - Pas de vente en ligne : confirmé par la cliente.
 - Adresse e-mail sur le nom de domaine : plus professionnelle que Gmail sur un devis. Une simple redirection vers sa boîte Gmail suffit pour commencer.
 
-## 10. Fichiers du dossier
+## 11. Fichiers du dossier
 
 - `CAHIER_DES_CHARGES.md` : ce document.
 - `QUESTIONS_CLIENT.md` : questions posées, réponses reçues et questions encore ouvertes.

@@ -26,19 +26,23 @@ A10. Adresse e-mail sur le domaine : vraie boîte (consultée à part) ou redire
 
 A11. Échéance du 31 décembre : concerne-t-elle les trois lots ou seulement le site et l'administration ? Le planning prévoit les lots 1, 2 et 3a pour le 22 décembre, le lot 3b ensuite.
 
-## B. Questions restantes (22 à 28, sans réponse)
+## B. Nouvelles questions suite aux réponses 22 à 28
 
-### Lot 3 : simulateur avant/après
+A12. Demande du visiteur : le téléphone est-il obligatoire, ou l'e-mail suffit-il ?
 
-22. Liste définitive des granulats à proposer dans le simulateur (noms commerciaux, coloris, granulométries). Peut attendre qu'elle ait ses références (question 13).
-23. Pour chaque granulat : photo d'échantillon prise à plat, à la verticale, en lumière du jour, avec une règle ou une pièce pour l'échelle (on peut lui envoyer une fiche de prise de vue).
-24. Les 6 couleurs provisoires de la maquette (Ivoire, Beige sable, Pierre, Gris, Gris foncé, Noir) correspondent-elles à de vrais granulats ? Lesquels ?
-25. Mélanges possibles (plusieurs couleurs, frises, bordures comme sur l'image d'accueil) : à proposer dans le simulateur ou pas au départ ?
-26. Que doit contenir la demande envoyée par le visiteur : nom, téléphone, e-mail, ville, surface approximative, type de surface, délai souhaité ?
-27. Adresse e-mail de réception des demandes : nataliiaresine@gmail.com ou une autre ?
-28. Accepte-t-elle que les photos des visiteurs soient conservées un temps pour suivre les demandes (durée à fixer), ou suppression dès l'envoi du mail ?
+A13. Dossiers prospects : souhaite-t-elle un statut de suivi (nouveau, contacté, devis envoyé, signé, sans suite) et un champ de notes ? Proposition de notre part.
 
-## C. Réponses reçues (questions 1 à 21 et 29 à 32)
+A14. Durée de conservation des dossiers : on propose 3 ans après le dernier contact pour un prospect sans suite, puis suppression automatique. D'accord ?
+
+A15. Les 2 produits d'exemple : un granulat clair et un granulat foncé, avec une texture de démonstration, marqués « Exemple ». D'accord ?
+
+## P. Décision côté prestataire
+
+P1. Architecture de l'administration (chapitre 6 du cahier des charges) :
+- option recommandée : administration sur mesure sur Supabase, une seule connexion pour tout (contenus et dossiers prospects) ;
+- alternative : Decap CMS + DecapBridge pour les contenus, Supabase pour les dossiers prospects, deux connexions.
+
+## C. Réponses reçues (questions 1 à 32)
 
 | N° | Sujet | Réponse |
 |---|---|---|
@@ -63,6 +67,13 @@ A11. Échéance du 31 décembre : concerne-t-elle les trois lots ou seulement le
 | 19 | Priorités administration | 1. Réalisations de chantier. 2. Produits utilisés : photo, descriptif, lien fournisseur éventuel |
 | 20 | Rythme | 2 à 5 réalisations par mois |
 | 21 | Utilisateurs | Une au départ, probablement plusieurs ensuite |
+| 22 | Granulats | 2 produits d'exemple créés par nous, supprimés ensuite par elle. Elle crée ses produits dans l'administration |
+| 23 | Contenu d'une fiche produit | Une ou plusieurs photos, un lien, un PDF, tout facultatif. Pas de prix |
+| 24 | Couleurs provisoires | Abandonnées. La simulation utilise un granulat du catalogue (couleur et grain) |
+| 25 | Mélanges | Non, un seul granulat |
+| 26 | Contenu de la demande | Nom, téléphone, e-mail, ville, surface, type, délai, et surtout 1 ou 2 photos simulées (pas plus) |
+| 27 | E-mail de réception | nataliiaresine@gmail.com |
+| 28 | Conservation | Photos et simulations conservées, RGPD géré, un dossier par prospect |
 | 29 | Nom de domaine | Aucun. À choisir ensemble, site sur GitHub Pages, domaine géré comme Apexus ou Belmaris (voir A9) |
 | 30 | E-mail sur le domaine | Probablement oui (voir A10) |
 | 31 | Abonnement Wix | Non, compte gratuit |
