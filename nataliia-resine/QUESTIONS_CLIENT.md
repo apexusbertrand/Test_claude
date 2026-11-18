@@ -18,13 +18,9 @@ A6. Ajout de « EI » après son nom dans les mentions légales (obligation lég
 
 A7. Assurance décennale : pas encore souscrite. Est-ce prévu, et à quelle échéance ? Le code NAF déclaré (8121Z, nettoyage de bâtiments) ne correspond pas à la pose de revêtements : à vérifier avec son assureur ou son comptable.
 
-## B. Questions restantes (19 à 32, sans réponse)
+A8. Lien fournisseur sur les fiches produits : lien vers la page du produit chez le fournisseur, ou vers le site général du fournisseur ? Accepte-t-elle que le visiteur puisse acheter directement chez lui (le site renvoie alors vers un vendeur, alors qu'elle ne vend pas elle-même) ?
 
-### Lot 2 : administration
-
-19. Quels contenus veut-elle gérer seule en priorité : réalisations, avis, granulats, produits, textes des prestations, coordonnées ?
-20. Combien de nouvelles réalisations par mois environ ?
-21. Une seule personne aura accès à l'administration, ou plusieurs ?
+## B. Questions restantes (22 à 32, sans réponse)
 
 ### Lot 3 : simulateur avant/après
 
@@ -43,7 +39,7 @@ A7. Assurance décennale : pas encore souscrite. Est-ce prévu, et à quelle éc
 31. A-t-elle un abonnement Wix lié à la maquette actuelle, à résilier une fois le nouveau site en ligne ?
 32. Délai souhaité pour la mise en ligne, et budget envisagé pour chaque lot ?
 
-## C. Réponses reçues (questions 1 à 18)
+## C. Réponses reçues (questions 1 à 21)
 
 | N° | Sujet | Réponse |
 |---|---|---|
@@ -65,3 +61,6 @@ A7. Assurance décennale : pas encore souscrite. Est-ce prévu, et à quelle éc
 | 16 | Langues | Français uniquement |
 | 17 | Appareil pour l'administration | Téléphone et ordinateur |
 | 18 | Compte GitHub | Non, et pas de GitHub : administration directement depuis son site |
+| 19 | Priorités administration | 1. Réalisations de chantier. 2. Produits utilisés : photo, descriptif, lien fournisseur éventuel |
+| 20 | Rythme | 2 à 5 réalisations par mois |
+| 21 | Utilisateurs | Une au départ, probablement plusieurs ensuite |

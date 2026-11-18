@@ -1,14 +1,14 @@
 # Nataliia Résine : cahier des charges du site web
 
-Version 0.2, 18 novembre 2026. Document de cadrage, rien n'est encore développé.
+Version 0.3, 18 novembre 2026. Document de cadrage, rien n'est encore développé.
 
-Historique : 0.1 première version à partir de la maquette. 0.2 intègre les réponses de la cliente aux questions 1 à 18 et les données légales (Insee, RNE au 17/11/2026).
+Historique : 0.1 première version à partir de la maquette. 0.2 intègre les réponses de la cliente aux questions 1 à 18 et les données légales (Insee, RNE au 17/11/2026). 0.3 intègre les réponses 19 à 21 (administration).
 
 Sources utilisées, et uniquement elles :
 
 - la maquette réalisée par la cliente avec une IA, en ligne sur https://headless-rkelfehhkdy-shevcukn-1408.wix-site-host.com/index.html (5 pages, copie archivée dans `maquette-origine/`) ;
 - le message de la cliente (demande de site, accès administration, idée de simulation sur photo) ;
-- ses réponses aux questions 1 à 18 de `QUESTIONS_CLIENT.md` ;
+- ses réponses aux questions 1 à 21 de `QUESTIONS_CLIENT.md` ;
 - la fiche entreprise (Insee, RNE).
 
 Tout le reste est soit une proposition technique de notre part (signalée comme telle), soit une question encore ouverte dans `QUESTIONS_CLIENT.md`.
@@ -104,7 +104,7 @@ La maquette ne contient aucun lien vers des réseaux sociaux (Instagram, Faceboo
 | Prestations | maquette + réponse 12 | Une carte par prestation, avec photo dès qu'il y en a : Terrasses, Allées, Escaliers d'entrée, Abords de piscine (maquette), plus Intérieur, Balcons, Plages de garage, Rénovation (réponse 12, liste à confirmer). Textes rédigés par nous (voir 5.3) |
 | Réalisations | message cliente + réponse 9 | Galerie filtrable par type de prestation. Chaque réalisation a sa page (voir 5.2) |
 | Avis clients | réponse 15 | Témoignages publiés avec l'accord des clients, gérés dans l'administration |
-| Produits | maquette + réponses 13 et 14 | Présentation des matériaux utilisés : granulats, profils de finition. Pas de prix, pas de vente, pas de panier. Bouton « Demander des informations ». Références ajoutées plus tard par la cliente dans l'administration |
+| Produits | maquette + réponses 13, 14 et 19 | Présentation des matériaux utilisés : granulats, profils de finition. Chaque produit : photo, descriptif, lien vers le fournisseur si elle le souhaite. Pas de prix, pas de vente, pas de panier. Bouton « Demander des informations ». Références ajoutées par la cliente dans l'administration |
 | Nuancier des granulats | message cliente | Une fiche par granulat : photo de l'échantillon, nom. Vide au lancement si la cliente n'a pas encore ses références, alimenté ensuite par l'administration. Sert aussi au simulateur (lot 3) |
 | Contact | maquette + réponses 5 et 6 | Téléphone, WhatsApp, e-mail. Zone d'intervention : Somain, Valenciennes, Lille, Arras, Douai et alentours. Pas d'adresse, pas d'horaires |
 | Créez votre projet | maquette | Remplacé par le simulateur du lot 3. En attendant, version actuelle conservée |
@@ -122,7 +122,7 @@ D'après la réponse 9 :
 - les références des produits utilisés (granulat, profil), avec lien vers leur fiche ;
 - type de prestation, ville (si la cliente accepte de l'afficher), titre, court texte.
 
-Les photos avant/après sont ajoutées par la cliente elle-même dans l'administration (réponse 10). Au lancement, la page Réalisations peut donc être vide ou ne contenir que ce qu'elle aura chargé pendant la recette.
+Les photos avant/après sont ajoutées par la cliente elle-même dans l'administration (réponse 10), à raison de 2 à 5 réalisations par mois (réponse 20). Au lancement, la page Réalisations peut donc être vide ou ne contenir que ce qu'elle aura chargé pendant la recette.
 
 ### 5.3 Textes
 
@@ -158,12 +158,14 @@ La cliente veut ajouter elle-même photos, réalisations, avis et références d
 
 ### 6.2 Ce que la cliente peut faire seule
 
+Priorités de la cliente (réponse 19) : d'abord les réalisations de chantier, ensuite les produits. Ces deux écrans sont livrés en premier et soignés en priorité (ergonomie mobile, envoi de photos). Les autres contenus suivent dans le même lot.
+
 | Contenu | Actions |
 |---|---|
-| Réalisations | créer, modifier, supprimer, réordonner ; 3 à 4 photos après, 2 photos avant ; type de prestation ; produits utilisés |
+| Réalisations (priorité 1) | créer, modifier, supprimer, réordonner ; 3 à 4 photos après, 2 photos avant ; type de prestation ; produits utilisés, choisis dans la liste des produits |
 | Avis clients | ajouter, modifier, masquer, supprimer ; nom ou initiales, ville, texte, date |
 | Granulats (nuancier) | créer, modifier, supprimer ; photo de l'échantillon ; nom ; texture utilisée par le simulateur |
-| Produits | créer, modifier, supprimer une référence ; photo, nom, description |
+| Produits (priorité 2) | créer, modifier, supprimer une référence ; photo, nom, descriptif, lien fournisseur facultatif |
 | Prestations | modifier texte et photo de chaque prestation, en ajouter ou en retirer |
 | Coordonnées et zone | modifier téléphone, e-mail, villes desservies |
 | Accueil | remplacer l'image principale et la phrase d'accroche |
@@ -174,6 +176,7 @@ Hors périmètre de l'administration (reste à notre charge) : charte graphique,
 ### 6.3 Exigences
 
 - Accès par e-mail et mot de passe, sur la page `/admin` de son site, aucun compte GitHub côté cliente.
+- Un seul compte au lancement. La solution doit permettre d'ajouter d'autres utilisateurs plus tard sans changer d'outil (réponse 21), chacun avec son propre identifiant pour savoir qui a modifié quoi.
 - Interface en français, utilisable au doigt sur téléphone.
 - Envoi de photos directement depuis le téléphone (appareil photo ou galerie), avec redimensionnement et compression automatiques en conservant une qualité plein écran (2560 px de large).
 - Aperçu avant publication, publication en un clic, visible en ligne en quelques minutes.
@@ -188,11 +191,13 @@ Contrainte : le site reste statique sur GitHub Pages, mais la cliente ne doit ja
 
 Option recommandée : Decap CMS installé sur le site à l'adresse `/admin`, avec DecapBridge pour la connexion par e-mail et mot de passe. Les contenus restent des fichiers dans le dépôt, Git garde l'historique, rien à héberger. On invite la cliente par e-mail, elle crée son mot de passe, c'est tout. Point à vérifier avant engagement : conditions et pérennité de l'offre gratuite de DecapBridge.
 
-Alternative 1 : même Decap CMS, mais avec notre propre petit service de connexion (fonction Cloudflare Workers, gratuite à ce volume) qui vérifie l'identifiant de la cliente et écrit dans GitHub via une application GitHub. Plus de travail initial, aucune dépendance à un service tiers.
+Alternative 1 : même Decap CMS, mais avec notre propre petit service de connexion (fonction Cloudflare Workers, gratuite à ce volume) qui vérifie l'identifiant de la cliente et écrit dans GitHub via une application GitHub. Plus de travail initial, aucune dépendance à un service tiers. Moins adaptée au passage à plusieurs utilisateurs : la gestion des comptes (invitation, mot de passe oublié, retrait d'accès) serait à développer.
 
 Alternative 2 : un CMS hébergé (Sanity par exemple), dont l'interface s'intègre à `/admin` sur son site. Les photos sont stockées et redimensionnées par le CMS, ce qui lève la limite de taille de GitHub Pages. Contrepartie : un service tiers de plus, gratuit à ce volume mais payant au-delà.
 
-Volume : avec 6 photos par réalisation, compressées en WebP (400 à 700 Ko chacune), une réalisation pèse 3 à 4 Mo. GitHub Pages recommande moins de 1 Go par site, soit environ 200 réalisations. Au-delà, on déplacera les photos vers un service d'images (Cloudinary, Cloudflare Images) ou on passera sur l'alternative 2.
+Volume : avec 6 photos par réalisation, compressées en WebP (400 à 700 Ko chacune), une réalisation pèse 3 à 4 Mo. GitHub Pages recommande moins de 1 Go par site, soit environ 200 réalisations. Au rythme annoncé (2 à 5 par mois, donc 24 à 60 par an), la limite arrive au bout de 3 à 8 ans. Prévoir dès le départ un rangement des photos qui permette de les déplacer plus tard vers un service d'images (Cloudinary, Cloudflare Images) sans retoucher les fiches.
+
+Critère de choix ajouté par la réponse 21 : la gestion de plusieurs utilisateurs doit être native. C'est le cas de DecapBridge (invitations par e-mail) et de Sanity, ce qui conforte la recommandation.
 
 ## 7. Lot 3 : simulateur de rendu avant/après
 
@@ -245,7 +250,7 @@ Tant que les références de granulats ne sont pas connues (réponse 13), le sim
 1. Validation de ce cahier des charges et réponses aux questions restantes.
 2. Rédaction des textes (5.3) et validation par la cliente.
 3. Lot 1 : générateur, pages, préversion GitHub Pages, recette.
-4. Lot 2 : administration, tests par la cliente avec ses premières réalisations, guide et prise en main.
+4. Lot 2 : administration (réalisations, puis produits, puis le reste), tests par la cliente avec ses premières réalisations, guide et prise en main.
 5. Lot 3a : simulateur, tests sur des photos de vrais chantiers.
 6. Bascule sur le nom de domaine.
 7. Plus tard : nouveau logo, nouvelle image d'accueil, lot 3b si validé, mention de la décennale une fois souscrite.
