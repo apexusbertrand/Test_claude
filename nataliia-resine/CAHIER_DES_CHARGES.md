@@ -1,14 +1,14 @@
 # Nataliia Résine : cahier des charges du site web
 
-Version 0.3, 18 novembre 2026. Document de cadrage, rien n'est encore développé.
+Version 0.4, 18 novembre 2026. Document de cadrage, rien n'est encore développé.
 
-Historique : 0.1 première version à partir de la maquette. 0.2 intègre les réponses de la cliente aux questions 1 à 18 et les données légales (Insee, RNE au 17/11/2026). 0.3 intègre les réponses 19 à 21 (administration).
+Historique : 0.1 première version à partir de la maquette. 0.2 intègre les réponses de la cliente aux questions 1 à 18 et les données légales (Insee, RNE au 17/11/2026). 0.3 intègre les réponses 19 à 21 (administration). 0.4 intègre les réponses 29 à 32 (domaine, e-mail, Wix, délai) et ajoute un planning daté.
 
 Sources utilisées, et uniquement elles :
 
 - la maquette réalisée par la cliente avec une IA, en ligne sur https://headless-rkelfehhkdy-shevcukn-1408.wix-site-host.com/index.html (5 pages, copie archivée dans `maquette-origine/`) ;
 - le message de la cliente (demande de site, accès administration, idée de simulation sur photo) ;
-- ses réponses aux questions 1 à 21 de `QUESTIONS_CLIENT.md` ;
+- ses réponses aux questions 1 à 21 et 29 à 32 de `QUESTIONS_CLIENT.md` ;
 - la fiche entreprise (Insee, RNE).
 
 Tout le reste est soit une proposition technique de notre part (signalée comme telle), soit une question encore ouverte dans `QUESTIONS_CLIENT.md`.
@@ -26,7 +26,9 @@ Objectifs exprimés dans son message :
 3. Permettre au visiteur de charger une photo de sa terrasse ou de son allée, de choisir un granulat et de voir le rendu sur sa propre photo.
 4. Recevoir notre avis de professionnel sur ce qui est utile ou non.
 
-Hébergement : d'abord sur GitHub Pages (comme le site Guillaume l'Échanson déjà présent dans ce dépôt), puis sur un nom de domaine.
+Hébergement : sur GitHub Pages (comme le site Guillaume l'Échanson déjà présent dans ce dépôt), d'abord à l'adresse GitHub, puis derrière un nom de domaine à choisir ensemble, géré comme les domaines Apexus (apexus.fr) ou Belmaris.
+
+Échéance : mise en ligne au 31 décembre 2026. Le budget est géré par le prestataire, il ne figure pas dans ce document.
 
 ## 2. Informations légales de l'entreprise
 
@@ -90,7 +92,7 @@ La maquette ne contient aucun lien vers des réseaux sociaux (Instagram, Faceboo
 - Le bouton « menu » (3 traits) en haut à droite renvoie seulement vers l'accueil. Il n'y a pas de vrai menu sur les pages intérieures.
 - Aucune page Réalisations, Avis ni nuancier de granulats, alors que la cliente en veut.
 - Aucune mention légale, aucune politique de confidentialité.
-- La maquette tourne sur une infrastructure Wix (script Wix chargé dans les pages). On ne la réutilise pas : on repart des fichiers HTML/CSS.
+- La maquette tourne sur un compte Wix gratuit (script Wix chargé dans les pages). On ne la réutilise pas : on repart des fichiers HTML/CSS. Rien à résilier, mais la maquette devra être dépubliée à la mise en ligne pour ne pas laisser traîner un second site en ligne.
 - L'image d'accueil pèse 3,7 Mo : à convertir en WebP/AVIF et décliner en plusieurs tailles.
 - Le configurateur envoie un `mailto:` : le visiteur doit joindre sa photo à la main, beaucoup ne le feront pas.
 
@@ -148,7 +150,15 @@ Déploiement : GitHub Actions vers GitHub Pages, à chaque modification, y compr
 
 - Code source dans ce dépôt, dossier `nataliia-resine/` (ou dépôt dédié, voir 9).
 - Préversion en ligne sur GitHub Pages.
-- Bascule sur le nom de domaine (DNS, HTTPS) quand il sera disponible.
+- Bascule sur le nom de domaine (voir 5.7).
+
+### 5.7 Nom de domaine et e-mail
+
+- La cliente n'a pas de nom de domaine. On le choisit ensemble, on vérifie sa disponibilité et on l'achète chez le même registraire que les domaines Apexus et Belmaris, pour tout gérer au même endroit.
+- Le site reste hébergé sur GitHub Pages. Le domaine pointe vers lui (enregistrements DNS, fichier `CNAME`, HTTPS activé dans GitHub Pages).
+- Adresse e-mail sur le domaine (contact@…) : probablement souhaitée. GitHub Pages n'héberge pas d'e-mail, il faut une offre de messagerie à part (souvent incluse ou peu chère chez le registraire, sinon Zoho Mail, Infomaniak, Google Workspace). Possibilité de rediriger simplement contact@… vers l'adresse Gmail actuelle si elle veut garder sa boîte.
+- Les demandes du site (formulaire, simulateur) arrivent sur nataliiaresine@gmail.com tant que l'adresse sur le domaine n'existe pas, puis sur la nouvelle.
+- Configuration SPF, DKIM et DMARC du domaine pour que les e-mails envoyés par le site ne tombent pas en spam.
 
 ## 6. Lot 2 : administration autonome
 
@@ -245,15 +255,25 @@ Le simulateur ne vaut que par la qualité des textures. Pour chaque granulat : u
 
 Tant que les références de granulats ne sont pas connues (réponse 13), le simulateur fonctionne avec les 6 couleurs provisoires de la maquette, en aplat texturé générique.
 
-## 8. Planning indicatif (ordre, sans dates)
+## 8. Planning
 
-1. Validation de ce cahier des charges et réponses aux questions restantes.
-2. Rédaction des textes (5.3) et validation par la cliente.
-3. Lot 1 : générateur, pages, préversion GitHub Pages, recette.
-4. Lot 2 : administration (réalisations, puis produits, puis le reste), tests par la cliente avec ses premières réalisations, guide et prise en main.
-5. Lot 3a : simulateur, tests sur des photos de vrais chantiers.
-6. Bascule sur le nom de domaine.
-7. Plus tard : nouveau logo, nouvelle image d'accueil, lot 3b si validé, mention de la décennale une fois souscrite.
+Échéance demandée : 31 décembre 2026. Il reste 6 semaines, dont la période de Noël, où la cliente sera moins disponible pour relire et tester. On vise donc une mise en ligne le 22 décembre, la dernière semaine sert de marge.
+
+| Semaine | Dates | Travail | Attendu de la cliente |
+|---|---|---|---|
+| 47 | 18 au 22 nov. | Validation du cahier des charges, choix du nom de domaine | Réponses aux questions ouvertes (A1 à A8, 22 à 28) |
+| 48 | 23 au 29 nov. | Lot 1 : structure du site, pages, textes rédigés | Relecture des textes |
+| 49 | 30 nov. au 6 déc. | Lot 1 : préversion GitHub Pages, recette. Lot 2 : écran Réalisations | Premières photos de chantier, retours sur la préversion |
+| 50 | 7 au 13 déc. | Lot 2 : écran Produits, puis le reste. Lot 3a : début du simulateur | Premières références produits, test de l'administration |
+| 51 | 14 au 20 déc. | Lot 3a : simulateur, envoi des demandes. Prise en main de l'administration, guide | Photos d'échantillons de granulats si disponibles, séance de prise en main |
+| 52 | 21 au 27 déc. | Achat du domaine (fait plus tôt si possible), DNS, HTTPS, e-mail, retrait du `noindex`, mise en ligne le 22 | Validation finale |
+| 53 | 28 au 31 déc. | Marge, corrections, dépublication de la maquette Wix | |
+
+Ce qui est en ligne au 31 décembre : lot 1 complet, lot 2 complet, lot 3a (simulateur avec zone dessinée à la main).
+
+Ce qui vient après le 31 décembre : lot 3b (détection automatique du sol), nouveau logo, nouvelle image d'accueil, textures des vrais granulats dans le simulateur si elles ne sont pas prêtes, mention de la décennale, comptes supplémentaires dans l'administration.
+
+Risque principal : les contenus. Le site peut ouvrir avec peu de réalisations et un nuancier vide, mais pas sans textes validés ni sans les réponses aux questions bloquantes (nom commercial, mentions légales, nom de domaine). Si le 3a prend du retard, la page « Créez votre projet » actuelle reste en place et le simulateur arrive en janvier, sans bloquer le reste.
 
 ## 9. Nos recommandations à la cliente
 
@@ -267,6 +287,7 @@ Tant que les références de granulats ne sont pas connues (réponse 13), le sim
 - Fiche Google Business : à créer si elle n'existe pas. Gratuite, c'est ce qui ressort en premier dans une recherche locale (« moquette de pierre Douai »).
 - Dépôt GitHub dédié à son site, séparé de ce dépôt de test partagé avec d'autres projets.
 - Pas de vente en ligne : confirmé par la cliente.
+- Adresse e-mail sur le nom de domaine : plus professionnelle que Gmail sur un devis. Une simple redirection vers sa boîte Gmail suffit pour commencer.
 
 ## 10. Fichiers du dossier
 

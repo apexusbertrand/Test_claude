@@ -20,7 +20,13 @@ A7. Assurance décennale : pas encore souscrite. Est-ce prévu, et à quelle éc
 
 A8. Lien fournisseur sur les fiches produits : lien vers la page du produit chez le fournisseur, ou vers le site général du fournisseur ? Accepte-t-elle que le visiteur puisse acheter directement chez lui (le site renvoie alors vers un vendeur, alors qu'elle ne vend pas elle-même) ?
 
-## B. Questions restantes (22 à 32, sans réponse)
+A9. Nom de domaine : idées de la cliente ? Un domaine à son nom (par exemple en .fr) ou un sous-domaine d'un domaine existant (Apexus, Belmaris) ? On propose un domaine à son nom, plus crédible et qui lui appartient.
+
+A10. Adresse e-mail sur le domaine : vraie boîte (consultée à part) ou redirection vers sa boîte Gmail ?
+
+A11. Échéance du 31 décembre : concerne-t-elle les trois lots ou seulement le site et l'administration ? Le planning prévoit les lots 1, 2 et 3a pour le 22 décembre, le lot 3b ensuite.
+
+## B. Questions restantes (22 à 28, sans réponse)
 
 ### Lot 3 : simulateur avant/après
 
@@ -32,14 +38,7 @@ A8. Lien fournisseur sur les fiches produits : lien vers la page du produit chez
 27. Adresse e-mail de réception des demandes : nataliiaresine@gmail.com ou une autre ?
 28. Accepte-t-elle que les photos des visiteurs soient conservées un temps pour suivre les demandes (durée à fixer), ou suppression dès l'envoi du mail ?
 
-### Hébergement et nom de domaine
-
-29. Possède-t-elle déjà un nom de domaine ? Si oui, chez quel registraire et avec quels accès ? Sinon, lequel souhaite-t-elle (disponibilité à vérifier) ?
-30. Veut-elle une adresse e-mail sur ce domaine (contact@…) ou garder l'adresse Gmail ?
-31. A-t-elle un abonnement Wix lié à la maquette actuelle, à résilier une fois le nouveau site en ligne ?
-32. Délai souhaité pour la mise en ligne, et budget envisagé pour chaque lot ?
-
-## C. Réponses reçues (questions 1 à 21)
+## C. Réponses reçues (questions 1 à 21 et 29 à 32)
 
 | N° | Sujet | Réponse |
 |---|---|---|
@@ -64,3 +63,7 @@ A8. Lien fournisseur sur les fiches produits : lien vers la page du produit chez
 | 19 | Priorités administration | 1. Réalisations de chantier. 2. Produits utilisés : photo, descriptif, lien fournisseur éventuel |
 | 20 | Rythme | 2 à 5 réalisations par mois |
 | 21 | Utilisateurs | Une au départ, probablement plusieurs ensuite |
+| 29 | Nom de domaine | Aucun. À choisir ensemble, site sur GitHub Pages, domaine géré comme Apexus ou Belmaris (voir A9) |
+| 30 | E-mail sur le domaine | Probablement oui (voir A10) |
+| 31 | Abonnement Wix | Non, compte gratuit |
+| 32 | Délai, budget | Mise en ligne au 31 décembre 2026. Budget géré par le prestataire |
