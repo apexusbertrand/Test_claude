@@ -1,40 +1,34 @@
-# Nataliia Résine : informations à demander à la cliente
+# Nataliia Résine : questions à la cliente
 
-Liste des éléments absents de la maquette et du message, nécessaires pour réaliser le site. Classés par lot.
+Mise à jour du 18 novembre 2026. Les réponses reçues sont reportées dans le cahier des charges (version 0.2).
 
-## Identité et entreprise
+## A. Points à clarifier suite aux premières réponses
 
-1. Nom commercial à afficher : « Nataliia Résine » (site) ou « Nataliia Shevchuk » (logo) ? Le logo est-il définitif ?
-2. Le logo existe-t-il en meilleure qualité : fichier vectoriel (SVG, AI, PDF) ou PNG à fond transparent ? Une version horizontale ou réduite (pour l'icône d'onglet du navigateur) ?
-3. Statut juridique, raison sociale, numéro SIRET, adresse du siège, numéro de TVA le cas échéant (mentions légales).
-4. Assurance décennale : nom de l'assureur et numéro de contrat, à afficher ? (obligatoire sur les devis, souvent mis en avant sur le site).
-5. Zone d'intervention : villes, département(s), rayon en kilomètres ?
-6. Adresse à afficher (ou seulement la zone) ? Horaires ?
-7. Fiche Google Business, Instagram, Facebook, autres réseaux à lier ?
+A1. Orthographe exacte du nom commercial : « Nataliia Résine » (comme sur la maquette) ? La réponse reçue indiquait « Natalii résine ».
 
-## Lot 1 : contenus du site
+A2. Réseaux sociaux (question 7) : la maquette ne contient aucun lien Instagram, Facebook ni Google Business, seulement WhatsApp. Quels comptes existent, avec leurs adresses ?
 
-8. L'image d'accueil actuelle (femme posant des granulats au coucher du soleil) est-elle une image générée par IA ? Souhaitez-vous la garder ou la remplacer par une photo de vrai chantier ?
-9. Photos de réalisations : combien, en pleine résolution, avec pour chacune le type (terrasse, allée, escalier, abords de piscine), la ville si elle accepte de l'afficher, et le granulat utilisé.
-10. Photos avant/après de chantiers, si elle en a.
-11. Textes des prestations : souhaite-t-elle développer (étapes de pose, durée de chantier, entretien, garantie, avantages de la moquette de pierre) ? Si oui, fournir les éléments.
-12. Prestations supplémentaires non citées dans la maquette (intérieur, balcons, plages de garage, rénovation) ?
-13. Produits : liste des références (granulats, profils de finition, autres : résine, liant, accessoires ?), avec photo, description, conditionnement.
-14. Vend-elle les produits aux particuliers (retrait, livraison) ou seulement posés par elle ? Prix affichés ou sur devis ? Vente en ligne souhaitée ou non ?
-15. Avis ou témoignages clients à publier, avec accord des clients.
-16. Langues : site en français uniquement, ou d'autres langues souhaitées ?
+A3. Prestations supplémentaires (question 12) : on retient Intérieur, Balcons, Plages de garage, Rénovation. Est-ce la bonne liste ? Y en a-t-il d'autres ?
 
-## Lot 2 : administration
+A4. Avis clients (question 15) : sous quelle forme ? Textes recopiés par elle dans l'administration, ou avis Google à afficher ? Nom complet, prénom seul ou initiales ?
 
-17. Avec quel appareil mettra-t-elle le site à jour : téléphone, ordinateur, les deux ?
-18. A-t-elle un compte GitHub ? Sinon, accepte-t-elle d'en créer un (gratuit) pour se connecter à l'administration ?
-19. Quels contenus veut-elle gérer seule en priorité : réalisations, granulats, produits, textes des prestations, coordonnées ?
+A5. Réalisations : accepte-t-elle d'afficher la ville du chantier ?
+
+A6. Ajout de « EI » après son nom dans les mentions légales (obligation légale) : à lui signaler. Et l'adresse du siège (15 route de Bouchain, Somain) y figurera obligatoirement, même si elle n'apparaît pas sur la page Contact.
+
+A7. Assurance décennale : pas encore souscrite. Est-ce prévu, et à quelle échéance ? Le code NAF déclaré (8121Z, nettoyage de bâtiments) ne correspond pas à la pose de revêtements : à vérifier avec son assureur ou son comptable.
+
+## B. Questions restantes (19 à 32, sans réponse)
+
+### Lot 2 : administration
+
+19. Quels contenus veut-elle gérer seule en priorité : réalisations, avis, granulats, produits, textes des prestations, coordonnées ?
 20. Combien de nouvelles réalisations par mois environ ?
 21. Une seule personne aura accès à l'administration, ou plusieurs ?
 
-## Lot 3 : simulateur avant/après
+### Lot 3 : simulateur avant/après
 
-22. Liste définitive des granulats à proposer dans le simulateur (noms commerciaux, coloris, granulométries).
+22. Liste définitive des granulats à proposer dans le simulateur (noms commerciaux, coloris, granulométries). Peut attendre qu'elle ait ses références (question 13).
 23. Pour chaque granulat : photo d'échantillon prise à plat, à la verticale, en lumière du jour, avec une règle ou une pièce pour l'échelle (on peut lui envoyer une fiche de prise de vue).
 24. Les 6 couleurs provisoires de la maquette (Ivoire, Beige sable, Pierre, Gris, Gris foncé, Noir) correspondent-elles à de vrais granulats ? Lesquels ?
 25. Mélanges possibles (plusieurs couleurs, frises, bordures comme sur l'image d'accueil) : à proposer dans le simulateur ou pas au départ ?
@@ -42,9 +36,32 @@ Liste des éléments absents de la maquette et du message, nécessaires pour ré
 27. Adresse e-mail de réception des demandes : nataliiaresine@gmail.com ou une autre ?
 28. Accepte-t-elle que les photos des visiteurs soient conservées un temps pour suivre les demandes (durée à fixer), ou suppression dès l'envoi du mail ?
 
-## Hébergement et nom de domaine
+### Hébergement et nom de domaine
 
-29. Possède-t-elle déjà un nom de domaine ? Si oui, chez quel registraire et avec quels accès ? Sinon, lequel souhaite-t-elle (par exemple nataliia-resine.fr, à vérifier) ?
+29. Possède-t-elle déjà un nom de domaine ? Si oui, chez quel registraire et avec quels accès ? Sinon, lequel souhaite-t-elle (disponibilité à vérifier) ?
 30. Veut-elle une adresse e-mail sur ce domaine (contact@…) ou garder l'adresse Gmail ?
 31. A-t-elle un abonnement Wix lié à la maquette actuelle, à résilier une fois le nouveau site en ligne ?
 32. Délai souhaité pour la mise en ligne, et budget envisagé pour chaque lot ?
+
+## C. Réponses reçues (questions 1 à 18)
+
+| N° | Sujet | Réponse |
+|---|---|---|
+| 1 | Nom et logo | Nom commercial Nataliia Résine (voir A1). Logo gardé tel quel, nouveau logo plus tard |
+| 2 | Logo vectoriel | Non, sera régénéré plus tard |
+| 3 | Données légales | Fiche Insee/RNE fournie, reportée au chapitre 2 du cahier des charges |
+| 4 | Décennale | Pas encore |
+| 5 | Zone | Somain, Valenciennes, Lille, Arras, Douai et alentours |
+| 6 | Adresse, horaires | Aucune affichée |
+| 7 | Réseaux | « À prendre sur son site » : rien dans la maquette (voir A2) |
+| 8 | Image d'accueil | Générée par IA. Gardée au lancement, remplacée plus tard |
+| 9 | Réalisations | 3 à 4 photos après + 2 photos avant, plein écran PC, avec références produits |
+| 10 | Avant/après | Ajoutés par la cliente dans l'administration |
+| 11 | Textes prestations | Première version rédigée par nous, adaptée ensuite par elle |
+| 12 | Autres prestations | Oui (voir A3) |
+| 13 | Références produits | Pas encore disponibles |
+| 14 | Vente aux particuliers | Non |
+| 15 | Avis clients | Oui (voir A4) |
+| 16 | Langues | Français uniquement |
+| 17 | Appareil pour l'administration | Téléphone et ordinateur |
+| 18 | Compte GitHub | Non, et pas de GitHub : administration directement depuis son site |
