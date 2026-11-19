@@ -1,12 +1,9 @@
-name: Deploy client sites to GitHub Pages
+name: Deploy Guillaume l'Échanson to GitHub Pages
 
 on:
   push:
     branches: [main]
   workflow_dispatch: {}
-  # Bouton « Publier le site » de l'administration Nataliia Résine (fonction Supabase « publier »)
-  repository_dispatch:
-    types: [nataliia-publier]
 
 permissions:
   contents: read
@@ -25,31 +22,9 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 22
       - uses: actions/configure-pages@v5
-      # Nataliia Résine : contenus publiés depuis l'administration, puis génération du site.
-      # Sans les variables NR_SUPABASE_URL / NR_SUPABASE_ANON_KEY, le site est construit
-      # avec les contenus du dépôt et l'administration reste en mode démonstration.
-      - name: Build Nataliia Résine
-        working-directory: nataliia-resine/site
-        env:
-          SUPABASE_URL: ${{ vars.NR_SUPABASE_URL }}
-          SUPABASE_ANON_KEY: ${{ vars.NR_SUPABASE_ANON_KEY }}
-          NR_TURNSTILE_SITE_KEY: ${{ vars.NR_TURNSTILE_SITE_KEY }}
-        run: |
-          node fetch-content.mjs
-          node build.mjs
-      # Guillaume l'Échanson à la racine, Nataliia Résine dans /nataliia-resine/
-      - name: Assemble sites
-        run: |
-          mkdir -p _site
-          cp -r guillaume-echanson/. _site/
-          mkdir -p _site/nataliia-resine
-          cp -r nataliia-resine/www/. _site/nataliia-resine/
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: _site
+          path: guillaume-echanson
       - id: deployment
         uses: actions/deploy-pages@v4
