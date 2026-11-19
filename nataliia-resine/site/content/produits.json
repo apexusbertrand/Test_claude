@@ -9,6 +9,11 @@
       "id": "profils",
       "titre": "Profils de finition",
       "texte": "Des profils pour structurer les contours et apporter une finition nette à vos réalisations."
+    },
+    {
+      "id": "autre",
+      "titre": "Autres produits",
+      "texte": "Les autres matériaux et accessoires utilisés sur les chantiers."
     }
   ],
   "produits": [

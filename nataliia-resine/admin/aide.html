@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Guide d’utilisation | Administration Nataliia Résine</title>
+<link rel="icon" type="image/png" sizes="32x32" href="../img/favicon-32.png">
+<link rel="stylesheet" href="admin.css">
+<style>
+  .guide{max-width:760px;margin:0 auto;padding:24px 16px 80px}
+  .guide h1{font-size:clamp(30px,6vw,40px)}
+  .guide h2{font-size:26px;margin-top:44px;padding-top:18px;border-top:1px solid var(--line)}
+  .guide p,.guide li{line-height:1.7}
+  .guide ol,.guide ul{padding-left:22px}
+  .guide li{margin-bottom:6px}
+  .step{display:grid;gap:18px;grid-template-columns:1fr;align-items:start}
+  .step img{width:min(100%,300px);border:1px solid var(--line);border-radius:14px;box-shadow:0 10px 30px rgba(0,0,0,.08)}
+  @media(min-width:700px){.step{grid-template-columns:1fr 300px}}
+  .tip{background:#fbf1de;border-left:3px solid var(--accent);padding:10px 14px;border-radius:6px}
+  .toc{columns:2;gap:24px}
+  @media(max-width:520px){.toc{columns:1}}
+</style>
+</head>
+<body>
+<header class="top"><div class="top-row"><a class="top-brand" href="./">Nataliia <b>Résine</b><small>Guide d’utilisation</small></a><a class="btn btn-ghost" href="./">Retour à l’administration</a></div></header>
+<main class="guide">
+  <h1>Mettre votre site à jour</h1>
+  <p>Ce guide explique comment ajouter vos chantiers, vos produits et vos avis clients, puis les mettre en ligne. Tout se fait depuis votre téléphone ou votre ordinateur, à l’adresse de votre site suivie de <strong>/admin</strong>.</p>
+  <ul class="toc">
+    <li><a href="#connexion">Se connecter</a></li>
+    <li><a href="#realisation">Ajouter une réalisation</a></li>
+    <li><a href="#produit">Ajouter un produit</a></li>
+    <li><a href="#publier">Publier le site</a></li>
+    <li><a href="#demandes">Suivre les demandes</a></li>
+    <li><a href="#erreur">Corriger une erreur</a></li>
+    <li><a href="#autres">Avis, prestations, réglages</a></li>
+    <li><a href="#photos">Réussir ses photos</a></li>
+  </ul>
+
+  <h2 id="connexion">1. Se connecter</h2>
+  <div class="step">
+    <div>
+      <ol>
+        <li>Ouvrez l’adresse de l’administration. Ajoutez-la à l’écran d’accueil de votre téléphone pour la retrouver en un geste.</li>
+        <li>Saisissez votre e-mail et votre mot de passe, puis « Se connecter ».</li>
+        <li>Mot de passe oublié : saisissez votre e-mail, touchez « Mot de passe oublié ? », puis suivez le lien reçu par e-mail.</li>
+      </ol>
+      <p class="tip">Vous restez connectée sur votre appareil. Sur un ordinateur partagé, pensez à vous déconnecter (rubrique « Mon compte »).</p>
+    </div>
+    <img src="aide/connexion.webp" alt="Écran de connexion" loading="lazy">
+  </div>
+
+  <h2 id="realisation">2. Ajouter une réalisation</h2>
+  <div class="step">
+    <div>
+      <ol>
+        <li>Rubrique <strong>Réalisations</strong>, puis « Nouvelle réalisation ».</li>
+        <li>Donnez un titre (par exemple « Terrasse en granulat clair »), choisissez le type de prestation et, si vous le souhaitez, la ville et la date.</li>
+        <li><strong>Photos après</strong> : 1 à 4 photos. Touchez « Ajouter », puis prenez la photo ou choisissez-la dans votre galerie. La première photo est la photo principale. Les flèches ← → changent l’ordre.</li>
+        <li><strong>Photos avant</strong> : 0 à 2 photos. Avec une photo avant, le site affiche un curseur pour comparer avant et après.</li>
+        <li>Cochez les produits utilisés.</li>
+        <li>« Aperçu » montre la page telle qu’elle apparaîtra. « Enregistrer » sauvegarde.</li>
+      </ol>
+      <p class="tip">Les photos sont réduites automatiquement avant l’envoi : vous pouvez envoyer les photos de votre téléphone telles quelles. Sous chaque photo, une courte description est proposée ; vous pouvez la modifier.</p>
+      <p>Pour préparer une réalisation sans la montrer tout de suite, décochez « Visible sur le site » : elle reste en brouillon.</p>
+    </div>
+    <img src="aide/realisation-2.webp" alt="Ajout des photos d’une réalisation" loading="lazy">
+  </div>
+
+  <h2 id="produit">3. Ajouter un produit</h2>
+  <div class="step">
+    <div>
+      <ol>
+        <li>Rubrique <strong>Produits</strong>, puis « Nouveau produit ».</li>
+        <li>Nom et catégorie (granulats, profils de finition, autres). Le reste est facultatif : descriptif, photos, lien vers le fournisseur, fiche technique en PDF.</li>
+        <li>Pour un granulat : ajoutez sa <strong>texture</strong> et la taille du grain. C’est ce qui permet aux visiteurs de l’essayer sur la photo de leur terrasse. Sans texture, le granulat n’est pas proposé dans le simulateur.</li>
+      </ol>
+      <p class="tip">Les deux produits marqués « Exemple » sont là pour la démonstration. Supprimez-les quand vos vrais granulats sont saisis (bouton « Supprimer » en bas de leur fiche).</p>
+    </div>
+    <img src="aide/produit.webp" alt="Texture et taille du grain d’un granulat" loading="lazy">
+  </div>
+
+  <h2 id="publier">4. Publier le site</h2>
+  <div class="step">
+    <div>
+      <p>Vos modifications sont enregistrées tout de suite, mais elles n’apparaissent sur le site qu’après publication. Cela vous laisse le temps de tout préparer.</p>
+      <ol>
+        <li>Rubrique <strong>Accueil</strong> de l’administration : un encadré indique « Des modifications attendent d’être publiées ».</li>
+        <li>Touchez « Publier le site ». Le site est à jour en 1 à 3 minutes. Vous pouvez continuer à travailler pendant ce temps.</li>
+      </ol>
+    </div>
+    <img src="aide/publier.webp" alt="Bouton Publier le site" loading="lazy">
+  </div>
+
+  <h2 id="demandes">5. Suivre les demandes</h2>
+  <p>Quand un visiteur envoie son projet depuis le site, vous recevez un e-mail et la demande apparaît dans la rubrique <strong>Demandes</strong>, avec ses coordonnées, ses photos et les rendus du simulateur.</p>
+  <ul>
+    <li>Changez le statut au fil du suivi : nouveau, contacté, devis envoyé, signé, sans suite. Ajoutez vos notes.</li>
+    <li>Un client vous demande ses données ou leur suppression : « Exporter » ou « Supprimer le dossier ».</li>
+    <li>Les dossiers sans suite sont effacés automatiquement 3 ans après le dernier contact.</li>
+  </ul>
+
+  <h2 id="erreur">6. Corriger une erreur</h2>
+  <div class="step">
+    <div>
+      <p>La rubrique <strong>Historique</strong> liste toutes les modifications, avec la date et l’auteur. « Revenir à cette version » remet un élément dans l’état où il était avant la modification, y compris un élément supprimé par erreur. Publiez ensuite le site.</p>
+    </div>
+    <img src="aide/historique.webp" alt="Historique des modifications" loading="lazy">
+  </div>
+
+  <h2 id="autres">7. Avis, prestations, réglages</h2>
+  <ul>
+    <li><strong>Avis</strong> : recopiez les avis de vos clients, avec leur accord. La page « Avis clients » apparaît sur le site dès le premier avis publié.</li>
+    <li><strong>Prestations</strong> : modifiez les textes, ajoutez une photo, changez l’ordre avec ▲ ▼.</li>
+    <li><strong>Réglages</strong> : téléphone, e-mail, WhatsApp, villes desservies, phrase d’accroche, image d’accueil et logo.</li>
+    <li>Partout, ▲ ▼ changent l’ordre d’affichage sur le site.</li>
+  </ul>
+
+  <h2 id="photos">8. Réussir ses photos</h2>
+  <ul>
+    <li>Téléphone à l’horizontale pour les réalisations : le site les affiche en grand format.</li>
+    <li>Photo avant et photo après prises du même endroit, avec le même cadrage : le curseur avant/après n’en est que plus parlant.</li>
+    <li>Lumière du jour, sans contre-jour. Évitez les ombres portées sur le revêtement.</li>
+    <li>Texture d’un granulat : échantillon posé à plat (au moins 30 x 30 cm), photo prise bien au-dessus, en lumière du jour sans ombre.</li>
+    <li>Ne montrez pas de plaque d’immatriculation, de numéro de rue ni de personne sans son accord.</li>
+  </ul>
+  <p class="muted small" style="margin-top:40px">Une question, un problème ? Contactez Apexus.</p>
+</main>
+</body>
+</html>

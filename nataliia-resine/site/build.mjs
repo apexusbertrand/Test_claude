@@ -21,9 +21,19 @@ const typeLabel = Object.fromEntries(prestations.map((p) => [p.id, p.titre]));
 const produitById = Object.fromEntries(produits.map((p) => [p.id, p]));
 const granulatsSimulables = produits.filter((p) => p.categorie === 'granulats' && p.texture);
 
-// Image : <picture> WebP + JPEG. `name` sans extension, dans static/img.
-const pic = (name, alt, { sizes, widths, cls = '', eager = false } = {}) => {
+// Image. Trois formes acceptées :
+//  - "nom" ou {static: "nom"} : image fournie avec le site (static/img/nom.webp + .jpg)
+//  - {path, small, w, alt}    : photo envoyée depuis l'administration (bucket Supabase « media »)
+const mediaUrl = (path) => (site.mediaBase || '') + path;
+const pic = (m, alt, { sizes, widths, cls = '', eager = false } = {}) => {
   const lazy = eager ? 'fetchpriority="high"' : 'loading="lazy" decoding="async"';
+  if (m && typeof m === 'object' && m.path) {
+    const big = mediaUrl(m.path);
+    const set = m.small ? `${mediaUrl(m.small)} 800w, ${big} ${m.w || 2560}w` : '';
+    return `<img class="${cls}" src="${big}"${set ? ` srcset="${set}" sizes="${sizes || '(max-width: 700px) 100vw, 50vw'}"` : ''} alt="${esc(m.alt || alt)}" ${lazy}>`;
+  }
+  const name = typeof m === 'object' ? m.static : m;
+  if (typeof m === 'object' && m.alt) alt = m.alt;
   if (widths) {
     const set = (ext) => widths.map((w) => `img/${name}-${w}.${ext} ${w}w`).join(', ');
     const big = widths[widths.length - 1];
@@ -82,7 +92,7 @@ ${extraHead}${file === 'index.html' ? `<script type="application/ld+json">${json
 <body>
 <a class="skip" href="#contenu">Aller au contenu</a>
 ${site.preversion ? '<div class="preview-bar">Préversion de travail : textes et photos à valider, site non référencé.</div>\n' : ''}<header class="site-header">
-  <a class="brand-image" href="index.html" aria-label="${esc(site.nom)}, accueil">${pic('logo-320', 'Logo ' + site.nom, { cls: '', eager: true }).replace('img/logo-320.webp"', 'img/logo-320.webp 320w, img/logo-640.webp 640w" sizes="420px"').replace('src="img/logo-320.jpg"', 'src="img/logo-640.jpg"')}</a>
+  <a class="brand-image" href="index.html" aria-label="${esc(site.nom)}, accueil">${site.logo ? pic(site.logo, 'Logo ' + site.nom, { eager: true, sizes: '420px' }) : pic('logo-320', 'Logo ' + site.nom, { cls: '', eager: true }).replace('img/logo-320.webp"', 'img/logo-320.webp 320w, img/logo-640.webp 640w" sizes="420px"').replace('src="img/logo-320.jpg"', 'src="img/logo-640.jpg"')}</a>
   <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-menu"><span class="menu-bars" aria-hidden="true"><span></span><span></span><span></span></span><span class="menu-label">Menu</span></button>
   <nav class="site-menu" id="site-menu" aria-label="Menu principal" hidden><ul>${menu}<li class="menu-cta"><a href="projet.html"${current === 'projet.html' ? ' aria-current="page"' : ''}>Créez votre projet</a></li></ul></nav>
 </header>
@@ -176,9 +186,9 @@ const pages = {};
 pages['index.html'] = layout({
   file: 'index.html',
   description: site.description,
-  extraHead: '<link rel="preload" as="image" type="image/webp" imagesrcset="img/accueil-640.webp 640w, img/accueil-1024.webp 1024w, img/accueil-1672.webp 1672w" imagesizes="100vw">\n',
+  extraHead: site.accueil ? '' : '<link rel="preload" as="image" type="image/webp" imagesrcset="img/accueil-640.webp 640w, img/accueil-1024.webp 1024w, img/accueil-1672.webp 1672w" imagesizes="100vw">\n',
   body: `<section class="home-hero" aria-label="Terrasse en moquette de pierre">
-  ${pic('accueil', 'Pose d’un revêtement en moquette de pierre sur une terrasse au coucher du soleil', { widths: [640, 1024, 1672], sizes: '100vw', eager: true })}
+  ${site.accueil ? pic(site.accueil, 'Revêtement en moquette de pierre réalisé par Nataliia Résine', { sizes: '100vw', eager: true }) : pic('accueil', 'Pose d’un revêtement en moquette de pierre sur une terrasse au coucher du soleil', { widths: [640, 1024, 1672], sizes: '100vw', eager: true })}
   <nav class="hero-tabs" aria-label="Accès rapide">
     <a class="hero-tab" href="prestations.html"><span class="hero-tab-mark" aria-hidden="true">◈</span><span>Prestations</span></a>
     <a class="hero-tab" href="realisations.html"><span class="hero-tab-mark" aria-hidden="true">▣</span><span>Réalisations</span></a>
@@ -294,7 +304,7 @@ pages['produits.html'] = layout({
   title: 'Produits',
   description: 'Les granulats de marbre et profils de finition utilisés pour les revêtements en moquette de pierre.',
   body: `${pageHead('Notre sélection', 'Produits', 'Les matériaux et accessoires utilisés sur les chantiers, pour des réalisations soignées. Ils ne sont pas vendus séparément.')}
-${categories.map((c, i) => {
+${categories.filter((c) => c.id !== 'autre' || produits.some((p) => p.categorie === 'autre')).map((c, i) => {
     const list = produits.filter((p) => p.categorie === c.id);
     return `<section class="section${i % 2 ? ' section-alt' : ''}" style="${i === 0 ? 'padding-top:0' : ''}">
   <div class="section-head"><span class="card-index">${String(i + 1).padStart(2, '0')}</span><h2>${esc(c.titre)}</h2><p class="lead">${esc(c.texte)}</p></div>
@@ -326,7 +336,7 @@ for (const p of produits) {
       <div class="actions">
         ${p.texture ? `<a class="btn" href="projet.html?granulat=${p.id}">Essayer sur ma photo <span aria-hidden="true">↗</span></a>` : ''}
         ${p.lien ? `<a class="btn btn-ghost" href="${esc(p.lien)}" rel="noopener" target="_blank">Site du fournisseur ↗</a>` : ''}
-        ${p.pdf ? `<a class="btn btn-ghost" href="${esc(p.pdf)}">Fiche technique (PDF)</a>` : ''}
+        ${p.pdf ? `<a class="btn btn-ghost" href="${esc(p.pdf.path ? mediaUrl(p.pdf.path) : p.pdf)}" target="_blank" rel="noopener">${esc(p.pdf.nom || 'Fiche technique')} (PDF)</a>` : ''}
         <a class="btn btn-ghost" href="contact.html">Demander des informations</a>
       </div>
     </div>
@@ -460,6 +470,13 @@ pages['404.html'] = layout({
 if (existsSync(OUT)) rmSync(OUT, { recursive: true });
 mkdirSync(OUT, { recursive: true });
 cpSync(join(ROOT, 'static'), OUT, { recursive: true });
+// Administration (lot 2) : application statique dans www/admin/, données de démonstration incluses
+cpSync(join(ROOT, '..', 'admin'), join(OUT, 'admin'), { recursive: true });
+writeFileSync(join(OUT, 'admin', 'demo-seed.json'), JSON.stringify({ site, prestations, produits, categories }));
+// En CI, la configuration Supabase vient des variables du dépôt (rien à commiter)
+if (process.env.SUPABASE_URL && process.env.SUPABASE_ANON_KEY) {
+  writeFileSync(join(OUT, 'admin', 'config.js'), `window.NR_CONFIG = ${JSON.stringify({ supabaseUrl: process.env.SUPABASE_URL, supabaseAnonKey: process.env.SUPABASE_ANON_KEY })};\n`);
+}
 for (const [f, html] of Object.entries(pages)) writeFileSync(join(OUT, f), html);
 
 // 404 servie à la racine par GitHub Pages : liens absolus nécessaires

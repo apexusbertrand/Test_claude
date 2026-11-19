@@ -1,8 +1,8 @@
 # Nataliia Résine : cahier des charges du site web
 
-Version 0.6, 18 novembre 2026. Document de cadrage, rien n'est encore développé.
+Version 0.7, 19 novembre 2026. Document de cadrage, rien n'est encore développé.
 
-Historique : 0.1 première version à partir de la maquette. 0.2 intègre les réponses de la cliente aux questions 1 à 18 et les données légales (Insee, RNE au 17/11/2026). 0.3 intègre les réponses 19 à 21 (administration). 0.4 intègre les réponses 29 à 32 (domaine, e-mail, Wix, délai) et ajoute un planning daté. 0.5 intègre les réponses 22 à 28 (produits, simulateur, dossiers prospects, RGPD) : nouvelle architecture avec un service de données privé (chapitre 6). 0.6 : validation des points A12 à A15 et de l'architecture recommandée (P1).
+Historique : 0.1 première version à partir de la maquette. 0.2 intègre les réponses de la cliente aux questions 1 à 18 et les données légales (Insee, RNE au 17/11/2026). 0.3 intègre les réponses 19 à 21 (administration). 0.4 intègre les réponses 29 à 32 (domaine, e-mail, Wix, délai) et ajoute un planning daté. 0.5 intègre les réponses 22 à 28 (produits, simulateur, dossiers prospects, RGPD) : nouvelle architecture avec un service de données privé (chapitre 6). 0.6 : validation des points A12 à A15 et de l'architecture recommandée (P1). 0.7 : lot 1 en ligne, lot 2 réalisé (7.6).
 
 Sources utilisées, et uniquement elles :
 
@@ -331,6 +331,18 @@ La conservation des photos et des simulations est acceptée par la cliente, avec
 ### 8.9 Texture d'un granulat
 
 Le rendu ne vaut que par la qualité de la texture. Pour chaque granulat, la cliente charge dans l'administration une photo d'échantillon posé à plat, prise à la verticale, en lumière du jour sans ombre portée, sur une surface d'au moins 30 x 30 cm, et indique la taille du grain. Une fiche de prise de vue d'une page lui est fournie avec le guide.
+
+### 7.6 Réalisation (lot 2, 19 novembre 2026)
+
+Livré dans `admin/` et `supabase/`, mise en service décrite dans `INSTALLATION_ADMIN.md`.
+
+- Écrans : accueil avec bouton « Publier le site » et indicateur de modifications en attente, réalisations, produits, demandes, avis, prestations, réglages (coordonnées, zone, accroche, image d'accueil, logo), historique avec retour arrière, compte.
+- Photos traitées dans le navigateur avant envoi : rotation, 2560 px et 800 px, WebP (JPEG sur les navigateurs qui n'encodent pas le WebP). Alerte sous 1920 px de large. Description proposée par défaut.
+- Aperçu des réalisations et produits avec la feuille de style du site, brouillons (« Visible sur le site »), confirmation avant de quitter une saisie non enregistrée.
+- Droits testés sur Postgres 16 (`supabase/tests/run.sh`) : visiteur, compte connecté non autorisé, administratrice, contraintes (1 à 4 photos après, 2 avant au plus), purge à 3 ans.
+- Mode démonstration tant que Supabase n'est pas configuré : la cliente peut essayer l'outil sans risque.
+- Écran Demandes prêt, alimenté au lot 3 (tables `prospects` et `demandes`, stockage privé).
+- Non testé faute de projet Supabase : la connexion réelle, l'envoi vers le stockage Supabase et la fonction « publier ». À vérifier à la mise en service (étape 7 de `INSTALLATION_ADMIN.md`).
 
 ## 9. Planning
 
