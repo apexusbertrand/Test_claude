@@ -4,7 +4,7 @@ Mise à jour du 18 novembre 2026. Les réponses reçues sont reportées dans le 
 
 ## A. Points à clarifier suite aux premières réponses
 
-A1. Orthographe exacte du nom commercial : « Nataliia Résine » (comme sur la maquette) ? La réponse reçue indiquait « Natalii résine ».
+A1. Nom commercial : « Nataliia Résine ». Réglé.
 
 A2. Réseaux sociaux (question 7) : la maquette ne contient aucun lien Instagram, Facebook ni Google Business, seulement WhatsApp. Quels comptes existent, avec leurs adresses ?
 
@@ -22,7 +22,7 @@ A8. Lien fournisseur sur les fiches produits : lien vers la page du produit chez
 
 A9. Nom de domaine : idées de la cliente ? Un domaine à son nom (par exemple en .fr) ou un sous-domaine d'un domaine existant (Apexus, Belmaris) ? On propose un domaine à son nom, plus crédible et qui lui appartient.
 
-A10. Adresse e-mail sur le domaine : vraie boîte (consultée à part) ou redirection vers sa boîte Gmail ?
+A10. E-mail sur le domaine : redirection de contact@… vers nataliiaresine@gmail.com. Réglé.
 
 A11. Échéance du 31 décembre : concerne-t-elle les trois lots ou seulement le site et l'administration ? Le planning prévoit les lots 1, 2 et 3a pour le 22 décembre, le lot 3b ensuite.
 

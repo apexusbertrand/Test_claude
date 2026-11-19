@@ -157,7 +157,7 @@ Déploiement : GitHub Actions vers GitHub Pages, à chaque modification, y compr
 
 - La cliente n'a pas de nom de domaine. On le choisit ensemble, on vérifie sa disponibilité et on l'achète chez le même registraire que les domaines Apexus et Belmaris, pour tout gérer au même endroit.
 - Le site reste hébergé sur GitHub Pages. Le domaine pointe vers lui (enregistrements DNS, fichier `CNAME`, HTTPS activé dans GitHub Pages).
-- Adresse e-mail sur le domaine (contact@…) : probablement souhaitée. GitHub Pages n'héberge pas d'e-mail, il faut une offre de messagerie à part (souvent incluse ou peu chère chez le registraire, sinon Zoho Mail, Infomaniak, Google Workspace). Possibilité de rediriger simplement contact@… vers l'adresse Gmail actuelle si elle veut garder sa boîte.
+- Adresse e-mail sur le domaine (contact@…) : probablement souhaitée. GitHub Pages n'héberge pas d'e-mail, il faut une offre de messagerie à part (souvent incluse ou peu chère chez le registraire, sinon Zoho Mail, Infomaniak, Google Workspace). Décision (A10) : simple redirection de contact@… vers nataliiaresine@gmail.com, pas de boîte séparée.
 - Les alertes de nouvelles demandes arrivent sur nataliiaresine@gmail.com (réponse 27).
 - Configuration SPF, DKIM et DMARC du domaine pour que les e-mails envoyés par le site ne tombent pas en spam.
 
