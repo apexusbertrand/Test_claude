@@ -79,6 +79,13 @@ exception when check_violation then null;
 end $$;
 reset role;
 
+-- E-mail en majuscules refusé
+do $$ begin
+  insert into public.prospects (nom, email, telephone) values ('X', 'Majuscules@Test.fr', '0600000000');
+  raise exception 'e-mail en majuscules accepté';
+exception when check_violation then null;
+end $$;
+
 -- 4. Purge RGPD
 update public.prospects set dernier_contact = now() - interval '3 years 1 day';
 do $$ begin

@@ -1,8 +1,8 @@
 # Nataliia Résine : cahier des charges du site web
 
-Version 0.7, 19 novembre 2026. Document de cadrage, rien n'est encore développé.
+Version 0.8, 19 novembre 2026. Document de cadrage, rien n'est encore développé.
 
-Historique : 0.1 première version à partir de la maquette. 0.2 intègre les réponses de la cliente aux questions 1 à 18 et les données légales (Insee, RNE au 17/11/2026). 0.3 intègre les réponses 19 à 21 (administration). 0.4 intègre les réponses 29 à 32 (domaine, e-mail, Wix, délai) et ajoute un planning daté. 0.5 intègre les réponses 22 à 28 (produits, simulateur, dossiers prospects, RGPD) : nouvelle architecture avec un service de données privé (chapitre 6). 0.6 : validation des points A12 à A15 et de l'architecture recommandée (P1). 0.7 : lot 1 en ligne, lot 2 réalisé (7.6).
+Historique : 0.1 première version à partir de la maquette. 0.2 intègre les réponses de la cliente aux questions 1 à 18 et les données légales (Insee, RNE au 17/11/2026). 0.3 intègre les réponses 19 à 21 (administration). 0.4 intègre les réponses 29 à 32 (domaine, e-mail, Wix, délai) et ajoute un planning daté. 0.5 intègre les réponses 22 à 28 (produits, simulateur, dossiers prospects, RGPD) : nouvelle architecture avec un service de données privé (chapitre 6). 0.6 : validation des points A12 à A15 et de l'architecture recommandée (P1). 0.7 : lot 1 en ligne, lot 2 réalisé (7.6). 0.8 : lot 3a réalisé (8.10).
 
 Sources utilisées, et uniquement elles :
 
@@ -342,7 +342,19 @@ Livré dans `admin/` et `supabase/`, mise en service décrite dans `INSTALLATION
 - Droits testés sur Postgres 16 (`supabase/tests/run.sh`) : visiteur, compte connecté non autorisé, administratrice, contraintes (1 à 4 photos après, 2 avant au plus), purge à 3 ans.
 - Mode démonstration tant que Supabase n'est pas configuré : la cliente peut essayer l'outil sans risque.
 - Écran Demandes prêt, alimenté au lot 3 (tables `prospects` et `demandes`, stockage privé).
-- Non testé faute de projet Supabase : la connexion réelle, l'envoi vers le stockage Supabase et la fonction « publier ». À vérifier à la mise en service (étape 7 de `INSTALLATION_ADMIN.md`).
+- Non testé faute de projet Supabase : la connexion réelle, l'envoi vers le stockage Supabase et la fonction « publier ». À vérifier à la mise en service (étape 9 de `INSTALLATION_ADMIN.md`).
+
+### 8.10 Réalisation (lot 3a, 19 novembre 2026)
+
+Livré : `site/static/js/sim-engine.js` (moteur), `site/static/js/simulateur.js` (interface), page `projet.html`, fonctions `supabase/functions/demande` et `supabase/functions/purger`.
+
+- Parcours conforme à 8.2 : 1 ou 2 photos, contour de la surface et objets à exclure (points déplaçables au doigt), perspective par 4 points avec quadrillage au sol et longueur réelle du rectangle, granulat du catalogue (présélectionné depuis « Essayer sur ma photo »), comparateur avant/après, téléchargement, envoi. Mode plein écran pour le téléphone.
+- Rendu : texture à l'échelle (échantillon de 30 cm), répétée en miroir sans raccord, filtrée selon la distance, éclairée avec la lumière du sol seulement (ombres conservées sans recopier l'ancien revêtement), teintée par la lumière de la scène, bords adoucis. Environ 0,2 s pour une photo de 1600 px.
+- Demande : validation côté serveur (contenu réel des images vérifié), anti-robot Turnstile, champ piège, 3 demandes par heure et par adresse au plus, photos dans le stockage privé, dossier par adresse e-mail, alerte à la cliente avec lien vers le dossier, confirmation au visiteur avec ses simulations, retour arrière si l'enregistrement échoue.
+- RGPD : consentement explicite, politique de confidentialité mise à jour, suppression d'un dossier = suppression des photos, purge automatique à 3 ans par la fonction `purger`.
+- Tests : moteur (10 tests Node), fonctions (11 tests Deno contre de faux services), parcours complet dans Chromium sur téléphone jusqu'au dossier dans l'administration.
+- En préversion, sans Supabase : la demande est déposée dans l'administration de démonstration du même navigateur, aucun e-mail ne part.
+- Limites : la qualité dépend des textures fournies (voir 8.9) ; la zone se trace à la main (la détection automatique est le lot 3b).
 
 ## 9. Planning
 

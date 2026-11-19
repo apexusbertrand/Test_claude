@@ -10,6 +10,7 @@ const ORDER = {
   realisations: [['ordre', true], ['created_at', false]],
   avis: [['ordre', true], ['created_at', false]],
   prospects: [['created_at', false]],
+  demandes: [['created_at', false]],
 };
 
 const uuid = () => (crypto.randomUUID ? crypto.randomUUID()
@@ -124,6 +125,11 @@ class SupabaseApi {
     if (m.static) return `../img/${m.static}.webp`;
     return this.mediaBase + m.path;
   }
+  async removePrivateFiles(paths) {
+    if (!paths.length) return;
+    const { error } = await this.sb.storage.from('demandes').remove(paths);
+    if (error) throw new Error('Suppression des photos impossible : ' + error.message);
+  }
   async privateUrl(path) {
     const { data, error } = await this.sb.storage.from('demandes').createSignedUrl(path, 600);
     if (error) throw error;
@@ -227,8 +233,32 @@ class DemoApi {
     db.historique.unshift({ id: Date.now() + Math.random(), table_name: table, row_id: rowId, action, avant, apres, auteur: db.session?.email || 'démo', at: new Date().toISOString() });
     db.historique = db.historique.slice(0, 200);
   }
-  async list(table) { await this.init(); return this.sortRows(table, this.load()[table] || []); }
-  async get(table, id) { return (this.load()[table] || []).find((r) => r.id === id) || null; }
+  // Demandes envoyées depuis le simulateur du site en mode démonstration
+  importInbox() {
+    let inbox;
+    try { inbox = JSON.parse(localStorage.getItem('nr-demo-inbox')) || []; } catch { inbox = []; }
+    if (!inbox.length) return;
+    const db = this.load();
+    const files = this.files();
+    for (const it of inbox) {
+      let p = db.prospects.find((x) => x.email.toLowerCase() === String(it.prospect.email).toLowerCase());
+      if (p) Object.assign(p, { nom: it.prospect.nom, telephone: it.prospect.telephone, ville: it.prospect.ville, dernier_contact: it.at, statut: p.statut === 'sans_suite' ? 'nouveau' : p.statut });
+      else {
+        p = { id: uuid(), ...it.prospect, statut: 'nouveau', notes: '', dernier_contact: it.at, created_at: it.at, updated_at: it.at };
+        db.prospects.push(p);
+      }
+      db.demandes.push({
+        id: it.id, prospect_id: p.id, ...it.demande, consentement_at: it.at, created_at: it.at,
+        photos: it.photos.map((ph) => ({ original: ph.original, rendu: ph.rendu, produit: ph.produit, produit_nom: ph.produit_nom })),
+      });
+      it.photos.forEach((ph) => { files[ph.original] = ph.data[0]; files[ph.rendu] = ph.data[1]; });
+    }
+    this.store(db);
+    localStorage.setItem(this.FILES, JSON.stringify(files));
+    localStorage.removeItem('nr-demo-inbox');
+  }
+  async list(table) { await this.init(); this.importInbox(); return this.sortRows(table, this.load()[table] || []); }
+  async get(table, id) { this.importInbox(); return (this.load()[table] || []).find((r) => r.id === id) || null; }
   async save(table, row) {
     const db = this.load();
     const rows = db[table];
@@ -253,6 +283,7 @@ class DemoApi {
     const db = this.load();
     const avant = db[table].find((r) => r.id === id);
     db[table] = db[table].filter((r) => r.id !== id);
+    if (table === 'prospects') db.demandes = db.demandes.filter((d) => d.prospect_id !== id);
     if (avant && CONTENT_TABLES.includes(table)) this.journal(db, table, id, 'DELETE', avant, null);
     this.store(db);
   }
@@ -290,7 +321,8 @@ class DemoApi {
     if (m.static) return `../img/${m.static}.webp`;
     return this.files()[m.path] || '';
   }
-  async privateUrl() { return ''; }
+  async privateUrl(path) { return this.files()[path] || ''; }
+  async removePrivateFiles(paths) { return this.removeFiles(paths); }
 
   async history(limit = 100) { return this.load().historique.slice(0, limit); }
   async restore(entry) {

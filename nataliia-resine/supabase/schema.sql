@@ -111,6 +111,11 @@ create table if not exists public.prospects (
   updated_at timestamptz not null default now()
 );
 create unique index if not exists prospects_email_idx on public.prospects (lower(email));
+-- E-mails toujours en minuscules (la fonction « demande » s'appuie dessus pour retrouver un dossier)
+do $$ begin
+  alter table public.prospects add constraint prospects_email_minuscules check (email = lower(email));
+exception when duplicate_object then null;
+end $$;
 
 create table if not exists public.demandes (
   id uuid primary key default gen_random_uuid(),
@@ -193,7 +198,8 @@ begin
   end loop;
 end $$;
 
--- Purge RGPD : prospects sans suite ou sans contact depuis 3 ans (appelée chaque jour, voir INSTALLATION_ADMIN.md)
+-- Purge RGPD des fiches (sans les photos). En production, utiliser la fonction Supabase « purger »,
+-- qui supprime aussi les photos du stockage puis les fiches. Celle-ci sert aux tests et en secours.
 create or replace function public.purger_prospects()
 returns integer
 language plpgsql security definer

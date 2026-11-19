@@ -37,6 +37,7 @@ jobs:
         env:
           SUPABASE_URL: ${{ vars.NR_SUPABASE_URL }}
           SUPABASE_ANON_KEY: ${{ vars.NR_SUPABASE_ANON_KEY }}
+          NR_TURNSTILE_SITE_KEY: ${{ vars.NR_TURNSTILE_SITE_KEY }}
         run: |
           node fetch-content.mjs
           node build.mjs

@@ -1,10 +1,10 @@
 # Nataliia Résine
 
-Site vitrine de Nataliia Résine (moquette de pierre, Somain) et son administration.
+Site vitrine de Nataliia Résine (moquette de pierre, Somain), son administration et son simulateur avant/après.
 
 - Cahier des charges : `CAHIER_DES_CHARGES.md`
 - Questions client : `QUESTIONS_CLIENT.md`
-- Mise en service de l'administration : `INSTALLATION_ADMIN.md`
+- Mise en service de l'administration et du simulateur : `INSTALLATION_ADMIN.md`
 
 Préversion : https://apexusbertrand.github.io/Test_claude/nataliia-resine/ (noindex). Administration : `/admin/`. Publiés par `.github/workflows/deploy-pages.yml` à chaque push sur `main` et à chaque clic sur « Publier le site » dans l'administration.
 
@@ -15,6 +15,9 @@ Préversion : https://apexusbertrand.github.io/Test_claude/nataliia-resine/ (noi
       fetch-content.mjs  en CI : remplace content/*.json par les contenus publiés dans Supabase
       content/*.json     contenus (valeurs par défaut tant que Supabase n'est pas branché)
       static/            css, js, polices auto-hébergées, images optimisées
+      static/js/sim-engine.js   moteur du simulateur (perspective, texture, lumière), sans DOM
+      static/js/simulateur.js   interface du simulateur (page projet.html)
+      tests/             tests du moteur : node --test tests/*.test.mjs
       tools/images.py    prépare les images depuis assets/maquette (Pillow)
       tools/seed.mjs     génère supabase/seed.sql depuis content/*.json
     admin/               administration (statique, copiée dans www/admin/ au build)
@@ -26,6 +29,9 @@ Préversion : https://apexusbertrand.github.io/Test_claude/nataliia-resine/ (noi
       schema.sql         tables, droits (RLS), historique, stockage
       seed.sql           données initiales
       functions/publier  fonction qui déclenche la publication
+      functions/demande  réception des demandes du simulateur (photos privées, dossier, e-mails)
+      functions/purger   purge RGPD à 3 ans, photos comprises
+      functions/tests    tests Deno : deno test -A supabase/functions/tests/
       emails/            modèles d'e-mails en français
       tests/             tests SQL sur Postgres local (run.sh)
     www/                 site généré (non versionné)

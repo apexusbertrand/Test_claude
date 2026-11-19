@@ -696,7 +696,8 @@ screens.demande = async (id) => {
       for (const k of ['original', 'rendu']) {
         if (!ph[k]) continue;
         const u = await api.privateUrl(ph[k]).catch(() => '');
-        box.insertAdjacentHTML('beforeend', `<a class="photo" href="${esc(u)}" target="_blank" rel="noopener"><img src="${esc(u)}" alt="${k === 'rendu' ? 'Rendu simulé' : 'Photo du client'}"><span class="hint" style="padding:6px">${k === 'rendu' ? 'Rendu simulé' : 'Photo d’origine'}</span></a>`);
+        const lbl = k === 'rendu' ? `Rendu : ${ph.produit_nom || 'granulat'}` : 'Photo d’origine';
+        box.insertAdjacentHTML('beforeend', `<a class="photo" href="${esc(u)}" target="_blank" rel="noopener" download><img src="${esc(u)}" alt="${esc(lbl)}"><span class="hint" style="display:block;padding:6px 8px">${esc(lbl)}</span></a>`);
       }
     }
   }
@@ -708,7 +709,7 @@ screens.demande = async (id) => {
     } catch (err) { fail(err); }
   });
   $('#export').addEventListener('click', () => {
-    const blob = new Blob([JSON.stringify({ prospect: p, demandes }, null, 2)], { type: 'application/json' });
+    const blob = new Blob([JSON.stringify({ prospect: p, demandes, note: 'Les photos se téléchargent depuis la fiche (toucher une photo).' }, null, 2)], { type: 'application/json' });
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
     a.download = `dossier-${slugify(p.nom)}.json`;
@@ -716,7 +717,13 @@ screens.demande = async (id) => {
   });
   $('#del').addEventListener('click', async () => {
     if (!confirm(`Supprimer définitivement le dossier de ${p.nom}, ses demandes et ses photos ?`)) return;
-    try { await api.remove('prospects', p.id); toast('Dossier supprimé.'); go('#/demandes'); } catch (e) { fail(e); }
+    try {
+      // Photos d'abord (stockage privé), puis la fiche et ses demandes
+      await api.removePrivateFiles(demandes.flatMap((d) => (d.photos || []).flatMap((ph) => [ph.original, ph.rendu])).filter(Boolean));
+      await api.remove('prospects', p.id);
+      toast('Dossier et photos supprimés.');
+      go('#/demandes');
+    } catch (e) { fail(e); }
   });
 };
 

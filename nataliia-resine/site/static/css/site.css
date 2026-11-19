@@ -203,3 +203,33 @@ a.card:hover{transform:translateY(-3px);border-color:var(--accent);box-shadow:0 
   .site-menu{left:16px;right:16px;min-width:0}
 }
 @media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+
+/* Simulateur (lot 3) */
+.sim-steps-intro{list-style:none;counter-reset:s;padding:0;margin:0 0 20px;display:grid;gap:8px;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr))}
+.sim-steps-intro li{counter-increment:s;background:var(--white);border:1px solid var(--line);padding:12px 14px 12px 46px;position:relative;font-size:14px;color:var(--muted);line-height:1.5}
+.sim-steps-intro li::before{content:counter(s);position:absolute;left:12px;top:11px;width:24px;height:24px;border-radius:50%;background:var(--accent);color:var(--black);font-weight:700;font-size:13px;display:grid;place-items:center}
+.sim-steps-intro strong{color:var(--ink);font-weight:500}
+#sim-drop{cursor:pointer;min-height:180px}
+#sim-drop.is-over{border-color:var(--accent-dark);background:#efe4cf}
+[hidden]{display:none!important}
+.sim-stepbar{display:flex;flex-wrap:wrap;gap:6px;margin:14px 0 10px}
+.sim-canvas-wrap{position:relative;width:100%;background:#000;border:1px solid var(--line)}
+#sim-canvas{display:block;touch-action:none;cursor:crosshair;max-width:100%}
+.sim-tools{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 16px}
+.sim-tools .filter,.sim-stepbar .filter{font-size:13px}
+input[type=range]{width:100%;accent-color:var(--accent-dark)}
+.error-box{padding:12px 14px;background:#fbe9e7;border:1px solid #e5b4ae;color:#8f2a24;font-size:14px;margin-bottom:12px}
+.consent{display:flex;gap:10px;align-items:flex-start;font-size:14px;color:#47423a;margin-top:16px;line-height:1.6}
+.consent input{width:20px;height:20px;flex:0 0 20px;margin-top:2px;accent-color:var(--accent-dark)}
+.hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+#sim-editor,#sim-result,#sim-done,#form-errors{scroll-margin-top:120px}
+.sim-full{position:fixed;inset:0;z-index:80;background:#11100f;padding:10px 12px calc(12px + env(safe-area-inset-bottom));overflow:auto;color:#e8dfd2}
+.sim-full .sim-canvas-wrap{border:0;display:flex;justify-content:center;background:transparent}
+.sim-full .note{color:#c8c0b4}
+.sim-full .filter{background:#1f1b17;color:#e8dfd2;border-color:#3a3127}
+.sim-full .filter[aria-pressed="true"]{background:var(--gold-light);color:var(--black)}
+.sim-full .swatch{background:#1f1b17;color:#e8dfd2;border-color:#3a3127}
+.sim-full-btn{margin-left:auto}
+body.sim-no-scroll{overflow:hidden}
+.sim-rotate{display:none;margin:0 0 6px}
+@media (orientation:portrait) and (max-width:700px){.sim-full .sim-rotate{display:block}}

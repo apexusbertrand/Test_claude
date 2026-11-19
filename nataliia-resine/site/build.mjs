@@ -375,37 +375,111 @@ pages['contact.html'] = layout({
 </section>`,
 });
 
-// Créez votre projet (version provisoire, remplacée par le simulateur au lot 3)
+// Créez votre projet : simulateur (lot 3)
+const texUrl = (m) => (m && typeof m === 'object' && m.path ? mediaUrl(m.path) : `img/${typeof m === 'object' ? m.static : m}.jpg`);
+const thumbUrl = (m) => (m && typeof m === 'object' && m.path ? mediaUrl(m.small || m.path) : texUrl(m));
+const simData = {
+  granulats: granulatsSimulables.map((g) => ({ id: g.id, slug: g.id, nom: g.nom, texture: texUrl(g.texture), thumb: thumbUrl(g.texture), grainMm: g.grainMm })),
+  // Envoi des demandes : fonction Supabase « demande » si la base est branchée, sinon mode démonstration
+  endpoint: process.env.SUPABASE_URL ? `${process.env.SUPABASE_URL}/functions/v1/demande` : null,
+  anonKey: process.env.SUPABASE_ANON_KEY || null,
+  turnstile: process.env.NR_TURNSTILE_SITE_KEY || null,
+};
 pages['projet.html'] = layout({
   file: 'projet.html',
   title: 'Créez votre projet',
-  description: 'Envoyez une photo de votre terrasse ou de votre allée et choisissez votre granulat de marbre.',
-  body: `${pageHead('Votre extérieur, votre style', 'Créez votre projet', 'Téléchargez une photo de votre terrasse, de votre allée ou de votre escalier, puis choisissez un granulat pour préparer votre projet.')}
-<section class="section" style="padding-top:0">
-  <form class="panel" id="project-form" data-email="${site.contact.email}">
-    <p class="notice">Bientôt : vous verrez le granulat choisi posé directement sur votre photo, avec un curseur avant/après.</p>
-    <h2 style="margin-top:26px">1. Votre photo</h2>
-    <div class="upload-zone" id="upload-zone">
-      <div class="upload-prompt"><strong>Ajoutez une photo de votre extérieur</strong><p class="note">Depuis votre téléphone ou votre ordinateur. Cadrez sur la surface à recouvrir.</p></div>
-      <img id="photo-preview" alt="Aperçu de votre photo">
-      <label class="visually-hidden" for="photo">Choisir une photo</label>
-      <input id="photo" type="file" accept="image/*">
+  description: 'Essayez nos granulats sur la photo de votre terrasse ou de votre allée, comparez avant et après, puis envoyez votre projet.',
+  extraHead: (simData.turnstile ? '<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>\n' : '')
+    + `<script type="application/json" id="sim-data">${JSON.stringify(simData).replace(/</g, '\\u003c')}</script>\n<script type="module" src="js/simulateur.js"></script>\n`,
+  body: `${pageHead('Votre extérieur, votre style', 'Créez votre projet', 'Prenez en photo votre terrasse, votre allée ou votre escalier, choisissez un granulat et voyez le résultat sur votre propre photo.')}
+<section class="section" style="padding-top:0" id="sim-root">
+  <ol class="sim-steps-intro">
+    <li><strong>Votre photo</strong> : 1 ou 2 photos, cadrées sur la surface.</li>
+    <li><strong>La surface</strong> : placez des points tout autour.</li>
+    <li><strong>La perspective</strong> : ajustez les 4 points dorés sur un rectangle au sol.</li>
+    <li><strong>Le granulat</strong> : comparez avant et après, puis envoyez votre projet.</li>
+  </ol>
+
+  <div class="panel">
+    <div class="filters" id="sim-tabs" role="group" aria-label="Vos photos"></div>
+    <label class="upload-zone" id="sim-drop">
+      <span id="sim-empty" class="upload-prompt"><strong>Ajoutez une photo de votre extérieur</strong><span class="note">Appareil photo ou galerie. Photo prise debout, la surface bien visible, de jour.</span><span class="btn" style="margin-top:12px">Choisir une photo</span></span>
+      <input id="sim-file" type="file" accept="image/*" class="visually-hidden" multiple>
+    </label>
+
+    <div id="sim-editor" hidden>
+      <div class="sim-stepbar" role="group" aria-label="Étapes">
+        <button type="button" class="filter" data-step="zone" aria-pressed="true">1. Surface</button>
+        <button type="button" class="filter" data-step="persp" aria-pressed="false">2. Perspective</button>
+        <button type="button" class="filter" data-step="granulat" aria-pressed="false">3. Granulat</button>
+        <button type="button" class="filter sim-full-btn" id="sim-full" aria-pressed="false">⤢ Plein écran</button>
+      </div>
+      <p class="note sim-rotate">Astuce : tournez votre téléphone à l’horizontale pour agrandir la photo.</p>
+      <div class="sim-canvas-wrap"><canvas id="sim-canvas" aria-label="Votre photo : touchez pour placer des points"></canvas></div>
+      <p class="note" id="sim-status" aria-live="polite"></p>
+
+      <div data-panel="zone">
+        <p class="note" id="sim-hint"></p>
+        <div class="sim-tools">
+          <button type="button" class="filter" data-mode="zone" aria-pressed="true">Contour de la surface</button>
+          <button type="button" class="filter" data-mode="excl" aria-pressed="false">Exclure un objet</button>
+          <button type="button" class="filter" id="sim-undo">Annuler le dernier point</button>
+          <button type="button" class="filter" id="sim-clear">Tout effacer</button>
+        </div>
+        <button type="button" class="btn" id="sim-next1">Étape suivante : perspective</button>
+      </div>
+
+      <div data-panel="persp" hidden>
+        <p class="note">Repérez au sol une forme rectangulaire (dalles, bordure, marche, contour de la terrasse) et placez les 4 points dorés sur ses coins. Le quadrillage montre comment le granulat suivra le sol. Si rien ne s’y prête, gardez la position proposée.</p>
+        <div class="field"><label for="rect-m">Longueur d’un côté de ce rectangle : <strong id="rect-out">2 m</strong></label><input id="rect-m" type="range" min="0.5" max="8" step="0.5" value="2"></div>
+        <div class="sim-tools"><button type="button" class="filter" id="sim-reset-persp">Position proposée</button></div>
+        <button type="button" class="btn" id="sim-next2">Étape suivante : granulat</button>
+      </div>
+
+      <div data-panel="granulat" hidden>
+        <div class="swatches" id="sim-swatches"></div>
+      </div>
     </div>
-    <h2>2. Votre granulat</h2>
-    ${granulatsSimulables.length ? `<div class="swatches">${granulatsSimulables.map((g) => `<button class="swatch" type="button" data-id="${g.id}" data-name="${esc(g.nom)}" aria-pressed="false">${pic(g.texture, '', { eager: true })}${esc(g.nom)}</button>`).join('')}</div>
-    <p class="note">Granulat choisi : <strong id="chosen"></strong></p>` : '<p class="note">Les granulats arrivent bientôt.</p><span id="chosen" hidden></span>'}
-    <h2>3. Vos coordonnées et votre projet</h2>
+  </div>
+
+  <div class="panel" id="sim-result" hidden style="margin-top:16px">
+    <h2 style="margin-top:0">Avant / après</h2>
+    <div class="compare" id="sim-compare" style="--pos:50%">
+      <img id="cmp-before" alt="Votre photo avant">
+      <div class="after"><img id="cmp-after" alt="Simulation avec le granulat choisi"></div>
+      <span class="lbl lbl-before">Avant</span><span class="lbl lbl-after">Après</span>
+      <span class="handle"></span>
+      <input type="range" id="cmp-range" min="0" max="100" value="50" aria-label="Comparer avant et après">
+    </div>
+    <p class="note">Aperçu indicatif : le rendu réel dépend du support, de la lumière et de la pose.</p>
+    <div class="actions" style="margin-top:12px"><button type="button" class="btn btn-ghost" id="sim-download">Télécharger l’avant/après</button></div>
+  </div>
+
+  <form class="panel" id="sim-form" novalidate style="margin-top:16px">
+    <h2 style="margin-top:0">Envoyez votre projet</h2>
+    <p class="note">Vos photos et vos simulations sont jointes automatiquement.</p>
+    <div class="error-box" id="form-errors" hidden role="alert"></div>
     <div class="fields">
-      <div class="field"><label for="nom">Nom</label><input id="nom" autocomplete="name"></div>
-      <div class="field"><label for="tel">Téléphone</label><input id="tel" type="tel" autocomplete="tel"></div>
-      <div class="field"><label for="ville">Ville</label><input id="ville" autocomplete="address-level2"></div>
-      <div class="field"><label for="type">Type de surface</label><select id="type"><option value="">Choisir</option>${prestations.map((p) => `<option>${esc(p.titre)}</option>`).join('')}<option>Autre</option></select></div>
-      <div class="field"><label for="surface">Surface approximative (m²)</label><input id="surface" inputmode="decimal"></div>
+      <div class="field"><label for="nom">Nom *</label><input id="nom" name="nom" autocomplete="name" maxlength="100" required></div>
+      <div class="field"><label for="telephone">Téléphone *</label><input id="telephone" name="telephone" type="tel" autocomplete="tel" maxlength="30" required></div>
+      <div class="field"><label for="email">E-mail *</label><input id="email" name="email" type="email" autocomplete="email" maxlength="150" required></div>
+      <div class="field"><label for="ville">Ville *</label><input id="ville" name="ville" autocomplete="address-level2" maxlength="100" required></div>
+      <div class="field"><label for="type_surface">Type de surface</label><select id="type_surface" name="type_surface"><option value="">Choisir</option>${prestations.map((p) => `<option>${esc(p.titre)}</option>`).join('')}<option>Autre</option></select></div>
+      <div class="field"><label for="surface_m2">Surface approximative (m²)</label><input id="surface_m2" name="surface_m2" inputmode="decimal" maxlength="10"></div>
+      <div class="field"><label for="delai">Délai souhaité</label><input id="delai" name="delai" maxlength="100" placeholder="Ex. avant l’été"></div>
     </div>
-    <div class="field"><label for="message">Votre projet (facultatif)</label><textarea id="message" rows="4" placeholder="Dimensions, délai souhaité, détails utiles"></textarea></div>
-    <div class="actions"><button class="btn" type="submit">Envoyer mon projet <span aria-hidden="true">↗</span></button></div>
-    <p class="note">Votre messagerie s’ouvre avec les informations préremplies : pensez à y joindre votre photo. Vos informations servent uniquement à répondre à votre demande (voir la <a href="confidentialite.html">politique de confidentialité</a>).</p>
+    <div class="field"><label for="message">Votre message</label><textarea id="message" name="message" rows="4" maxlength="2000" placeholder="Détails utiles : état du support, accès, questions…"></textarea></div>
+    <div class="hp" aria-hidden="true"><label for="site_web">Ne pas remplir</label><input id="site_web" name="site_web" tabindex="-1" autocomplete="off"></div>
+    <label class="consent"><input type="checkbox" name="consentement"> <span>J’accepte que mes coordonnées, mes photos et mes simulations soient conservées par Nataliia Résine pour répondre à ma demande et établir un devis, pendant 3 ans au plus après notre dernier échange (<a href="confidentialite.html">en savoir plus</a>). *</span></label>
+    ${simData.turnstile ? `<div class="cf-turnstile" data-sitekey="${esc(simData.turnstile)}" data-language="fr" style="margin-top:14px"></div>` : ''}
+    <div class="actions"><button class="btn" type="submit">Envoyer ma demande <span aria-hidden="true">↗</span></button></div>
+    <p class="note">Cadrez sur la surface à traiter : évitez les personnes, plaques d’immatriculation et numéros de rue.</p>
   </form>
+  <div class="panel" id="sim-done" hidden style="margin-top:16px">
+    <h2 style="margin-top:0">Merci, votre projet est envoyé</h2>
+    <p>Nataliia vous recontacte rapidement. ${simData.endpoint ? 'Un e-mail de confirmation avec vos simulations vient de partir.' : '(Préversion : la demande est visible dans l’administration de démonstration, aucun e-mail n’est envoyé.)'}</p>
+    <a class="btn btn-ghost" href="index.html">Retour à l’accueil</a>
+  </div>
 </section>`,
 });
 
@@ -447,12 +521,21 @@ pages['confidentialite.html'] = layout({
   <h2 style="margin-top:0">Responsable du traitement</h2>
   <p>${esc(L.dirigeante)} EI (${esc(site.nom)}), ${esc(L.adresse)}, <a href="mailto:${site.contact.email}">${site.contact.email}</a>.</p>
   <h2>Données collectées</h2>
-  <p>Le site ne crée pas de compte et ne dépose aucun cookie de suivi ni de mesure d’audience. Les polices de caractères sont hébergées avec le site : aucune donnée n’est envoyée à un service tiers pendant la visite.</p>
-  <p>Quand vous nous contactez (téléphone, WhatsApp, e-mail, ou page « Créez votre projet », qui ouvre votre messagerie), nous recevons les informations que vous choisissez de transmettre : nom, coordonnées, ville, description du projet et photos.</p>
+  <p>Le site ne crée pas de compte et ne dépose aucun cookie de suivi ni de mesure d’audience. Les polices de caractères sont hébergées avec le site.</p>
+  <p>Quand vous nous contactez (téléphone, WhatsApp, e-mail) ou envoyez un projet depuis la page « Créez votre projet », nous recevons les informations que vous choisissez de transmettre : nom, téléphone, e-mail, ville, description du projet, vos photos et les simulations réalisées.</p>
+  <h2>Simulateur</h2>
+  <p>La simulation est calculée dans votre navigateur : vos photos ne quittent pas votre appareil tant que vous n’avez pas cliqué sur « Envoyer ma demande ». À l’envoi, avec votre accord (case à cocher), elles sont conservées dans un espace privé, accessible uniquement par Nataliia Résine.</p>
   <h2>Utilisation</h2>
-  <p>Ces informations servent uniquement à répondre à votre demande et à établir un devis. Elles ne sont ni vendues ni transmises à des tiers.</p>
+  <p>Ces informations servent uniquement à répondre à votre demande et à établir un devis. Elles ne sont ni vendues ni utilisées pour de la publicité.</p>
+  <h2>Prestataires</h2>
+  <ul>
+    <li>Supabase (hébergement des demandes et des photos, serveurs situés à Francfort, Union européenne) ;</li>
+    <li>Brevo (envoi des e-mails de confirmation, France) ;</li>
+    <li>Cloudflare Turnstile (protection anti-robot du formulaire, sans cookie publicitaire) ;</li>
+    <li>GitHub (hébergement des pages du site).</li>
+  </ul>
   <h2>Durée de conservation</h2>
-  <p>Les échanges avec une personne qui n’est pas devenue cliente sont conservés 3 ans après le dernier contact, puis supprimés.</p>
+  <p>Les demandes, photos et simulations d’une personne qui n’est pas devenue cliente sont supprimées automatiquement 3 ans après le dernier échange.</p>
   <h2>Vos droits</h2>
   <p>Vous pouvez demander l’accès à vos données, leur rectification ou leur suppression en écrivant à <a href="mailto:${site.contact.email}">${site.contact.email}</a>. Vous pouvez aussi saisir la CNIL (cnil.fr).</p>
 </section>`,
