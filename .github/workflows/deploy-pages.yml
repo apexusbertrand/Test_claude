@@ -1,4 +1,4 @@
-name: Deploy Guillaume l'Échanson to GitHub Pages
+name: Deploy client sites to GitHub Pages
 
 on:
   push:
@@ -23,8 +23,15 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/configure-pages@v5
+      # Guillaume l'Échanson à la racine, Nataliia Résine dans /nataliia-resine/
+      - name: Assemble sites
+        run: |
+          mkdir -p _site
+          cp -r guillaume-echanson/. _site/
+          mkdir -p _site/nataliia-resine
+          cp -r nataliia-resine/www/. _site/nataliia-resine/
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: guillaume-echanson
+          path: _site
       - id: deployment
         uses: actions/deploy-pages@v4
