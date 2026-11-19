@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Créez votre projet | Nataliia Résine</title>
+<meta name="description" content="Envoyez une photo de votre terrasse ou de votre allée et choisissez votre granulat de marbre.">
+<meta name="robots" content="noindex,nofollow">
+<link rel="canonical" href="https://apexusbertrand.github.io/Test_claude/nataliia-resine/projet.html">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:site_name" content="Nataliia Résine">
+<meta property="og:title" content="Créez votre projet | Nataliia Résine">
+<meta property="og:description" content="Envoyez une photo de votre terrasse ou de votre allée et choisissez votre granulat de marbre.">
+<meta property="og:image" content="https://apexusbertrand.github.io/Test_claude/nataliia-resine/img/partage.jpg">
+<meta name="theme-color" content="#11100f">
+<link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32.png">
+<link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+<link rel="preload" href="fonts/playfair-display-latin-500-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/dm-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="css/site.css">
+</head>
+<body>
+<a class="skip" href="#contenu">Aller au contenu</a>
+<div class="preview-bar">Préversion de travail : textes et photos à valider, site non référencé.</div>
+<header class="site-header">
+  <a class="brand-image" href="index.html" aria-label="Nataliia Résine, accueil"><picture><source type="image/webp" srcset="img/logo-320.webp 320w, img/logo-640.webp 640w" sizes="420px"><img class="" src="img/logo-640.jpg" alt="Logo Nataliia Résine" fetchpriority="high"></picture></a>
+  <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-menu"><span class="menu-bars" aria-hidden="true"><span></span><span></span><span></span></span><span class="menu-label">Menu</span></button>
+  <nav class="site-menu" id="site-menu" aria-label="Menu principal" hidden><ul><li><a href="index.html">Accueil</a></li><li><a href="prestations.html">Prestations</a></li><li><a href="realisations.html">Réalisations</a></li><li><a href="produits.html">Produits</a></li><li><a href="contact.html">Contact</a></li><li class="menu-cta"><a href="projet.html" aria-current="page">Créez votre projet</a></li></ul></nav>
+</header>
+<main id="contenu">
+<section class="page-head">
+  
+  <span class="eyebrow">Votre extérieur, votre style</span>
+  <h1>Créez votre projet</h1>
+  <p class="lead">Téléchargez une photo de votre terrasse, de votre allée ou de votre escalier, puis choisissez un granulat pour préparer votre projet.</p>
+</section>
+<section class="section" style="padding-top:0">
+  <form class="panel" id="project-form" data-email="nataliiaresine@gmail.com">
+    <p class="notice">Bientôt : vous verrez le granulat choisi posé directement sur votre photo, avec un curseur avant/après.</p>
+    <h2 style="margin-top:26px">1. Votre photo</h2>
+    <div class="upload-zone" id="upload-zone">
+      <div class="upload-prompt"><strong>Ajoutez une photo de votre extérieur</strong><p class="note">Depuis votre téléphone ou votre ordinateur. Cadrez sur la surface à recouvrir.</p></div>
+      <img id="photo-preview" alt="Aperçu de votre photo">
+      <label class="visually-hidden" for="photo">Choisir une photo</label>
+      <input id="photo" type="file" accept="image/*">
+    </div>
+    <h2>2. Votre granulat</h2>
+    <div class="swatches"><button class="swatch" type="button" data-id="exemple-granulat-clair" data-name="Granulat clair (exemple)" aria-pressed="false"><picture><source type="image/webp" srcset="img/exemple-granulat-clair.webp"><img class="" src="img/exemple-granulat-clair.jpg" alt="" fetchpriority="high"></picture>Granulat clair (exemple)</button><button class="swatch" type="button" data-id="exemple-granulat-fonce" data-name="Granulat foncé (exemple)" aria-pressed="false"><picture><source type="image/webp" srcset="img/exemple-granulat-fonce.webp"><img class="" src="img/exemple-granulat-fonce.jpg" alt="" fetchpriority="high"></picture>Granulat foncé (exemple)</button></div>
+    <p class="note">Granulat choisi : <strong id="chosen"></strong></p>
+    <h2>3. Vos coordonnées et votre projet</h2>
+    <div class="fields">
+      <div class="field"><label for="nom">Nom</label><input id="nom" autocomplete="name"></div>
+      <div class="field"><label for="tel">Téléphone</label><input id="tel" type="tel" autocomplete="tel"></div>
+      <div class="field"><label for="ville">Ville</label><input id="ville" autocomplete="address-level2"></div>
+      <div class="field"><label for="type">Type de surface</label><select id="type"><option value="">Choisir</option><option>Terrasses</option><option>Allées</option><option>Escaliers d&#39;entrée</option><option>Abords de piscine</option><option>Balcons</option><option>Plages de garage</option><option>Intérieur</option><option>Rénovation</option><option>Autre</option></select></div>
+      <div class="field"><label for="surface">Surface approximative (m²)</label><input id="surface" inputmode="decimal"></div>
+    </div>
+    <div class="field"><label for="message">Votre projet (facultatif)</label><textarea id="message" rows="4" placeholder="Dimensions, délai souhaité, détails utiles"></textarea></div>
+    <div class="actions"><button class="btn" type="submit">Envoyer mon projet <span aria-hidden="true">↗</span></button></div>
+    <p class="note">Votre messagerie s’ouvre avec les informations préremplies : pensez à y joindre votre photo. Vos informations servent uniquement à répondre à votre demande (voir la <a href="confidentialite.html">politique de confidentialité</a>).</p>
+  </form>
+</section>
+</main>
+<footer class="site-footer">
+  <div class="footer-grid">
+    <div>
+      <p class="footer-brand">Nataliia <b>Résine</b></p>
+      <p>Une solution créative. Un style qui vous ressemble.</p>
+    </div>
+    <div>
+      <h2>Le site</h2>
+      <ul><li><a href="prestations.html">Prestations</a></li><li><a href="realisations.html">Réalisations</a></li><li><a href="produits.html">Produits</a></li><li><a href="contact.html">Contact</a></li><li><a href="projet.html">Créez votre projet</a></li></ul>
+    </div>
+    <div>
+      <h2>Contact</h2>
+      <ul>
+        <li><a href="tel:+33781072122">07 81 07 21 22</a></li>
+        <li><a href="https://wa.me/33781072122" rel="noopener">WhatsApp</a></li>
+        <li><a href="mailto:nataliiaresine@gmail.com">nataliiaresine@gmail.com</a></li>
+      </ul>
+    </div>
+    <div>
+      <h2>Zone d'intervention</h2>
+      <p>Somain, Douai, Valenciennes, Lille, Arras et leurs alentours</p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Nataliia Résine</span>
+    <span><a href="mentions-legales.html">Mentions légales</a> · <a href="confidentialite.html">Confidentialité</a></span>
+  </div>
+</footer>
+<script src="js/site.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,58 @@
+[
+  {
+    "id": "terrasses",
+    "titre": "Terrasses",
+    "resume": "Un nouvel espace de vie, avec un revêtement décoratif adapté à votre extérieur.",
+    "texte": "La moquette de pierre transforme une terrasse en béton ou en carrelage fatigué sans tout démolir. Le revêtement est agréable sous les pieds, laisse passer l'eau de pluie et se décline dans de nombreuses teintes de granulats.",
+    "photo": null
+  },
+  {
+    "id": "allees",
+    "titre": "Allées",
+    "resume": "Des allées harmonieuses pour guider vos pas et valoriser votre propriété.",
+    "texte": "Allée piétonne ou chemin de jardin : le revêtement suit les courbes et les bordures, sans joints apparents. Une allée nette, qui donne le ton dès le portail.",
+    "photo": null
+  },
+  {
+    "id": "escaliers",
+    "titre": "Escaliers d'entrée",
+    "resume": "Une entrée mise en valeur grâce à des finitions élégantes et soignées.",
+    "texte": "Marches et contremarches sont recouvertes avec des profils de finition sur les nez de marche. L'entrée gagne en caractère et la surface reste antidérapante.",
+    "photo": null
+  },
+  {
+    "id": "piscines",
+    "titre": "Abords de piscine",
+    "resume": "Un aménagement extérieur esthétique pour mettre en valeur votre espace piscine.",
+    "texte": "Autour d'un bassin, on cherche un sol qui ne glisse pas et qui sèche vite. La moquette de pierre, drainante et agréable pieds nus, répond à ces deux attentes.",
+    "photo": null
+  },
+  {
+    "id": "balcons",
+    "titre": "Balcons",
+    "resume": "Un revêtement léger pour rafraîchir un balcon sans gros travaux.",
+    "texte": "Le revêtement se pose en faible épaisseur sur le support existant. Le balcon change d'aspect en peu de temps, avec la teinte de votre choix.",
+    "photo": null
+  },
+  {
+    "id": "garages",
+    "titre": "Plages de garage",
+    "resume": "Un accès au garage propre et décoratif, qui prolonge l'allée.",
+    "texte": "Devant le garage, le revêtement relie l'allée et la façade dans une même teinte. Les bordures sont soignées avec des profils de finition.",
+    "photo": null
+  },
+  {
+    "id": "interieur",
+    "titre": "Intérieur",
+    "resume": "La moquette de pierre s'invite aussi à l'intérieur de la maison.",
+    "texte": "Entrée, véranda, salle de bains, escalier intérieur : le revêtement apporte une touche minérale et chaleureuse, avec des granulats choisis pour la pièce.",
+    "photo": null
+  },
+  {
+    "id": "renovation",
+    "titre": "Rénovation",
+    "resume": "Redonner vie à une surface abîmée en la recouvrant, sans tout casser.",
+    "texte": "Béton fissuré, dalles ternies, carrelage passé de mode : après préparation du support, la moquette de pierre vient recouvrir l'existant et lui donne un nouvel aspect.",
+    "photo": null
+  }
+]
