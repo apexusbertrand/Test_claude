@@ -31,6 +31,9 @@ const NAV = [
   ['qui-suis-je.html', 'Qui suis-je'],
   ['contact.html', 'Contact']
 ];
+// Pages métier statiques (générées par tools/seo/build_seo.py), pour le référencement local
+const PAGES_METIER = { carrelage: 'renovation-salle-de-bain-carrelage-somain.html', platrerie: 'isolation-placo-combles-somain.html', couverture: 'toiture-fenetre-de-toit-somain.html', menuiserie: 'fenetres-volets-portails-clotures-somain.html', peinture: 'peinture-interieure-somain.html', depannage: 'depannage-electricite-plomberie-somain.html', chauffage: 'pompe-a-chaleur-somain.html' };
+const LIBELLES_METIER = { carrelage: 'Salle de bain & carrelage', platrerie: 'Isolation & placo', couverture: 'Toiture', menuiserie: 'Fenêtres, volets, portails', peinture: 'Peinture', depannage: 'Dépannage électricité, plomberie', chauffage: 'Pompe à chaleur' };
 const METIERS = { carrelage: 'Carrelage', platrerie: 'Placo & isolation', couverture: 'Toiture', menuiserie: 'Menuiserie ext.', peinture: 'Peinture', depannage: 'Dépannage', chauffage: 'Pompe à chaleur' };
 const tel = () => 'tel:' + CONFIG.telephone.replace(/\s/g, '');
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -65,6 +68,7 @@ function layout() {
             <li><a href="mailto:${esc(CONFIG.email)}">${esc(CONFIG.email)}</a></li>
             <li>${esc(CONFIG.adresse)}</li>${CONFIG.horaires ? `<li>${esc(CONFIG.horaires)}</li>` : ''}
             ${CONFIG.facebook ? `<li><a class="fb-link" href="${CONFIG.facebook}" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true" class="fb-ico"><path fill="currentColor" d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12Z"/></svg> Suivre mes chantiers sur Facebook</a></li>` : ''}</ul></div>
+          <div><h4>Nos métiers</h4><ul>${Object.keys(PAGES_METIER).map(k => `<li><a href="${PAGES_METIER[k]}">${LIBELLES_METIER[k]}</a></li>`).join('')}</ul></div>
           <div><h4>Le site</h4><ul>${NAV.map(([h, l]) => `<li><a href="${h}">${l}</a></li>`).join('')}<li><a href="mentions-legales.html">Mentions légales</a></li>${CONFIG.maquette ? '<li><a href="charte.html">Charte graphique</a></li>' : ''}</ul></div>
         </div>
         <div class="ftr-legal">${CONFIG.siret ? `<span>SIRET ${esc(CONFIG.siret)}${CONFIG.tva ? ' · TVA ' + esc(CONFIG.tva) : ''}</span>` : ''}<span>${CONFIG.maquette ? 'Maquette · informations fictives' : '© ' + new Date().getFullYear() + ' ' + esc(CONFIG.nom)}</span><span class="ftr-credit">Envie d’un site soigné, personnalisé et interactif pour votre activité ? Site créé par <a href="https://apexus.fr" target="_blank" rel="noopener">apexus.fr</a></span></div>
@@ -199,7 +203,7 @@ async function renderFiches(el, { limit, filters } = {}) {
 async function renderSamples(el) {
   const { metiers } = await getJSON('content/competences.json');
   el.innerHTML = metiers.map(m => `
-    <a class="sample rv" href="savoir-faire.html#${m.id}">
+    <a class="sample rv" href="${PAGES_METIER[m.id] || 'savoir-faire.html#' + m.id}">
       <div class="sample-tex tex-${m.texture}"><span class="mono">Réf. ${m.ref}</span></div>
       <div class="sample-body">
         <span class="status${m.statut === 'Nouveau' ? ' new' : ''}">${esc(m.statut)}</span>
@@ -222,6 +226,7 @@ async function renderSavoirFaire(el, nopeEl) {
         <p>${esc(m.texte)}</p>
         <ul class="presta">${m.prestations.map(p => `<li>${esc(p)}</li>`).join('')}</ul>
         <div class="chips">${m.materiaux.map(x => `<span class="chip">${esc(x)}</span>`).join('')}</div>
+        ${PAGES_METIER[m.id] ? `<p style="margin:18px 0 0"><a class="lnk" href="${PAGES_METIER[m.id]}">Tout savoir : ${esc(m.nom)} à Somain →</a></p>` : ''}
       </div>
     </section>`).join('');
   nopeEl.innerHTML = ne_fait_pas.map(x => `<li>${esc(x)}</li>`).join('');

@@ -1,10 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://www.logenerj.fr/</loc></url>
-  <url><loc>https://www.logenerj.fr/savoir-faire.html</loc></url>
-  <url><loc>https://www.logenerj.fr/realisations.html</loc></url>
-  <url><loc>https://www.logenerj.fr/chantier.html?c=combles-briques</loc></url>
-  <url><loc>https://www.logenerj.fr/qui-suis-je.html</loc></url>
-  <url><loc>https://www.logenerj.fr/contact.html</loc></url>
-  <url><loc>https://www.logenerj.fr/mentions-legales.html</loc></url>
+  <url><loc>https://www.logenerj.fr/</loc><lastmod>2026-11-23</lastmod><priority>1.0</priority></url>
+  <url><loc>https://www.logenerj.fr/savoir-faire.html</loc><lastmod>2026-11-23</lastmod><priority>0.9</priority></url>
+  <url><loc>https://www.logenerj.fr/renovation-salle-de-bain-carrelage-somain.html</loc><lastmod>2026-11-23</lastmod><priority>0.9</priority></url>
+  <url><loc>https://www.logenerj.fr/isolation-placo-combles-somain.html</loc><lastmod>2026-11-23</lastmod><priority>0.9</priority></url>
+  <url><loc>https://www.logenerj.fr/toiture-fenetre-de-toit-somain.html</loc><lastmod>2026-11-23</lastmod><priority>0.9</priority></url>
+  <url><loc>https://www.logenerj.fr/fenetres-volets-portails-clotures-somain.html</loc><lastmod>2026-11-23</lastmod><priority>0.9</priority></url>
+  <url><loc>https://www.logenerj.fr/peinture-interieure-somain.html</loc><lastmod>2026-11-23</lastmod><priority>0.9</priority></url>
+  <url><loc>https://www.logenerj.fr/depannage-electricite-plomberie-somain.html</loc><lastmod>2026-11-23</lastmod><priority>0.9</priority></url>
+  <url><loc>https://www.logenerj.fr/pompe-a-chaleur-somain.html</loc><lastmod>2026-11-23</lastmod><priority>0.9</priority></url>
+  <url><loc>https://www.logenerj.fr/realisations.html</loc><lastmod>2026-11-23</lastmod><priority>0.8</priority></url>
+  <url><loc>https://www.logenerj.fr/chantier.html?c=combles-briques</loc><lastmod>2026-11-23</lastmod><priority>0.6</priority></url>
+  <url><loc>https://www.logenerj.fr/qui-suis-je.html</loc><lastmod>2026-11-23</lastmod><priority>0.6</priority></url>
+  <url><loc>https://www.logenerj.fr/contact.html</loc><lastmod>2026-11-23</lastmod><priority>0.8</priority></url>
+  <url><loc>https://www.logenerj.fr/mentions-legales.html</loc><lastmod>2026-11-23</lastmod><priority>0.2</priority></url>
 </urlset>

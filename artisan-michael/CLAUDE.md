@@ -91,3 +91,14 @@ Réseau : www.facebook.com et m.facebook.com ont été ajoutés aux hôtes autor
 ## Dépôt de publication
 
 Le site publié vit dans `apexusbertrand/logenerj-site` (branche `main`, racine), destiné à GitHub Pages sur www.logenerj.fr (fichier `CNAME`). Il contient une copie de ce dossier sans `CLAUDE.md`, `n8n/`, `tools/` ni `docs/`. Ce dossier-ci reste la source : après chaque modification, recopier dans `logenerj-site` et pousser. Le chat n8n continue de lire `content/*.json` dans ce dépôt-ci (branche `SITE_MICHAEL`). Réglages DNS OVH et Pages : `../prompts/ovh-github-pages-logenerj.md`.
+
+## Référencement (SEO)
+
+Le script `tools/seo/build_seo.py` (à lancer depuis ce dossier : `python3 tools/seo/build_seo.py`) gère tout le référencement, à partir de `content/*.json` :
+- une page statique par métier, ciblée sur une recherche locale « métier + Somain » (`renovation-salle-de-bain-carrelage-somain.html`, `isolation-placo-combles-somain.html`, `toiture-fenetre-de-toit-somain.html`, `fenetres-volets-portails-clotures-somain.html`, `peinture-interieure-somain.html`, `depannage-electricite-plomberie-somain.html`, `pompe-a-chaleur-somain.html`) : texte lisible sans JavaScript, fil d'Ariane, questions fréquentes, liens vers les autres métiers, données structurées Service + BreadcrumbList + FAQPage ;
+- titre, description, URL canonique et balises de partage (Open Graph) de chaque page, dans le bloc `<!-- seo:tete -->` ;
+- les données structurées de l'accueil (entreprise : SIRET, TVA, téléphone, zone, Facebook, catalogue des métiers ; site web), dans le bloc `<!-- seo:jsonld -->` ;
+- `sitemap.xml` et la ligne de liens vers les pages métier de `savoir-faire.html` (`<!-- seo:metiers -->`).
+Ne pas modifier ces blocs à la main : changer le script ou les JSON, puis le relancer (il est idempotent). Titres ≤ 65 caractères et descriptions ≤ 160 environ, pour qu'ils s'affichent en entier dans Google.
+
+À faire hors du site (par Bertrand ou Michael) : Google Search Console (propriété logenerj.fr vérifiée par un enregistrement TXT chez OVH, envoi du sitemap), fiche Google Business Profile (essentiel pour la recherche locale), Bing Webmaster Tools, annuaires (PagesJaunes…), avis clients, lien vers le site depuis la page Facebook.
