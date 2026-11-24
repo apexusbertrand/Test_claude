@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sites web &amp; applications propulsés par l'IA — Apexus-BMT</title>
+<meta name="description" content="Portfolio Apexus-BMT : sites web dynamiques et applications conçus avec l'intelligence artificielle au cœur de la création — visuels générés, chatbots, interactivité, IA de jeu.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#1E2225; --ink2:#2A2F33; --accent:#F29A1F; --accent-dark:#D9840F;
+  --muted:#5F666D; --line:#E1E4E6; --soft:#F4F5F6; --white:#FFFFFF;
+  --ivory:#ECE8DF; --ivory-muted:#B9BEC2; --dark-ring:#33383D;
+  --maxw:1180px; --radius:14px;
+  --font: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+}
+*{box-sizing:border-box;}
+body{margin:0;font-family:var(--font);background:var(--white);color:var(--ink);line-height:1.5;}
+.container{max-width:var(--maxw);margin:0 auto;padding:0 24px;}
+a{color:inherit;}
+h1,h2,h3{margin:0;font-weight:800;letter-spacing:-.01em;}
+
+header.top{padding:22px 0;border-bottom:1px solid var(--line);}
+.top-inner{display:flex;align-items:center;justify-content:space-between;}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:1.05rem;}
+.brand img{width:34px;height:34px;}
+.back-link{font-size:.85rem;font-weight:600;color:var(--muted);text-decoration:none;display:flex;align-items:center;gap:6px;}
+.back-link:hover{color:var(--accent-dark);}
+
+.hero{background:var(--ink);color:var(--ivory);padding:72px 0 64px;position:relative;overflow:hidden;}
+.hero::after{content:"";position:absolute;width:480px;height:480px;border:1.5px solid var(--dark-ring);border-radius:50%;top:-220px;right:-140px;}
+.hero-inner{position:relative;z-index:1;max-width:760px;}
+.eyebrow{color:var(--accent);font-weight:700;font-size:.8rem;letter-spacing:.06em;text-transform:uppercase;margin:0 0 12px;}
+.hero h1{font-size:clamp(1.9rem,4vw,2.9rem);color:var(--white);line-height:1.15;}
+.hero p.lede{color:var(--ivory-muted);font-size:1.08rem;max-width:620px;margin:18px 0 0;}
+.hero-tags{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px;}
+.hero-tags span{background:rgba(242,154,31,.12);border:1px solid rgba(242,154,31,.35);color:var(--accent);font-size:.8rem;font-weight:600;padding:6px 12px;border-radius:999px;}
+
+.section{padding:64px 0;}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:28px;}
+.card{border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;background:var(--white);display:flex;flex-direction:column;}
+.card-img{aspect-ratio:16/10;background:var(--soft);overflow:hidden;}
+.card-img img{width:100%;height:100%;object-fit:cover;object-position:top;display:block;}
+.card-body{padding:24px;display:flex;flex-direction:column;gap:12px;flex:1;}
+.card-body h3{font-size:1.2rem;}
+.card-tagline{color:var(--muted);font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;}
+.card-body p.desc{color:var(--muted);font-size:.93rem;margin:0;flex:1;}
+.chips{display:flex;flex-wrap:wrap;gap:8px;}
+.chip{background:var(--soft);border-radius:999px;padding:5px 11px;font-size:.78rem;font-weight:600;color:var(--ink);}
+.card-links{display:flex;gap:10px;flex-wrap:wrap;margin-top:4px;}
+.btn{display:inline-flex;align-items:center;gap:6px;background:var(--accent);color:var(--ink);font-weight:700;font-size:.85rem;padding:9px 16px;border-radius:9px;text-decoration:none;}
+.btn:hover{background:var(--accent-dark);}
+.btn-outline{background:transparent;border:1.5px solid var(--line);color:var(--ink);}
+.btn-outline:hover{border-color:var(--ink);}
+
+.card.placeholder .card-img{display:flex;align-items:center;justify-content:center;background:repeating-linear-gradient(135deg, var(--soft), var(--soft) 10px, #ECEDEE 10px, #ECEDEE 20px);}
+.placeholder-mark{display:flex;flex-direction:column;align-items:center;gap:8px;color:var(--ivory-muted);}
+.placeholder-mark svg{width:40px;height:40px;stroke:var(--muted);}
+.placeholder-mark span{font-size:.78rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;}
+.badge-soon{align-self:flex-start;background:var(--soft);color:var(--muted);font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;padding:4px 10px;border-radius:999px;}
+
+footer{padding:40px 0 56px;border-top:1px solid var(--line);color:var(--muted);font-size:.88rem;}
+footer a{color:var(--accent-dark);font-weight:600;text-decoration:none;}
+footer a:hover{text-decoration:underline;}
+
+@media (max-width:860px){
+  .grid{grid-template-columns:1fr;}
+  .hero{padding:52px 0 48px;}
+}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="container top-inner">
+    <div class="brand"><img src="images/brand-mark.webp" alt="Apexus-BMT">Apexus-BMT</div>
+    <a class="back-link" href="https://apexus.fr/">← apexus.fr</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="container hero-inner">
+    <p class="eyebrow">Portfolio</p>
+    <h1>Des sites web et applications qui pensent par eux-mêmes</h1>
+    <p class="lede">L'intelligence artificielle n'est pas un gadget ajouté après coup : elle est au cœur de la conception et du dynamisme de ces réalisations — génération de visuels, chatbots intégrés, interactivité en temps réel, IA de jeu. Voici un aperçu concret de ce que ça donne.</p>
+    <div class="hero-tags">
+      <span>Visuels générés par IA</span>
+      <span>Chatbots intégrés</span>
+      <span>Interactivité dynamique</span>
+      <span>IA de jeu</span>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container grid">
+
+    <div class="card">
+      <div class="card-img"><img src="images/belmaris.jpg" alt="Aperçu du site Le Belmaris"></div>
+      <div class="card-body">
+        <p class="card-tagline">Location de vacances · Wimereux</p>
+        <h3>Le Belmaris</h3>
+        <p class="desc">Site vitrine d'une maison de vacances sur la Côte d'Opale — conçu à 100&nbsp;% avec l'IA, de la rédaction des textes à l'agencement des sections. Galerie photo filtrable, météo locale en direct et note Booking.com affichée en temps réel.</p>
+        <div class="chips">
+          <span class="chip">Conception 100&nbsp;% IA</span>
+          <span class="chip">Galerie dynamique</span>
+          <span class="chip">Météo en direct</span>
+        </div>
+        <div class="card-links">
+          <a class="btn" href="https://lebelmaris.fr/" target="_blank" rel="noopener">Voir le site ↗</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-img"><img src="images/logenerj.jpg" alt="Aperçu du site Logenerj"></div>
+      <div class="card-body">
+        <p class="card-tagline">Rénovation de l'habitat · Somain</p>
+        <h3>Logenerj</h3>
+        <p class="desc">Site vitrine pour une entreprise de rénovation tous corps d'état. Un chatbot IA répond aux questions des visiteurs 7j/7, et un comparateur avant/après à curseur glissant met en scène les chantiers réalisés.</p>
+        <div class="chips">
+          <span class="chip">Chatbot IA</span>
+          <span class="chip">Comparateur avant/après</span>
+          <span class="chip">Devis en ligne</span>
+        </div>
+        <div class="card-links">
+          <a class="btn" href="https://www.logenerj.fr/" target="_blank" rel="noopener">Voir le site ↗</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-img"><img src="images/natalia.jpg" alt="Aperçu du site Nataliia Résine"></div>
+      <div class="card-body">
+        <p class="card-tagline">Moquette de pierre · Nord &amp; Pas-de-Calais</p>
+        <h3>Nataliia Résine</h3>
+        <p class="desc">Site vitrine en cours de finalisation pour un artisan spécialisé en moquette de pierre (terrasses, allées, piscines). Visuels d'ambiance générés par IA et chatbot d'accueil pour qualifier les demandes de devis.</p>
+        <div class="chips">
+          <span class="chip">Visuels générés par IA</span>
+          <span class="chip">Chatbot intégré</span>
+          <span class="chip">En finalisation</span>
+        </div>
+        <div class="card-links">
+          <a class="btn" href="https://apexusbertrand.github.io/NataliiaResine/index.html" target="_blank" rel="noopener">Voir le site ↗</a>
+          <a class="btn btn-outline" href="https://github.com/apexusbertrand/nataliiaresine" target="_blank" rel="noopener">Code source</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-img"><img src="images/quarto.jpg" alt="Aperçu du jeu Quarto"></div>
+      <div class="card-body">
+        <p class="card-tagline">Jeu de plateau stratégique</p>
+        <h3>Quarto</h3>
+        <p class="desc">Le classique jeu de réflexion à deux, jouable directement dans le navigateur, avec un adversaire piloté par IA pour s'entraîner seul. Installable comme application (PWA).</p>
+        <div class="chips">
+          <span class="chip">IA adversaire</span>
+          <span class="chip">Jouable en ligne</span>
+          <span class="chip">Installable (PWA)</span>
+        </div>
+        <div class="card-links">
+          <a class="btn" href="https://apexus.fr/Quarto/" target="_blank" rel="noopener">Jouer ↗</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="card placeholder">
+      <div class="card-img">
+        <div class="placeholder-mark">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="3"></rect><path d="M8 8h.01M8 16h8M8 12h8"></path></svg>
+          <span>Visuel à venir</span>
+        </div>
+      </div>
+      <div class="card-body">
+        <p class="card-tagline">Application Android</p>
+        <h3>Gestion de cave à vin</h3>
+        <p class="desc">Application mobile Android pour suivre et organiser sa cave à vin au quotidien. Fiche détaillée et lien de téléchargement à venir.</p>
+        <span class="badge-soon">Bientôt disponible</span>
+        <div class="chips">
+          <span class="chip">Application Android</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    Une idée de projet similaire&nbsp;? <a href="https://apexus.fr/#contact">Parlons-en sur apexus.fr</a>
+  </div>
+</footer>
+
+</body>
+</html>
