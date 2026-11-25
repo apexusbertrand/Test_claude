@@ -123,6 +123,21 @@ body {
 .status .status-text b { color: var(--text); }
 .status .status-sub { color: var(--text-dim); font-size: .8rem; }
 
+/* ---------- Panneau latéral (regroupe tout sauf le plateau) ----------
+   Sur mobile, ce conteneur est transparent : ses enfants redeviennent des
+   enfants flex directs de .app, et `order` restaure leur séquence visuelle
+   d'origine (le plateau garde sa place entre le statut et la pièce en main).
+   Sur PC, ce même conteneur devient la colonne de droite (voir plus bas). */
+.side-panel { display: contents; }
+.topbar     { order: 1; }
+.status     { order: 2; }
+.board-wrap { order: 3; }
+.hand       { order: 4; }
+.tray-title { order: 5; }
+.tray       { order: 6; }
+.actions    { order: 7; }
+.footnote   { order: 8; }
+
 /* ---------- Plateau ---------- */
 .board-wrap { position: relative; }
 .board {
@@ -335,4 +350,56 @@ body {
 @media (max-width: 360px) {
   .brand h1 { font-size: 1.15rem; letter-spacing: 2px; }
   .tray { grid-template-columns: repeat(8, 1fr); gap: 6px; }
+}
+
+/* ============================================================
+   Mode PC (grand écran) — plateau à gauche + panneau latéral à
+   droite, dans un cadre au format ~16:9. N'affecte ni mobile ni
+   tablette : la condition combine largeur ET hauteur pour
+   exclure un téléphone en paysage.
+   ============================================================ */
+@media (min-width: 900px) and (min-height: 560px) {
+  body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .app {
+    max-width: none;
+    width: min(1300px, 94vw, 177.8vh);
+    min-height: 0;
+    aspect-ratio: 16 / 9;
+    padding: 26px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 380px;
+    grid-template-rows: 1fr; /* une seule ligne : chaque colonne remplit 100% */
+    column-gap: 26px;
+  }
+
+  .board-wrap {
+    grid-column: 1;
+    grid-row: 1;
+    display: grid;
+    place-items: center;
+    container-type: size; /* permet au plateau de se dimensionner via cqw/cqh */
+    min-width: 0;
+    min-height: 0;
+  }
+  /* Plus grand carré tenant dans board-wrap, quelle que soit sa forme :
+     min(100cqw, 100cqh) appliqué identiquement aux deux dimensions. */
+  .board { width: min(100cqw, 100cqh); height: min(100cqw, 100cqh); }
+
+  /* Le panneau latéral redevient une vraie boîte flex colonne. */
+  .side-panel {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 12px;
+    grid-column: 2;
+    grid-row: 1;
+    min-width: 0;
+    min-height: 0;
+    overflow-y: auto; /* filet de sécurité si une fenêtre est très basse */
+  }
 }

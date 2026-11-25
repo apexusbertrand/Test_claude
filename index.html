@@ -16,52 +16,57 @@
 </head>
 <body>
   <div class="app">
-    <!-- En-tête -->
-    <header class="topbar">
-      <div class="brand">
-        <div class="logo" aria-hidden="true"></div>
-        <h1>QUARTO</h1>
-      </div>
-      <button class="icon-btn" id="menuBtn" title="Nouvelle partie / réglages" aria-label="Menu">⚙️</button>
-    </header>
-
-    <!-- Bandeau d'état -->
-    <div class="status" id="status">
-      <span class="turn-dot"></span>
-      <div class="status-text">
-        <b id="statusMain">Prêt à jouer</b>
-        <div class="status-sub" id="statusSub">Ouvre le menu pour lancer une partie</div>
-      </div>
-    </div>
-
     <!-- Plateau -->
     <div class="board-wrap">
       <div class="board" id="board" aria-label="Plateau de jeu"></div>
     </div>
 
-    <!-- Pièce en main -->
-    <div class="hand" id="hand">
-      <div class="hand-piece empty" id="handPiece"></div>
-      <div class="hand-label">
-        <b id="handTitle">Pièce à poser</b>
-        <span id="handSub">Aucune pièce en main</span>
+    <!-- Panneau latéral : sur mobile, ce conteneur est transparent
+         (display:contents) et ses enfants gardent leur ordre visuel
+         d'origine via `order` ; sur PC, il devient la colonne de droite. -->
+    <div class="side-panel">
+      <!-- En-tête -->
+      <header class="topbar">
+        <div class="brand">
+          <div class="logo" aria-hidden="true"></div>
+          <h1>QUARTO</h1>
+        </div>
+        <button class="icon-btn" id="menuBtn" title="Nouvelle partie / réglages" aria-label="Menu">⚙️</button>
+      </header>
+
+      <!-- Bandeau d'état -->
+      <div class="status" id="status">
+        <span class="turn-dot"></span>
+        <div class="status-text">
+          <b id="statusMain">Prêt à jouer</b>
+          <div class="status-sub" id="statusSub">Ouvre le menu pour lancer une partie</div>
+        </div>
       </div>
-    </div>
 
-    <!-- Réserve -->
-    <div class="tray-title">
-      <span id="trayTitle">Pièces disponibles</span>
-      <span id="trayCount">16</span>
-    </div>
-    <div class="tray" id="tray"></div>
+      <!-- Pièce en main -->
+      <div class="hand" id="hand">
+        <div class="hand-piece empty" id="handPiece"></div>
+        <div class="hand-label">
+          <b id="handTitle">Pièce à poser</b>
+          <span id="handSub">Aucune pièce en main</span>
+        </div>
+      </div>
 
-    <!-- Actions -->
-    <div class="actions">
-      <button class="btn ghost" id="hintBtn">💡 Indice</button>
-      <button class="btn" id="newBtn">Nouvelle partie</button>
-    </div>
+      <!-- Réserve -->
+      <div class="tray-title">
+        <span id="trayTitle">Pièces disponibles</span>
+        <span id="trayCount">16</span>
+      </div>
+      <div class="tray" id="tray"></div>
 
-    <div class="footnote">Aligne 4 pièces partageant une caractéristique • ligne, colonne ou diagonale</div>
+      <!-- Actions -->
+      <div class="actions">
+        <button class="btn ghost" id="hintBtn">💡 Indice</button>
+        <button class="btn" id="newBtn">Nouvelle partie</button>
+      </div>
+
+      <div class="footnote">Aligne 4 pièces partageant une caractéristique • ligne, colonne ou diagonale</div>
+    </div>
   </div>
 
   <!-- Modale de réglages / nouvelle partie -->
