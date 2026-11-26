@@ -48,8 +48,8 @@ header.top{padding:22px 0;border-bottom:1px solid var(--line);}
 .card-body h3{font-size:1.2rem;}
 .card-tagline{color:var(--muted);font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;}
 .card-body p.desc{color:var(--muted);font-size:.93rem;margin:0;flex:1;}
-.tech-line{font-size:.8rem;color:var(--muted);margin:0;}
-.tech-line b{color:var(--ink);font-weight:700;}
+.tech-chips{display:flex;flex-wrap:wrap;gap:8px;}
+.tech-chip{background:#E3E7EA;color:#45525C;border-radius:999px;padding:5px 11px;font-size:.78rem;font-weight:600;}
 .chips{display:flex;flex-wrap:wrap;gap:8px;}
 .chip{background:var(--soft);border-radius:999px;padding:5px 11px;font-size:.78rem;font-weight:600;color:var(--ink);}
 .card-links{display:flex;gap:10px;flex-wrap:wrap;margin-top:4px;}
@@ -106,7 +106,11 @@ footer a:hover{text-decoration:underline;}
         <p class="card-tagline">Location de vacances · Wimereux</p>
         <h3>Le Belmaris</h3>
         <p class="desc">Site vitrine d'une maison de vacances sur la Côte d'Opale — conçu à 100&nbsp;% avec l'IA, de la rédaction des textes à l'agencement des sections. Galerie photo filtrable, météo locale en direct et note Booking.com affichée en temps réel.</p>
-        <p class="tech-line"><b>Techno&nbsp;:</b> HTML/CSS/JS statique, carte interactive Leaflet, données structurées JSON-LD</p>
+        <div class="tech-chips">
+          <span class="tech-chip">HTML / CSS / JS</span>
+          <span class="tech-chip">Leaflet (carte)</span>
+          <span class="tech-chip">JSON-LD</span>
+        </div>
         <div class="chips">
           <span class="chip">Conception 100&nbsp;% IA</span>
           <span class="chip">Galerie dynamique</span>
@@ -124,7 +128,11 @@ footer a:hover{text-decoration:underline;}
         <p class="card-tagline">Rénovation de l'habitat · Somain</p>
         <h3>Logenerj</h3>
         <p class="desc">Site vitrine pour une entreprise de rénovation tous corps d'état. Un chatbot IA répond aux questions des visiteurs 7j/7, et un comparateur avant/après à curseur glissant met en scène les chantiers réalisés.</p>
-        <p class="tech-line"><b>Techno&nbsp;:</b> HTML/CSS/JS statique, chatbot @n8n/chat relié à un agent Claude</p>
+        <div class="tech-chips">
+          <span class="tech-chip">HTML / CSS / JS</span>
+          <span class="tech-chip">@n8n/chat</span>
+          <span class="tech-chip">Agent Claude</span>
+        </div>
         <div class="chips">
           <span class="chip">Chatbot IA</span>
           <span class="chip">Comparateur avant/après</span>
@@ -142,7 +150,12 @@ footer a:hover{text-decoration:underline;}
         <p class="card-tagline">Moquette de pierre · Nord &amp; Pas-de-Calais</p>
         <h3>Nataliia Résine</h3>
         <p class="desc">Site vitrine en cours de finalisation pour un artisan spécialisé en moquette de pierre (terrasses, allées, piscines). Visuels d'ambiance générés par IA et chatbot d'accueil pour qualifier les demandes de devis.</p>
-        <p class="tech-line"><b>Techno&nbsp;:</b> générateur Node.js, back-office Supabase, chatbot @n8n/chat + Claude, déploiement GitHub Pages/Actions</p>
+        <div class="tech-chips">
+          <span class="tech-chip">Node.js (générateur)</span>
+          <span class="tech-chip">Supabase</span>
+          <span class="tech-chip">@n8n/chat + Claude</span>
+          <span class="tech-chip">GitHub Pages/Actions</span>
+        </div>
         <div class="chips">
           <span class="chip">Visuels générés par IA</span>
           <span class="chip">Chatbot intégré</span>
@@ -160,7 +173,11 @@ footer a:hover{text-decoration:underline;}
         <p class="card-tagline">Jeu de plateau stratégique</p>
         <h3>Quarto</h3>
         <p class="desc">Le classique jeu de réflexion à deux, jouable directement dans le navigateur, avec un adversaire piloté par IA pour s'entraîner seul — ici en pleine partie. Installable comme application (PWA).</p>
-        <p class="tech-line"><b>Techno&nbsp;:</b> JavaScript natif (sans framework), PWA (service worker + manifest), IA de jeu maison</p>
+        <div class="tech-chips">
+          <span class="tech-chip">JavaScript natif</span>
+          <span class="tech-chip">PWA</span>
+          <span class="tech-chip">IA de jeu maison</span>
+        </div>
         <div class="chips">
           <span class="chip">IA adversaire</span>
           <span class="chip">Jouable en ligne</span>
@@ -178,7 +195,12 @@ footer a:hover{text-decoration:underline;}
         <p class="card-tagline">Application Android</p>
         <h3>IA cave à vin</h3>
         <p class="desc">On photographie l'étiquette d'une bouteille : l'IA la lit, puis part rechercher le vin sur des sources vérifiables (domaine, cépages, fenêtre de garde, accords mets-vins, notes de critiques) pour compléter et bonifier automatiquement la fiche — sans jamais rien inventer. Reste ensuite une gestion de cave complète : stock, emplacements, statistiques, export PDF et Excel.</p>
-        <p class="tech-line"><b>Techno&nbsp;:</b> Flutter (Android/iOS), agent IA Claude via n8n, OCR embarqué (ML&nbsp;Kit), base SQLite locale</p>
+        <div class="tech-chips">
+          <span class="tech-chip">Flutter</span>
+          <span class="tech-chip">Agent Claude (n8n)</span>
+          <span class="tech-chip">ML Kit (OCR)</span>
+          <span class="tech-chip">SQLite</span>
+        </div>
         <span class="badge-soon">En test fermé — bientôt sur Google Play</span>
         <div class="chips">
           <span class="chip">Lecture d'étiquette par IA</span>
